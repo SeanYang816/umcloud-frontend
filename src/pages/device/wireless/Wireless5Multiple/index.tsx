@@ -25,30 +25,34 @@ import { optionsConverter } from 'utils/optionsConverter'
 import { CardHeader } from 'components/extends/CardHeader'
 import { SERVER_ACTIONS } from 'constant'
 import { validationSchema } from './validationSchema'
-import { EncryptionOptionTypes } from 'enums'
+import { EncryptionOption } from 'enums'
 import { PageHeader } from 'components/PageHeader'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
 
-enum NetworkType {
-  Network3 = 3,
-  Network4 = 4,
-  Network5 = 5,
-  Network6 = 6,
-  Network7 = 7,
-  Network8 = 8,
-  Network9 = 9,
-}
+const Network = {
+  Network3: 3,
+  Network4: 4,
+  Network5: 5,
+  Network6: 6,
+  Network7: 7,
+  Network8: 8,
+  Network9: 9,
+} as const
 
-enum MSSIDType {
-  MSSID1 = NetworkType.Network3 - 2,
-  MSSID2 = NetworkType.Network4 - 2,
-  MSSID3 = NetworkType.Network5 - 2,
-  MSSID4 = NetworkType.Network6 - 2,
-  MSSID5 = NetworkType.Network7 - 2,
-  MSSID6 = NetworkType.Network8 - 2,
-  MSSID7 = NetworkType.Network9 - 2,
-}
+type NetworkType = (typeof Network)[keyof typeof Network]
+
+const MSSID = {
+  MSSID1: 1,
+  MSSID2: 2,
+  MSSID3: 3,
+  MSSID4: 4,
+  MSSID5: 5,
+  MSSID6: 6,
+  MSSID7: 7,
+} as const
+
+type MSSIDType = (typeof MSSID)[keyof typeof MSSID]
 
 export const Wireless5Multiple = () => {
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
@@ -60,8 +64,8 @@ export const Wireless5Multiple = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const result = data?.result as GetWireless5MultipleResult as any
 
-  const [network, setNetwork] = useState<NetworkType>(NetworkType.Network3)
-  const [mssid, setMssid] = useState<MSSIDType>(MSSIDType.MSSID1)
+  const [network, setNetwork] = useState<NetworkType>(Network.Network3)
+  const [mssid, setMssid] = useState<MSSIDType>(MSSID.MSSID1)
 
   const formik = useFormik<FormikValuesType>({
     initialValues: {
@@ -104,43 +108,43 @@ export const Wireless5Multiple = () => {
         [`cbid.wireless.wifi1_mssid${mssid}.auth_secret`]: values.auth_secret,
       }
       switch (mssid) {
-        case MSSIDType.MSSID1:
+        case MSSID.MSSID1:
           sendWsSetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_SET_MULTIPLE_SSID_1_CONFIG,
             payload,
           )
           break
-        case MSSIDType.MSSID2:
+        case MSSID.MSSID2:
           sendWsSetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_SET_MULTIPLE_SSID_2_CONFIG,
             payload,
           )
           break
-        case MSSIDType.MSSID3:
+        case MSSID.MSSID3:
           sendWsSetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_SET_MULTIPLE_SSID_3_CONFIG,
             payload,
           )
           break
-        case MSSIDType.MSSID4:
+        case MSSID.MSSID4:
           sendWsSetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_SET_MULTIPLE_SSID_4_CONFIG,
             payload,
           )
           break
-        case MSSIDType.MSSID5:
+        case MSSID.MSSID5:
           sendWsSetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_SET_MULTIPLE_SSID_5_CONFIG,
             payload,
           )
           break
-        case MSSIDType.MSSID6:
+        case MSSID.MSSID6:
           sendWsSetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_SET_MULTIPLE_SSID_6_CONFIG,
             payload,
           )
           break
-        case MSSIDType.MSSID7:
+        case MSSID.MSSID7:
           sendWsSetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_SET_MULTIPLE_SSID_7_CONFIG,
             payload,
@@ -166,39 +170,39 @@ export const Wireless5Multiple = () => {
   }
 
   const handleMSSIDChange = useCallback(
-    (MSSID: MSSIDType) => {
-      switch (MSSID) {
-        case MSSIDType.MSSID1:
+    (mssid: MSSIDType) => {
+      switch (mssid) {
+        case MSSID.MSSID1:
           sendWsGetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_GET_MULTIPLE_SSID_1_CONFIG,
           )
           break
-        case MSSIDType.MSSID2:
+        case MSSID.MSSID2:
           sendWsGetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_GET_MULTIPLE_SSID_2_CONFIG,
           )
           break
-        case MSSIDType.MSSID3:
+        case MSSID.MSSID3:
           sendWsGetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_GET_MULTIPLE_SSID_3_CONFIG,
           )
           break
-        case MSSIDType.MSSID4:
+        case MSSID.MSSID4:
           sendWsGetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_GET_MULTIPLE_SSID_4_CONFIG,
           )
           break
-        case MSSIDType.MSSID5:
+        case MSSID.MSSID5:
           sendWsGetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_GET_MULTIPLE_SSID_5_CONFIG,
           )
           break
-        case MSSIDType.MSSID6:
+        case MSSID.MSSID6:
           sendWsGetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_GET_MULTIPLE_SSID_6_CONFIG,
           )
           break
-        case MSSIDType.MSSID7:
+        case MSSID.MSSID7:
           sendWsGetMessage(
             SERVER_ACTIONS.WIRELESS_FIVE_GHZ_GET_MULTIPLE_SSID_7_CONFIG,
           )
@@ -335,13 +339,13 @@ export const Wireless5Multiple = () => {
                 formik,
               )}
             />
-            {formik.values.encryption !== EncryptionOptionTypes.No_Encryption &&
-              formik.values.encryption !== EncryptionOptionTypes.OWE && (
+            {formik.values.encryption !== EncryptionOption.No_Encryption &&
+              formik.values.encryption !== EncryptionOption.OWE && (
                 <>
                   {formik.values.encryption !==
-                    EncryptionOptionTypes.WPA2_Personal_Mixed_Mode &&
+                    EncryptionOption.WPA2_Personal_Mixed_Mode &&
                   formik.values.encryption !==
-                    EncryptionOptionTypes.WPA2_Enterprise_Mixed_Mode ? (
+                    EncryptionOption.WPA2_Enterprise_Mixed_Mode ? (
                     <Select
                       {...selectProps(
                         'cipher',
@@ -362,24 +366,20 @@ export const Wireless5Multiple = () => {
                   )}
                 </>
               )}
-            {(formik.values.encryption ===
-              EncryptionOptionTypes.WPA2_Personal ||
+            {(formik.values.encryption === EncryptionOption.WPA2_Personal ||
               formik.values.encryption ===
-                EncryptionOptionTypes.WPA2_Personal_Mixed_Mode ||
+                EncryptionOption.WPA2_Personal_Mixed_Mode ||
+              formik.values.encryption === EncryptionOption.WPA3_Personal ||
               formik.values.encryption ===
-                EncryptionOptionTypes.WPA3_Personal ||
-              formik.values.encryption ===
-                EncryptionOptionTypes.WPA2_WPA3_Personal_Mixed_Mode) && (
+                EncryptionOption.WPA2_WPA3_Personal_Mixed_Mode) && (
               <>
                 <PasswordField {...textfieldProps('_wpa_key', 'Key', formik)} />
               </>
             )}
-            {(formik.values.encryption ===
-              EncryptionOptionTypes.WPA2_Enterprise ||
+            {(formik.values.encryption === EncryptionOption.WPA2_Enterprise ||
+              formik.values.encryption === EncryptionOption.WPA3_Enterprise ||
               formik.values.encryption ===
-                EncryptionOptionTypes.WPA3_Enterprise ||
-              formik.values.encryption ===
-                EncryptionOptionTypes.WPA2_Enterprise_Mixed_Mode) && (
+                EncryptionOption.WPA2_Enterprise_Mixed_Mode) && (
               <>
                 <TextField
                   {...textfieldProps(

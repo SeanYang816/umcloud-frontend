@@ -1,6 +1,6 @@
-import { Card, CardContent, Tab, Tabs } from '@mui/material'
+import { Card, Tab, Tabs } from '@mui/material'
 import { TabPanel } from 'components/TabPanel'
-import { Checkbox, Select, TextField, useStyles } from 'components/fields'
+import { Checkbox, Select, TextField } from 'components/fields'
 import { checkboxProps, selectProps, textfieldProps } from 'utils/formik'
 import { GetLanPage } from '../type'
 import { FormikProps } from 'formik'
@@ -10,16 +10,20 @@ import React, { useState } from 'react'
 import { CardHeader } from 'components/extends/CardHeader'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
 
-enum TabIndex {
-  GENERAL_SETUP = 0,
-  ADVANCED_SETTINGS = 1,
-}
+export const TabIndex = {
+  GENERAL_SETUP: 0,
+  ADVANCED_SETTINGS: 1,
+} as const
 
-enum IgnoreType {
-  Enable = '0',
-  Disable = '1',
-  Relay = '2',
-}
+export type TabIndexType = (typeof TabIndex)[keyof typeof TabIndex]
+
+export const Ignore = {
+  Enable: '0',
+  Disable: '1',
+  Relay: '2',
+} as const
+
+export type IgnoreType = (typeof Ignore)[keyof typeof Ignore]
 
 type DHCPServerRelayProps = {
   data: GetLanPage
@@ -27,7 +31,9 @@ type DHCPServerRelayProps = {
 }
 
 export const DHCPServerRelay = ({ data, formik }: DHCPServerRelayProps) => {
-  const [activeTab, setActiveTab] = useState(TabIndex.GENERAL_SETUP)
+  const [activeTab, setActiveTab] = useState<TabIndexType>(
+    TabIndex.GENERAL_SETUP,
+  )
 
   const options = data?.options
 
@@ -43,7 +49,7 @@ export const DHCPServerRelay = ({ data, formik }: DHCPServerRelayProps) => {
       <StyledCardContent>
         <Tabs value={activeTab} onChange={handleTabChange}>
           <Tab label='General Setup' tabIndex={TabIndex.GENERAL_SETUP} />
-          {formik.values.ignore === IgnoreType.Enable && (
+          {formik.values.ignore === Ignore.Enable && (
             <Tab
               label='Advanced Settings'
               tabIndex={TabIndex.ADVANCED_SETTINGS}
@@ -56,7 +62,7 @@ export const DHCPServerRelay = ({ data, formik }: DHCPServerRelayProps) => {
             {...selectProps('ignore', 'DHCP Mode', dhcpModeOptions, formik)}
             helperText='DHCP disable/enable/relay'
           />
-          {formik.values.ignore === IgnoreType.Enable && (
+          {formik.values.ignore === Ignore.Enable && (
             <>
               <TextField
                 {...textfieldProps('start_addr', 'Start address', formik)}
@@ -85,7 +91,7 @@ export const DHCPServerRelay = ({ data, formik }: DHCPServerRelayProps) => {
               />
             </>
           )}
-          {formik.values.ignore === IgnoreType.Relay && (
+          {formik.values.ignore === Ignore.Relay && (
             <>
               <TextField
                 {...textfieldProps('relay', 'DHCP relay server', formik)}

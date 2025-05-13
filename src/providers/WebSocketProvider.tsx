@@ -8,10 +8,12 @@ import { SendJsonMessage } from 'react-use-websocket/dist/lib/types'
 import { updateNotification, updateWebSocketStatus } from 'reducers/global'
 import { DefaultRootStateProps } from 'types'
 
-enum ServerEvent {
-  Ping = 'ping',
-  WS_Error = 'wsError',
-}
+export const ServerEvent = {
+  Ping: 'ping',
+  WS_Error: 'wsError',
+} as const
+
+export type ServerEventType = (typeof ServerEvent)[keyof typeof ServerEvent]
 
 export type WebSocketContextProps = {
   sendJsonMessage: SendJsonMessage

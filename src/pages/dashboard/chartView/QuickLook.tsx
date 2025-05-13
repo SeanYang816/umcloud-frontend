@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp'
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown'
-import { DashboardEventType } from 'enums'
+import { DashboardEvent } from 'enums'
 import { RefreshButton } from 'components/RefreshButton'
 
 interface QuickLookProps {
@@ -45,7 +45,7 @@ export const QuickLook = ({ data, wsUrl, spacing }: QuickLookProps) => {
 
   const wsRequestEvent = useMemo(() => {
     return {
-      event: DashboardEventType.MostActive,
+      event: DashboardEvent.MostActive,
       data,
     }
   }, [data])

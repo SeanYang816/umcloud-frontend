@@ -10,17 +10,19 @@ import { LogConfig } from './section/LogConfig'
 import { PageHeader } from 'components/PageHeader'
 import { CardHeader } from 'components/extends/CardHeader'
 
-enum LogTabIndex {
-  DEBUG = 0,
-  DEVICE = 1,
-  CONFIG = 2,
-}
+const LogTabIndex = {
+  DEBUG: 0,
+  DEVICE: 1,
+  CONFIG: 2,
+} as const
+
+type LogTabIndexType = (typeof LogTabIndex)[keyof typeof LogTabIndex]
 
 export const Log = () => {
   const deviceId = useSelector(
     (state: DefaultRootStateProps) => state.device.info.row?.id as string,
   )
-  const [activeTab, setActiveTab] = useState(0)
+  const [activeTab, setActiveTab] = useState<LogTabIndexType>(0)
 
   const { data } = useGetThingQuery({ variables: { id: deviceId } }) // currently, no pageIndex & pageSize params to search data over 10000 +
 

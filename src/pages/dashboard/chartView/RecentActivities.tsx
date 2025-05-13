@@ -12,7 +12,7 @@ import {
 import { CanvasRenderer } from 'echarts/renderers'
 import { MainCard } from 'components/cards/MainCard'
 import { dateValueFormatterSecondsTable } from 'utils/utility'
-import { DashboardEventType } from 'enums'
+import { DashboardEvent } from 'enums'
 import { RefreshButton } from 'components/RefreshButton'
 
 echarts.use([
@@ -51,7 +51,7 @@ export const RecentActivities = ({
 
   const wsRequestEvent = useMemo(() => {
     return {
-      event: DashboardEventType.RecentActivity,
+      event: DashboardEvent.RecentActivity,
       data,
     }
   }, [data])

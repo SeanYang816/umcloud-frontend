@@ -18,13 +18,15 @@ type FormTypes = {
   list: StringStringType[]
 }
 
-enum ProtoOptionTypes {
-  All = 'all',
-  Tcp_Udp = 'tcp udp',
-  Tcp = 'tcp',
-  Udp = 'udp',
-  Icmp = 'Icmp',
-}
+export const ProtoOption = {
+  All: 'all',
+  Tcp_Udp: 'tcp udp',
+  Tcp: 'tcp',
+  Udp: 'udp',
+  Icmp: 'Icmp',
+} as const
+
+export type ProtoOptionTypes = (typeof ProtoOption)[keyof typeof ProtoOption]
 
 export const Form = ({ suggest, options, list }: FormTypes) => {
   const { sendWsSetMessage } = useSendWsMessage()
@@ -79,16 +81,16 @@ export const Form = ({ suggest, options, list }: FormTypes) => {
         <Select {...selectProps('srcip', 'Source IP:', srcIpList, formik)} />
         <TextField {...textfieldProps('dstip', 'Destination IP:', formik)} />
         <Select {...selectProps('proto', 'Protocol:', protoList, formik)} />
-        {(formik.values.proto === ProtoOptionTypes.Tcp_Udp ||
-          formik.values.proto === ProtoOptionTypes.Tcp ||
-          formik.values.proto === ProtoOptionTypes.Udp) && (
+        {(formik.values.proto === ProtoOption.Tcp_Udp ||
+          formik.values.proto === ProtoOption.Tcp ||
+          formik.values.proto === ProtoOption.Udp) && (
           <>
             <TextField {...textfieldProps('srcport', 'Source port:', formik)} />
           </>
         )}
-        {(formik.values.proto === ProtoOptionTypes.Tcp_Udp ||
-          formik.values.proto === ProtoOptionTypes.Tcp ||
-          formik.values.proto === ProtoOptionTypes.Udp) && (
+        {(formik.values.proto === ProtoOption.Tcp_Udp ||
+          formik.values.proto === ProtoOption.Tcp ||
+          formik.values.proto === ProtoOption.Udp) && (
           <>
             <TextField
               {...textfieldProps('dstport', 'Destination port:', formik)}

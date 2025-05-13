@@ -10,11 +10,13 @@ import { useSelector } from 'react-redux'
 import { DefaultRootStateProps } from 'types'
 import { TrafficTab } from './TrafficTab'
 
-enum TabsIndex {
-  Load = '0',
-  Traffic = '1',
-  Connections = '2',
-}
+export const TabsIndex = {
+  Load: '0',
+  Traffic: '1',
+  Connections: '2',
+} as const
+
+export type TabsIndexType = (typeof TabsIndex)[keyof typeof TabsIndex]
 
 export const RealtimeGraphs = () => {
   const { sendWsGetMessage } = useSendWsMessage()
@@ -23,11 +25,11 @@ export const RealtimeGraphs = () => {
       state.status.realtimeGraph.trafficGetDevice,
   )
   const result = data?.result
-  const [tabValue, setTabValue] = useState(TabsIndex.Load)
+  const [tabValue, setTabValue] = useState<TabsIndexType>(TabsIndex.Load)
   const [trafficValue, setTrafficValue] = useState('')
   const handleTabChange = (
     _event: SyntheticEvent<Element, Event>,
-    value: SetStateAction<TabsIndex>,
+    value: SetStateAction<TabsIndexType>,
   ) => setTabValue(value)
   const handleTrafficTabChange = (
     _event: SyntheticEvent<Element, Event>,

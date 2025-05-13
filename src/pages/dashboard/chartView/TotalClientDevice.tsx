@@ -10,7 +10,7 @@ import {
   TooltipComponent,
   LegendComponent,
 } from 'echarts/components'
-import { DashboardEventType } from 'enums'
+import { DashboardEvent } from 'enums'
 import { RefreshButton } from 'components/RefreshButton'
 
 echarts.use([
@@ -43,7 +43,7 @@ export const TotalClientDevice = ({ data, wsUrl }: TotalClientDeviceProps) => {
 
   const wsRequestEvent = useMemo(() => {
     return {
-      event: DashboardEventType.ClientsRadioFrequencyRatio,
+      event: DashboardEvent.ClientsRadioFrequencyRatio,
       data,
     }
   }, [data])

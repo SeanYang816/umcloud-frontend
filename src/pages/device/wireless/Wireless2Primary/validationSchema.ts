@@ -1,6 +1,6 @@
 import { validation } from 'config'
 import * as Yup from 'yup'
-import { EncryptionOptionTypes, MacfilterOptionTypes } from 'enums'
+import { EncryptionOption, MacfilterOption } from 'enums'
 import { isValidHostnameOrIPv4 } from 'utils/validations'
 
 const { string, array } = Yup
@@ -20,7 +20,7 @@ export const validationSchema = Yup.object().shape({
   macfilter: string(),
   maclist: array()
     .when('macfilter', {
-      is: MacfilterOptionTypes.Allow_listed_only,
+      is: MacfilterOption.Allow_listed_only,
       then: () =>
         array().of(
           string()
@@ -29,7 +29,7 @@ export const validationSchema = Yup.object().shape({
         ),
     })
     .when('macfilter', {
-      is: MacfilterOptionTypes.Deny_listed,
+      is: MacfilterOption.Deny_listed,
       then: () =>
         array().of(
           string()
@@ -42,57 +42,57 @@ export const validationSchema = Yup.object().shape({
   encryption: string().required('This field is required'),
   cipher: string()
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_Personal,
+      is: EncryptionOption.WPA2_Personal,
       then: () => string().required('This field is required'),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_Enterprise,
+      is: EncryptionOption.WPA2_Enterprise,
       then: () => string().required('This field is required'),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_Personal_Mixed_Mode,
+      is: EncryptionOption.WPA2_Personal_Mixed_Mode,
       then: () => string().required('This field is required'),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_Enterprise_Mixed_Mode,
+      is: EncryptionOption.WPA2_Enterprise_Mixed_Mode,
       then: () => string().required('This field is required'),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA3_Personal,
+      is: EncryptionOption.WPA3_Personal,
       then: () => string().required('This field is required'),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA3_Enterprise,
+      is: EncryptionOption.WPA3_Enterprise,
       then: () => string().required('This field is required'),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_WPA3_Personal_Mixed_Mode,
+      is: EncryptionOption.WPA2_WPA3_Personal_Mixed_Mode,
       then: () => string().required('This field is required'),
     }),
   _wpa_key: string()
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_Personal,
+      is: EncryptionOption.WPA2_Personal,
       then: () =>
         string()
           .required('This field is required')
           .matches(validation.wpakey.reg, validation.wpakey.error),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_Personal_Mixed_Mode,
+      is: EncryptionOption.WPA2_Personal_Mixed_Mode,
       then: () =>
         string()
           .required('This field is required')
           .matches(validation.wpakey.reg, validation.wpakey.error),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA3_Personal,
+      is: EncryptionOption.WPA3_Personal,
       then: () =>
         string()
           .required('This field is required')
           .matches(validation.wpakey.reg, validation.wpakey.error),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_WPA3_Personal_Mixed_Mode,
+      is: EncryptionOption.WPA2_WPA3_Personal_Mixed_Mode,
       then: () =>
         string()
           .required('This field is required')
@@ -109,7 +109,7 @@ export const validationSchema = Yup.object().shape({
 
   auth_server: string()
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_Enterprise,
+      is: EncryptionOption.WPA2_Enterprise,
       then: () =>
         string()
           .required('This field is required')
@@ -120,7 +120,7 @@ export const validationSchema = Yup.object().shape({
           ),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA3_Enterprise,
+      is: EncryptionOption.WPA3_Enterprise,
       then: () =>
         string()
           .required('This field is required')
@@ -131,7 +131,7 @@ export const validationSchema = Yup.object().shape({
           ),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_Enterprise_Mixed_Mode,
+      is: EncryptionOption.WPA2_Enterprise_Mixed_Mode,
       then: () =>
         string()
           .required('This field is required')
@@ -144,21 +144,21 @@ export const validationSchema = Yup.object().shape({
 
   auth_port: string()
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_Enterprise,
+      is: EncryptionOption.WPA2_Enterprise,
       then: () =>
         string()
           .required('This field is required')
           .matches(validation.port.reg, validation.port.error),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA3_Enterprise,
+      is: EncryptionOption.WPA3_Enterprise,
       then: () =>
         string()
           .required('This field is required')
           .matches(validation.port.reg, validation.port.error),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_Enterprise_Mixed_Mode,
+      is: EncryptionOption.WPA2_Enterprise_Mixed_Mode,
       then: () =>
         string()
           .required('This field is required')
@@ -167,21 +167,21 @@ export const validationSchema = Yup.object().shape({
 
   auth_secret: string()
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_Enterprise,
+      is: EncryptionOption.WPA2_Enterprise,
       then: () =>
         string()
           .required('This field is required')
           .matches(validation.minLength1.reg, validation.minLength1.error),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA3_Enterprise,
+      is: EncryptionOption.WPA3_Enterprise,
       then: () =>
         string()
           .required('This field is required')
           .matches(validation.minLength1.reg, validation.minLength1.error),
     })
     .when('encryption', {
-      is: EncryptionOptionTypes.WPA2_Enterprise_Mixed_Mode,
+      is: EncryptionOption.WPA2_Enterprise_Mixed_Mode,
       then: () =>
         string()
           .required('This field is required')

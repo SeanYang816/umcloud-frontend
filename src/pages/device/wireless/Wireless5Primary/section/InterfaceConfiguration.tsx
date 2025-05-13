@@ -5,7 +5,6 @@ import {
   MultiSelect,
   Select,
   TextField,
-  useStyles,
 } from 'components/fields'
 import { DISABLED_OPTIONS } from 'constant/options'
 import { FormikProps } from 'formik'
@@ -15,16 +14,18 @@ import { multiSelectProps, selectProps, textfieldProps } from 'utils/formik'
 import { GetWireless5Primary, GetWireless5PrimaryStatus } from '../type'
 import { optionsConverter } from 'utils/optionsConverter'
 import { WmmParams } from './WmmParams'
-import { EncryptionOptionTypes, MacfilterOptionTypes } from 'enums'
+import { EncryptionOption, MacfilterOption } from 'enums'
 import { CardHeader } from 'components/extends/CardHeader'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
 
-enum TabIndex {
-  GENERAL_SETUP = 0,
-  WIRELESS_SECURITY = 1,
-  MAC_FILTER = 2,
-  ADVANCED_SETTINGS = 3,
-}
+export const TabIndex = {
+  GENERAL_SETUP: 0,
+  WIRELESS_SECURITY: 1,
+  MAC_FILTER: 2,
+  ADVANCED_SETTINGS: 3,
+} as const
+
+export type TabIndexType = (typeof TabIndex)[keyof typeof TabIndex]
 
 type InterfaceConfigurationProps = {
   data: GetWireless5Primary
@@ -140,13 +141,13 @@ export const InterfaceConfiguration = ({
                 formik,
               )}
             />
-            {formik.values.encryption !== EncryptionOptionTypes.No_Encryption &&
-              formik.values.encryption !== EncryptionOptionTypes.OWE && (
+            {formik.values.encryption !== EncryptionOption.No_Encryption &&
+              formik.values.encryption !== EncryptionOption.OWE && (
                 <>
                   {formik.values.encryption !==
-                    EncryptionOptionTypes.WPA2_Personal_Mixed_Mode &&
+                    EncryptionOption.WPA2_Personal_Mixed_Mode &&
                   formik.values.encryption !==
-                    EncryptionOptionTypes.WPA2_Enterprise_Mixed_Mode ? (
+                    EncryptionOption.WPA2_Enterprise_Mixed_Mode ? (
                     <Select
                       {...selectProps(
                         'cipher',
@@ -167,24 +168,20 @@ export const InterfaceConfiguration = ({
                   )}
                 </>
               )}
-            {(formik.values.encryption ===
-              EncryptionOptionTypes.WPA2_Personal ||
+            {(formik.values.encryption === EncryptionOption.WPA2_Personal ||
               formik.values.encryption ===
-                EncryptionOptionTypes.WPA2_Personal_Mixed_Mode ||
+                EncryptionOption.WPA2_Personal_Mixed_Mode ||
+              formik.values.encryption === EncryptionOption.WPA3_Personal ||
               formik.values.encryption ===
-                EncryptionOptionTypes.WPA3_Personal ||
-              formik.values.encryption ===
-                EncryptionOptionTypes.WPA2_WPA3_Personal_Mixed_Mode) && (
+                EncryptionOption.WPA2_WPA3_Personal_Mixed_Mode) && (
               <>
                 <PasswordField {...textfieldProps('_wpa_key', 'Key', formik)} />
               </>
             )}
-            {(formik.values.encryption ===
-              EncryptionOptionTypes.WPA2_Enterprise ||
+            {(formik.values.encryption === EncryptionOption.WPA2_Enterprise ||
+              formik.values.encryption === EncryptionOption.WPA3_Enterprise ||
               formik.values.encryption ===
-                EncryptionOptionTypes.WPA3_Enterprise ||
-              formik.values.encryption ===
-                EncryptionOptionTypes.WPA2_Enterprise_Mixed_Mode) && (
+                EncryptionOption.WPA2_Enterprise_Mixed_Mode) && (
               <>
                 <TextField
                   {...textfieldProps(
@@ -220,9 +217,8 @@ export const InterfaceConfiguration = ({
                 formik,
               )}
             />
-            {(formik.values.macfilter ===
-              MacfilterOptionTypes.Allow_listed_only ||
-              formik.values.macfilter === MacfilterOptionTypes.Deny_listed) && (
+            {(formik.values.macfilter === MacfilterOption.Allow_listed_only ||
+              formik.values.macfilter === MacfilterOption.Deny_listed) && (
               <>
                 <MultiSelect
                   {...multiSelectProps(

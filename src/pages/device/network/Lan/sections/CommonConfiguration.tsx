@@ -19,10 +19,12 @@ import { CardHeader } from 'components/extends/CardHeader'
 import { optionsConverter } from 'utils/optionsConverter'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
 
-enum TabIndex {
-  GENERAL_SETUP = 0,
-  ADVANCED_SETTINGS = 1,
-}
+const TabIndex = {
+  GENERAL_SETUP: 0,
+  ADVANCED_SETTINGS: 1,
+} as const
+
+type TabIndexType = (typeof TabIndex)[keyof typeof TabIndex]
 
 type CommonConfigurationProps = {
   data: GetLanPage
@@ -36,7 +38,9 @@ export const CommonConfiguration = ({
   formik,
 }: CommonConfigurationProps) => {
   const theme = useTheme()
-  const [activeTab, setActiveTab] = useState(TabIndex.GENERAL_SETUP)
+  const [activeTab, setActiveTab] = useState<TabIndexType>(
+    TabIndex.GENERAL_SETUP,
+  )
 
   const statusResult = statusData?.result
 

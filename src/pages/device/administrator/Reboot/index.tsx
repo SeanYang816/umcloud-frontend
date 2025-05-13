@@ -14,10 +14,12 @@ import { optionsConverter } from 'utils/optionsConverter'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
 
-enum TabsIndex {
-  Reboot = '0',
-  Setting = '1',
-}
+const TabsIndex = {
+  Reboot: '0',
+  Setting: '1',
+} as const
+
+type TabsIndexType = (typeof TabsIndex)[keyof typeof TabsIndex]
 
 type PayloadType_reboot = {
   reboot: string
@@ -37,13 +39,13 @@ export const Reboot = () => {
 
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
-  const [tabValue, setTabValue] = useState(TabsIndex.Reboot)
+  const [tabValue, setTabValue] = useState<TabsIndexType>(TabsIndex.Reboot)
 
   const scheduleOptions = optionsConverter(options, `${rootId}time_schedule`)
 
   const handleTabChange = (
     _e: React.SyntheticEvent<Element, Event>,
-    value: SetStateAction<TabsIndex>,
+    value: SetStateAction<TabsIndexType>,
   ) => {
     setTabValue(value)
   }

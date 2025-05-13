@@ -11,12 +11,14 @@ import { CardHeader } from 'components/extends/CardHeader'
 import { get_wifi_encryption } from 'utils/getWifiEncryption'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
 
-enum hwmodeOptions {
-  A = '11a',
-  A_N = '11na',
-  A_N_AC = '11ac',
-  A_N_AC_AX = '11axa',
-}
+const HWmodeOptions = {
+  A: '11a',
+  A_N: '11na',
+  A_N_AC: '11ac',
+  A_N_AC_AX: '11axa',
+} as const
+
+type HWmodeOptionsType = (typeof HWmodeOptions)[keyof typeof HWmodeOptions]
 
 type DeviceConfigurationProps = {
   data: GetWireless5Primary
@@ -96,7 +98,7 @@ export const DeviceConfiguration = ({
         <Select
           {...selectProps('hwmode', 'Wireless Mode', hwModeOptions, formik)}
         />
-        {formik.values.hwmode === hwmodeOptions.A_N && (
+        {formik.values.hwmode === HWmodeOptions.A_N && (
           <Select
             {...selectProps(
               'htmode',
@@ -106,8 +108,8 @@ export const DeviceConfiguration = ({
             )}
           />
         )}
-        {(formik.values.hwmode === hwmodeOptions.A_N_AC ||
-          formik.values.hwmode === hwmodeOptions.A_N_AC_AX) && (
+        {(formik.values.hwmode === HWmodeOptions.A_N_AC ||
+          formik.values.hwmode === HWmodeOptions.A_N_AC_AX) && (
           <Select
             {...selectProps('htmode', 'HT mode', htModeOptions, formik)}
           />

@@ -12,7 +12,6 @@ import { CardHeader } from 'components/extends/CardHeader'
 import * as Yup from 'yup'
 import { multiSelectProps, selectProps } from 'utils/formik'
 import { booleanList, validation } from 'config'
-import { useStyles } from 'components/fields/index.style'
 import { FormikValuesType } from 'types'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
@@ -23,10 +22,12 @@ type PayloadType = {
   'cbid.firewall.urlfilter.time_schedule': string
 }
 
-enum EnabledTypes {
-  Enable = '1',
-  Disable = '0',
-}
+const Enabled = {
+  Enable: '1',
+  Disable: '0',
+} as const
+
+type EnabledTypes = (typeof Enabled)[keyof typeof Enabled]
 
 export const UrlFiltering = () => {
   const data = useSelector(
@@ -88,7 +89,7 @@ export const UrlFiltering = () => {
         <CardHeader title='URL Filtering' />
         <StyledCardContent>
           <Select {...selectProps('enabled', 'Enable:', booleanList, formik)} />
-          {formik.values.enabled === EnabledTypes.Enable && (
+          {formik.values.enabled === Enabled.Enable && (
             <>
               <MultiSelect
                 {...multiSelectProps('blockurl', 'Block URL:', [], formik)}
