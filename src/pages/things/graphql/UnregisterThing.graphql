@@ -1,0 +1,6 @@
+
+
+mutation unregisterThing($id:ID!)
+{
+    unregisterThing(id:$id)
+}

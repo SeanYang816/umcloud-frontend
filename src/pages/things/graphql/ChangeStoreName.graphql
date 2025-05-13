@@ -1,0 +1,68 @@
+
+
+mutation changeStoreName($id:ID!,$name:String!)
+{
+    changeStoreName(id: $id,name: $name)
+    {
+        id
+        mac
+        alias
+        model
+        isAuthorized
+        isArchived
+        isOnline
+        authorizeExpireAt
+        archivedAt
+        archiveReason
+        archiveTitle
+        thingType
+        publicIp
+        localIp
+        serialNumber
+        firmwareVersion
+        firmwareUpgradeDate
+        lastContactDate
+        channel2ghz
+        channel5ghz1
+        channel5ghz2
+        txBytes
+        rxBytes
+        lastContactDate
+        cpuUsage
+        memoryUsage
+        tenantId
+        ownerId
+        upTime
+        createdAt
+        updatedAt
+        debugLogs {
+            list {
+                id
+                content
+                createdAt
+                customContent
+            }
+            total
+        }
+        deviceLogs {
+            list {
+                id
+                content
+                createdAt
+                eventType
+            }
+            total
+        }
+        configLogs {
+            list {
+                id
+                item
+                createdAt
+                operator
+                status
+                detail
+            }
+            total
+        }
+    }
+}

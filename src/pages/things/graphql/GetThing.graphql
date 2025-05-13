@@ -1,0 +1,38 @@
+
+
+query getThing($id:ID!)
+{
+    thing(id:$id)
+    {
+        id
+        mac
+        alias
+        model
+        isAuthorized
+        isArchived
+        authorizeExpireAt
+        archivedAt
+        archiveReason
+        archiveTitle
+        thingType
+        publicIp
+        localIp
+        serialNumber
+        firmwareVersion
+        firmwareUpgradeDate
+        lastContactDate
+        channel2ghz
+        channel5ghz1
+        channel5ghz2
+        txBytes
+        rxBytes
+        lastContactDate
+        cpuUsage
+        memoryUsage
+        tenantId
+        ownerId
+        upTime
+        createdAt
+        updatedAt
+    }
+}

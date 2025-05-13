@@ -1,0 +1,6 @@
+
+
+mutation archiveThing($id:ID!,$reason:String,$title:String)
+{
+    archiveThing(id:$id,reason: $reason,title: $title)
+}

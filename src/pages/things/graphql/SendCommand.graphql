@@ -1,0 +1,7 @@
+
+
+
+mutation sendCommand($code:CommandCode!,$input:String,$thingIds:[ID!])
+{
+    executeCommand(command: $code,input: $input,thingIds: $thingIds)
+}

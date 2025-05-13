@@ -10,7 +10,13 @@ import prettier from 'eslint-config-prettier'
 
 export default [
   {
-    ignores: ['dist', 'node_modules', 'build', 'vite.config.ts'],
+    ignores: [
+      'dist',
+      'node_modules',
+      'build',
+      'vite.config.ts',
+      'src/generated/graphql.tsx',
+    ],
   },
   ...tseslint.configs.recommended,
   {
@@ -26,6 +32,7 @@ export default [
       },
       globals: {
         ...globals.browser,
+        ...globals.node, // ✅ Add this line
       },
     },
     plugins: {
@@ -55,6 +62,16 @@ export default [
         { blankLine: 'always', prev: '*', next: 'return' },
         { blankLine: 'any', prev: 'block', next: 'block' },
       ],
+      // ✅ Add these two rules below
+      'no-unused-vars': [
+        'warn',
+        { varsIgnorePattern: '^_', argsIgnorePattern: '^_' },
+      ],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { varsIgnorePattern: '^_', argsIgnorePattern: '^_' },
+      ],
+      'react/prop-types': 'off', // ✅ turn this off for TypeScript
     },
   },
   prettier,
