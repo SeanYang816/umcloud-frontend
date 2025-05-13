@@ -7,6 +7,7 @@ import { FormikProps } from 'formik'
 import { OptionsOrSuggestType, FormikValuesType } from 'types'
 import { radiosProps, selectProps } from 'utils/formik'
 import { booleanList } from 'config'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type ModeFormType = {
   formik: FormikProps<FormikValuesType>
@@ -14,13 +15,12 @@ type ModeFormType = {
 }
 
 export const ModeForm = ({ formik, options }: ModeFormType) => {
-  const classes = useStyles()
   const modeList = optionsConverter(options, 'cbid.firewall.mac_filter.mode')
 
   return (
     <Card>
       <CardHeader title='MAC Filtering Mode' />
-      <CardContent className={classes.fieldWidth}>
+      <StyledCardContent>
         <Select {...selectProps('enabled', 'Enable:', booleanList, formik)} />
         {formik.values.enabled === '1' && (
           <Radios
@@ -28,7 +28,7 @@ export const ModeForm = ({ formik, options }: ModeFormType) => {
             helperText='In allow mode, only allowed MAC Address can access the network'
           />
         )}
-      </CardContent>
+      </StyledCardContent>
     </Card>
   )
 }

@@ -9,6 +9,7 @@ import { selectProps, textfieldProps } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
 import { FormikProps } from 'formik'
 import { FormikValuesType, SelectOptionProps } from 'types'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type SystemPropertiesType = {
   title: string
@@ -23,13 +24,11 @@ export const SystemProperties = ({
   localTime,
   zoneOptions,
 }: SystemPropertiesType) => {
-  const classes = useStyles()
-
   return (
     <>
       <Card>
         <CardHeader title={title} />
-        <CardContent className={classes.fieldWidth}>
+        <StyledCardContent>
           {/* Local Time */}
           <DisplayField label='Local Time' text={localTime} />
           {/* Hostname */}
@@ -38,7 +37,7 @@ export const SystemProperties = ({
           <Select
             {...selectProps('zonename', 'Timezone', zoneOptions, formik)}
           />
-        </CardContent>
+        </StyledCardContent>
       </Card>
     </>
   )

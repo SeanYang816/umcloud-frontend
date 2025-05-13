@@ -13,6 +13,7 @@ import { useStyles } from 'components/fields/index.style'
 import { booleanList } from 'config'
 import { selectProps } from 'utils/formik'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type PayloadType = {
   'cbid.dmz.dmz.enable': string
@@ -20,7 +21,6 @@ type PayloadType = {
 }
 
 export const DmzHost = () => {
-  const classes = useStyles()
   const data = useSelector(
     (state: DefaultRootStateProps) => state.firewall.dmzHost,
   )
@@ -60,14 +60,14 @@ export const DmzHost = () => {
       <Card>
         <CardHeader title='DMZ Host' />
 
-        <CardContent className={classes.fieldWidth}>
+        <StyledCardContent>
           <Select {...selectProps('enable', 'Enable', booleanList, formik)} />
           <TextField
             {...formik.getFieldProps('dmz_ip')}
             label='DMZ Host IP Address:'
             placeholder='0.0.0.0'
           />
-        </CardContent>
+        </StyledCardContent>
       </Card>
       <Stack direction='row' ml='auto'>
         <Button icon='save' text='save' onClick={() => formik.handleSubmit()} />

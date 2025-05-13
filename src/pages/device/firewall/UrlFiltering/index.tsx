@@ -15,6 +15,7 @@ import { booleanList, validation } from 'config'
 import { useStyles } from 'components/fields/index.style'
 import { FormikValuesType } from 'types'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type PayloadType = {
   'cbid.firewall.urlfilter.enabled': string
@@ -33,10 +34,8 @@ export const UrlFiltering = () => {
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}
-  const { sendWsGetMessage } = useSendWsMessage()
+  const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
-  const classes = useStyles()
-  const { sendWsSetMessage } = useSendWsMessage()
   const rootId = 'cbid.firewall.urlfilter'
   const scheduleList = optionsConverter(options, `${rootId}.time_schedule`)
   const customValidation = (array: string[] | undefined): boolean => {
@@ -87,7 +86,7 @@ export const UrlFiltering = () => {
       />
       <Card>
         <CardHeader title='URL Filtering' />
-        <CardContent className={classes.fieldWidth}>
+        <StyledCardContent>
           <Select {...selectProps('enabled', 'Enable:', booleanList, formik)} />
           {formik.values.enabled === EnabledTypes.Enable && (
             <>
@@ -105,7 +104,7 @@ export const UrlFiltering = () => {
               />
             </>
           )}
-        </CardContent>
+        </StyledCardContent>
       </Card>
 
       <Stack direction='row' ml='auto'>

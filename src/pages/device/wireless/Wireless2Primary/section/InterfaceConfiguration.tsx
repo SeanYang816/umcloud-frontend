@@ -17,6 +17,7 @@ import { optionsConverter } from 'utils/optionsConverter'
 import { WmmParams } from './WmmParams'
 import { EncryptionOptionTypes, MacfilterOptionTypes } from 'enums'
 import { CardHeader } from 'components/extends/CardHeader'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 enum TabIndex {
   GENERAL_SETUP = 0,
@@ -36,7 +37,6 @@ export const InterfaceConfiguration = ({
   statusData,
   formik,
 }: InterfaceConfigurationProps) => {
-  const classes = useStyles()
   const [activeTab, setActiveTab] = useState(TabIndex.GENERAL_SETUP)
 
   const handleTabChange = (_e: React.SyntheticEvent, newValue: number) => {
@@ -72,7 +72,7 @@ export const InterfaceConfiguration = ({
     <>
       <Card>
         <CardHeader title='Interface Configuration' />
-        <CardContent className={classes.fieldWidth}>
+        <StyledCardContent>
           <Tabs value={activeTab} onChange={handleTabChange}>
             <Tab label='General Setup' tabIndex={TabIndex.GENERAL_SETUP} />
             <Tab
@@ -92,7 +92,14 @@ export const InterfaceConfiguration = ({
                 'ssid',
                 <>
                   <Tooltip title='Extended Service Set Identifier'>
-                    <Box component='span' className={classes.tooltipStyle}>
+                    <Box
+                      component='span'
+                      sx={{
+                        borderBottom: (theme) =>
+                          `1px ${theme.palette.primary.main} solid`,
+                        color: (theme) => theme.palette.primary.main,
+                      }}
+                    >
                       ESSID
                     </Box>
                   </Tooltip>
@@ -106,7 +113,14 @@ export const InterfaceConfiguration = ({
                 <>
                   Hide&nbsp;
                   <Tooltip title='Extended Service Set Identifier'>
-                    <Box component='span' className={classes.tooltipStyle}>
+                    <Box
+                      component='span'
+                      sx={{
+                        borderBottom: (theme) =>
+                          `1px ${theme.palette.primary.main} solid`,
+                        color: (theme) => theme.palette.primary.main,
+                      }}
+                    >
                       ESSID
                     </Box>
                   </Tooltip>
@@ -250,7 +264,7 @@ export const InterfaceConfiguration = ({
             />{' '}
             {/** IDK */}
           </TabPanel>
-        </CardContent>
+        </StyledCardContent>
       </Card>
 
       {activeTab === TabIndex.ADVANCED_SETTINGS && (

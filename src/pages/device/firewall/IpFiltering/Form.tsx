@@ -10,6 +10,7 @@ import { selectProps, textfieldProps } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
 import { FormikValuesType, StringStringType, OptionsOrSuggestType } from 'types'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type FormTypes = {
   suggest: OptionsOrSuggestType
@@ -26,7 +27,6 @@ enum ProtoOptionTypes {
 }
 
 export const Form = ({ suggest, options, list }: FormTypes) => {
-  const classes = useStyles()
   const { sendWsSetMessage } = useSendWsMessage()
 
   const srcIpList = optionsConverter(suggest, '_newipfilter.srcip')
@@ -71,7 +71,7 @@ export const Form = ({ suggest, options, list }: FormTypes) => {
   return (
     <Card>
       <CardHeader title='Add New IP Filtering Rule' />
-      <CardContent className={classes.fieldWidth}>
+      <StyledCardContent>
         <TextField
           {...textfieldProps('name', 'Name:', formik)}
           placeholder='New IP Filtering Name'
@@ -98,7 +98,7 @@ export const Form = ({ suggest, options, list }: FormTypes) => {
         <Select
           {...selectProps('schedule', 'Schedule:', scheduleList, formik)}
         />
-      </CardContent>
+      </StyledCardContent>
       <CardActions>
         <Button icon='add' text='add' onClick={() => formik.handleSubmit()} />
       </CardActions>

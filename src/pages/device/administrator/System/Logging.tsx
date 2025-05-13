@@ -5,6 +5,7 @@ import { selectProps, textfieldProps } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
 import { FormikValuesType, SelectOptionProps } from 'types'
 import { FormikProps } from 'formik'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type LoggingType = {
   title: string
@@ -19,12 +20,10 @@ export const Logging = ({
   conloglevelOptions,
   cronloglevelOptions,
 }: LoggingType) => {
-  const classes = useStyles()
-
   return (
     <Card>
       <CardHeader title={title} />
-      <CardContent className={classes.fieldWidth}>
+      <StyledCardContent>
         {/* Log Buffer Size */}
         <TextField
           {...textfieldProps('log_size', 'System log buffer size', formik)}
@@ -64,7 +63,7 @@ export const Logging = ({
             formik,
           )}
         />
-      </CardContent>
+      </StyledCardContent>
     </Card>
   )
 }

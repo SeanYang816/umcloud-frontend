@@ -23,6 +23,7 @@ import { DialogController } from 'components/DialogController'
 import { useApiResultObjectToArrayByCommonId } from 'hooks/useApiResultObjectToArrayByCommonId'
 import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 export const Ospf = () => {
   const dispatch = useDispatch()
@@ -34,8 +35,6 @@ export const Ospf = () => {
   const [isFetch, setIsFetch] = useState(false)
 
   const editKey = useRef('')
-
-  const classes = useStyles()
 
   const formik = useFormik<FormikValuesType>({
     initialValues: {
@@ -166,12 +165,12 @@ export const Ospf = () => {
       <Stack gap={2}>
         <Card>
           <CardHeader title='OSPF Configuration' />
-          <CardContent className={classes.fieldWidth}>
+          <StyledCardContent>
             <Select
               {...selectProps('enable', 'OSPF enable:', booleanList, formik)}
             />
             <TextField {...textfieldProps('router_id', 'Router ID:', formik)} />
-          </CardContent>
+          </StyledCardContent>
         </Card>
 
         <StyledMuiReactTable title='Overview' rows={list} columns={columns} />

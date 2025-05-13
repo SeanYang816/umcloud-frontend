@@ -12,13 +12,13 @@ import { PageHeader } from 'components/PageHeader'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type PayloadType = {
   'cbid.firewall.wan_ping.enabled': string
 }
 
 export const GeneralSettings = () => {
-  const classes = useStyles()
   const data = useSelector(
     (state: DefaultRootStateProps) => state.firewall.generalSettings,
   )
@@ -53,11 +53,11 @@ export const GeneralSettings = () => {
       <PageHeader title='WAN Ping Respond' />
       <Card>
         <CardHeader title='WAN Ping Respond' />
-        <CardContent className={classes.fieldWidth}>
+        <StyledCardContent>
           <Select
             {...selectProps('enableWanPing', 'Enable', booleanList, formik)}
           />
-        </CardContent>
+        </StyledCardContent>
       </Card>
 
       <Stack direction='row' ml='auto'>

@@ -17,6 +17,7 @@ import { FormikProps } from 'formik'
 import { bytesToSize, durationConvert } from 'utils/old/utility'
 import { CardHeader } from 'components/extends/CardHeader'
 import { optionsConverter } from 'utils/optionsConverter'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 enum TabIndex {
   GENERAL_SETUP = 0,
@@ -34,7 +35,6 @@ export const CommonConfiguration = ({
   statusData,
   formik,
 }: CommonConfigurationProps) => {
-  const classes = useStyles()
   const theme = useTheme()
   const [activeTab, setActiveTab] = useState(TabIndex.GENERAL_SETUP)
 
@@ -76,7 +76,7 @@ export const CommonConfiguration = ({
   return (
     <Card>
       <CardHeader title='Common Configuration' />
-      <CardContent className={classes.fieldWidth}>
+      <StyledCardContent>
         <Tabs value={activeTab} onChange={handleTabChange}>
           <Tab label='General Setup' tabIndex={TabIndex.GENERAL_SETUP} />
           <Tab
@@ -118,7 +118,7 @@ export const CommonConfiguration = ({
             placeholder='1500'
           />
         </TabPanel>
-      </CardContent>
+      </StyledCardContent>
     </Card>
   )
 }

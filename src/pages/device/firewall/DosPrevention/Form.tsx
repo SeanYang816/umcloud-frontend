@@ -10,6 +10,7 @@ import { FormikValuesType, StringStringType } from 'types'
 import { selectProps } from 'utils/formik'
 import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type PayloadType = {
   'cbid.firewall.dos.tcp_enabled': string
@@ -24,7 +25,6 @@ type PayloadType = {
 }
 
 export const Form = ({ result }: { result: StringStringType }) => {
-  const classes = useStyles()
   const { sendWsSetMessage } = useSendWsMessage()
 
   const rootId = 'cbid.firewall.dos'
@@ -81,7 +81,7 @@ export const Form = ({ result }: { result: StringStringType }) => {
       <Card>
         {/* TCP SYN Flood Prevention */}
         <CardHeader title='TCP SYN Flood Prevention' />
-        <CardContent className={classes.fieldWidth}>
+        <StyledCardContent>
           <Select
             {...selectProps('tcp_enabled', 'Enable', booleanList, formik)}
           />
@@ -99,11 +99,11 @@ export const Form = ({ result }: { result: StringStringType }) => {
               />
             </>
           )}
-        </CardContent>
+        </StyledCardContent>
 
         {/* UDP Flood Prevention */}
         <CardHeader title='UDP Flood Prevention' />
-        <CardContent className={classes.fieldWidth}>
+        <StyledCardContent>
           <Select
             {...selectProps('udp_enabled', 'Enable', booleanList, formik)}
           />
@@ -121,11 +121,11 @@ export const Form = ({ result }: { result: StringStringType }) => {
               />
             </>
           )}
-        </CardContent>
+        </StyledCardContent>
 
         {/* ICMP Flood Prevention */}
         <CardHeader title='ICMP Flood Prevention' />
-        <CardContent className={classes.fieldWidth}>
+        <StyledCardContent>
           <Select
             {...selectProps('icmp_enabled', 'Enable', booleanList, formik)}
           />
@@ -143,7 +143,7 @@ export const Form = ({ result }: { result: StringStringType }) => {
               />
             </>
           )}
-        </CardContent>
+        </StyledCardContent>
       </Card>
       <Stack direction='row' ml='auto'>
         <Button icon='save' text='save' onClick={() => formik.handleSubmit()} />

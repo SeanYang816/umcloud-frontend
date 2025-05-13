@@ -11,6 +11,7 @@ import { checkboxProps, selectProps, textfieldProps } from 'utils/formik'
 import { boolToStrNum, strNumToBool } from 'utils'
 import { FormikValuesType, StringStringType, OptionsOrSuggestType } from 'types'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type FormTypes = {
   suggest: OptionsOrSuggestType
@@ -19,7 +20,6 @@ type FormTypes = {
 }
 
 export const Form = ({ suggest, options, list }: FormTypes) => {
-  const classes = useStyles()
   const { sendWsSetMessage } = useSendWsMessage()
 
   const ifaceList = optionsConverter(options, '_newonenat.iface')
@@ -81,7 +81,7 @@ export const Form = ({ suggest, options, list }: FormTypes) => {
   return (
     <Card>
       <CardHeader title='Add New One-to-One NAT Rule' />
-      <CardContent className={classes.fieldWidth}>
+      <StyledCardContent>
         <TextField
           {...textfieldProps('name', 'Name:', formik)}
           placeholder='New One-to-One NAT Name'
@@ -119,7 +119,7 @@ export const Form = ({ suggest, options, list }: FormTypes) => {
             formik,
           )}
         />
-      </CardContent>
+      </StyledCardContent>
       <CardActions>
         <Button icon='add' text='add' onClick={() => formik.handleSubmit()} />
       </CardActions>

@@ -10,6 +10,7 @@ import { selectProps, textfieldProps } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
 import { FormikValuesType, OptionsOrSuggestType, StringStringType } from 'types'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type FormTypes = {
   options: OptionsOrSuggestType
@@ -17,7 +18,6 @@ type FormTypes = {
 }
 
 export const PortForm = ({ options, list }: FormTypes) => {
-  const classes = useStyles()
   const { sendWsSetMessage } = useSendWsMessage()
   const protoList = optionsConverter(options, '_newopen.proto')
   const scheduleList = optionsConverter(options, '_newopen.schedule')
@@ -53,14 +53,14 @@ export const PortForm = ({ options, list }: FormTypes) => {
   return (
     <Card>
       <CardHeader title='Open ports on router' />
-      <CardContent className={classes.fieldWidth}>
+      <StyledCardContent>
         <TextField {...textfieldProps('name', 'Name:', formik)} />
         <Select {...selectProps('proto', 'Protocol:', protoList, formik)} />
         <TextField {...textfieldProps('extport', 'External port:', formik)} />
         <Select
           {...selectProps('schedule', 'Schedule:', scheduleList, formik)}
         />
-      </CardContent>
+      </StyledCardContent>
       <CardActions>
         <Button icon='add' text='add' onClick={() => formik.handleSubmit()} />
       </CardActions>

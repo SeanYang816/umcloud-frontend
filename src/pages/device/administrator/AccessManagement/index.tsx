@@ -18,6 +18,7 @@ import { DefaultRootStateProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { validationSchema } from './validationSchema'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type PayloadType = {
   'cbid.uhttpd.main.lo_iface_en': string
@@ -40,7 +41,6 @@ type PayloadType = {
 }
 
 export const AccessManagement = () => {
-  const classes = useStyles()
   const rootId = 'cbid.uhttpd.main.'
 
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
@@ -141,7 +141,7 @@ export const AccessManagement = () => {
       <Stack gap={2}>
         <Card>
           <CardHeader title='Local Access Management' />
-          <CardContent className={classes.fieldWidth}>
+          <StyledCardContent>
             <Checkbox
               {...checkboxProps(
                 'lo_iface_en',
@@ -218,12 +218,12 @@ export const AccessManagement = () => {
                 </Stack>
               </>
             )}
-          </CardContent>
+          </StyledCardContent>
         </Card>
 
         <Card>
           <CardHeader title='Remote Access Management' />
-          <CardContent className={classes.fieldWidth}>
+          <StyledCardContent>
             <Checkbox
               {...checkboxProps(
                 're_iface_en',
@@ -255,7 +255,7 @@ export const AccessManagement = () => {
                 {...textfieldProps('re_https_port', 'Port', formik)}
               />
             )}
-          </CardContent>
+          </StyledCardContent>
         </Card>
       </Stack>
 

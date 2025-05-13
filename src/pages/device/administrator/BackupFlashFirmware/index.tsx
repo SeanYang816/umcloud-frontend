@@ -9,6 +9,7 @@ import { throttle } from 'lodash'
 import { useSelector } from 'react-redux'
 import { DefaultRootStateProps } from 'types'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type PayloadType_backup = {
   exec: string
@@ -21,7 +22,6 @@ type PayloadType_reset = {
 }
 
 export const BackupFlashFirmware = () => {
-  const classes = useStyles()
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
   const { version } = useSelector(
     (state: DefaultRootStateProps) => state.administrator.backupFlashFirmware,
@@ -71,7 +71,7 @@ export const BackupFlashFirmware = () => {
               'To reset the firmware to its initial state, click "Perform reset".'
             }
           </CardHeader>
-          <CardContent className={classes.fieldWidth}>
+          <StyledCardContent>
             <Grid container display='grid'>
               <Grid mb={2}>
                 <InputLabel>Download backup</InputLabel>
@@ -91,14 +91,14 @@ export const BackupFlashFirmware = () => {
                 />
               </Grid>
             </Grid>
-          </CardContent>
+          </StyledCardContent>
         </Card>
 
         <Card>
           <CardHeader title='Online Firmware Upgrade' />
-          <CardContent className={classes.fieldWidth}>
+          <StyledCardContent>
             <DisplayField label='Current Version' text={version as string} />
-          </CardContent>
+          </StyledCardContent>
         </Card>
       </Stack>
     </>

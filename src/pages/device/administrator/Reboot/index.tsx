@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { DefaultRootStateProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 enum TabsIndex {
   Reboot = '0',
@@ -28,7 +29,6 @@ type PayloadType_timeSchedule = {
 const rootId = 'cbid.autoreboot.reboot_config.'
 
 export const Reboot = () => {
-  const classes = useStyles()
   const data = useSelector(
     (state: DefaultRootStateProps) => state.administrator.reboot,
   )
@@ -79,8 +79,8 @@ export const Reboot = () => {
 
       <Stack gap={2}>
         <Card>
-          <CardHeader title='Reboot' />
-          <CardContent className={classes.fieldWidth}>
+          <CardHeader title='Reboot' />C
+          <StyledCardContent>
             <TabContext value={tabValue}>
               <TabList onChange={handleTabChange}>
                 <Tab label='System' value={TabsIndex.Reboot} />
@@ -118,7 +118,7 @@ export const Reboot = () => {
                 />
               </TabPanel>
             </TabContext>
-          </CardContent>
+          </StyledCardContent>
         </Card>
       </Stack>
     </>

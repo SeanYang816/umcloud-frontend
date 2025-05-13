@@ -15,6 +15,7 @@ import {
 import { CardHeader } from 'components/extends/CardHeader'
 import { FormikValuesType, StringStringType, OptionsOrSuggestType } from 'types'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type FormTypes = {
   suggest: OptionsOrSuggestType
@@ -22,7 +23,6 @@ type FormTypes = {
   list: StringStringType[]
 }
 export const Form: React.FC<FormTypes> = ({ suggest, options, list }) => {
-  const classes = useStyles()
   const { sendWsSetMessage } = useSendWsMessage()
 
   const protoList = optionsConverter(options, '_newfwd.proto')
@@ -71,7 +71,7 @@ export const Form: React.FC<FormTypes> = ({ suggest, options, list }) => {
   return (
     <Card>
       <CardHeader title='Add New Port Forward Rule' />
-      <CardContent className={classes.fieldWidth}>
+      <StyledCardContent>
         <TextField
           {...textfieldProps('name', 'Name:', formik)}
           placeholder='New Port Forward Name'
@@ -99,7 +99,7 @@ export const Form: React.FC<FormTypes> = ({ suggest, options, list }) => {
         <Select
           {...selectProps('schedule', 'Schedule:', scheduleList, formik)}
         />
-      </CardContent>
+      </StyledCardContent>
 
       <CardActions>
         <Button icon='add' text='add' onClick={() => formik.handleSubmit()} />

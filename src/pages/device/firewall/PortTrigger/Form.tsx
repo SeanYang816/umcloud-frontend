@@ -10,6 +10,7 @@ import { selectProps, textfieldProps } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
 import { FormikValuesType, StringStringType, OptionsOrSuggestType } from 'types'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type FormTypes = {
   options: OptionsOrSuggestType
@@ -17,7 +18,6 @@ type FormTypes = {
 }
 
 export const Form = ({ options, list }: FormTypes) => {
-  const classes = useStyles()
   const { sendWsSetMessage } = useSendWsMessage()
 
   const ifaceList = optionsConverter(options, '_newfwd.iface')
@@ -63,7 +63,7 @@ export const Form = ({ options, list }: FormTypes) => {
   return (
     <Card>
       <CardHeader title='Add New Port Trigger Rule' />
-      <CardContent className={classes.fieldWidth}>
+      <StyledCardContent>
         <TextField
           {...textfieldProps('name', 'Name:', formik)}
           placeholder='New Port Trigger Name'
@@ -97,7 +97,7 @@ export const Form = ({ options, list }: FormTypes) => {
             formik,
           )}
         />
-      </CardContent>
+      </StyledCardContent>
       <CardActions>
         <Button icon='add' text='add' onClick={() => formik.handleSubmit()} />
       </CardActions>

@@ -5,6 +5,7 @@ import { CardHeader } from 'components/extends/CardHeader'
 import { useStyles } from 'components/fields/index.style'
 import { FormikValuesType, SelectOptionProps } from 'types'
 import { FormikProps } from 'formik'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type DateTimeSettingType = {
   title: string
@@ -29,15 +30,13 @@ export const DateTimeSetting = ({
   localTimeMinuteOptions,
   localTimeSecondOptions,
 }: DateTimeSettingType) => {
-  const classes = useStyles()
-
   const isClockMode = formik.values.clock_mode === '0'
   const isNTP = formik.values.clock_mode === '1'
 
   return (
     <Card>
       <CardHeader title={title} />
-      <CardContent className={classes.fieldWidth}>
+      <StyledCardContent>
         <Select
           {...selectProps('clock_mode', 'Clock Mode', clockModeOptions, formik)}
         />
@@ -116,7 +115,7 @@ export const DateTimeSetting = ({
             />
           </>
         )}
-      </CardContent>
+      </StyledCardContent>
     </Card>
   )
 }

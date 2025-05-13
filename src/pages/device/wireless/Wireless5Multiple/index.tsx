@@ -28,6 +28,7 @@ import { validationSchema } from './validationSchema'
 import { EncryptionOptionTypes } from 'enums'
 import { PageHeader } from 'components/PageHeader'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 enum NetworkType {
   Network3 = 3,
@@ -50,7 +51,6 @@ enum MSSIDType {
 }
 
 export const Wireless5Multiple = () => {
-  const classes = useStyles()
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
   const data = useSelector(
@@ -206,7 +206,6 @@ export const Wireless5Multiple = () => {
         default:
           break
       }
-       
     },
     [sendWsSetMessage],
   )
@@ -263,7 +262,7 @@ export const Wireless5Multiple = () => {
       <Stack gap={2}>
         <Card>
           <CardHeader title='General Setup' />
-          <CardContent className={classes.fieldWidth}>
+          <StyledCardContent>
             <Select
               {...selectProps('disabled', 'Enabled', DISABLED_OPTIONS, formik)}
             />
@@ -278,7 +277,14 @@ export const Wireless5Multiple = () => {
                 'ssid',
                 <>
                   <Tooltip title='Extended Service Set Identifier'>
-                    <Box component='span' className={classes.tooltipStyle}>
+                    <Box
+                      component='span'
+                      sx={{
+                        borderBottom: (theme) =>
+                          `1px ${theme.palette.primary.main} solid`,
+                        color: (theme) => theme.palette.primary.main,
+                      }}
+                    >
                       ESSID
                     </Box>
                   </Tooltip>
@@ -292,7 +298,14 @@ export const Wireless5Multiple = () => {
                 <>
                   Hide&nbsp;
                   <Tooltip title='Extended Service Set Identifier'>
-                    <Box component='span' className={classes.tooltipStyle}>
+                    <Box
+                      component='span'
+                      sx={{
+                        borderBottom: (theme) =>
+                          `1px ${theme.palette.primary.main} solid`,
+                        color: (theme) => theme.palette.primary.main,
+                      }}
+                    >
                       ESSID
                     </Box>
                   </Tooltip>
@@ -309,11 +322,11 @@ export const Wireless5Multiple = () => {
                 formik,
               )}
             />
-          </CardContent>
+          </StyledCardContent>
         </Card>
         <Card>
           <CardHeader title='Wireless Security' />
-          <CardContent className={classes.fieldWidth}>
+          <StyledCardContent>
             <Select
               {...selectProps(
                 'encryption',
@@ -391,11 +404,11 @@ export const Wireless5Multiple = () => {
                 />
               </>
             )}
-          </CardContent>
+          </StyledCardContent>
         </Card>
         <Card>
           <CardHeader title='Advanced Settings' />
-          <CardContent className={classes.fieldWidth}>
+          <StyledCardContent>
             <Select
               {...selectProps(
                 'isolate',
@@ -411,7 +424,7 @@ export const Wireless5Multiple = () => {
               options={DISABLED_OPTIONS}
               onChange={() => {}}
             />
-          </CardContent>
+          </StyledCardContent>
         </Card>
       </Stack>
       <Stack direction='row' ml='auto'>

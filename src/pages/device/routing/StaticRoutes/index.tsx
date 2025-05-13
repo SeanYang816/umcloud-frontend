@@ -26,7 +26,6 @@ type ValidationObjProps = {
 }
 
 export const StaticRoutes = () => {
-  const classes = useStyles()
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
   const { options, result } = useSelector(
@@ -142,7 +141,14 @@ export const StaticRoutes = () => {
           <br />
           Host-
           <Tooltip title='Internet Protocol Address'>
-            <Box component='span' className={classes.tooltipStyle}>
+            <Box
+              component='span'
+              sx={{
+                borderBottom: (theme) =>
+                  `1px ${theme.palette.primary.main} solid`,
+                color: (theme) => theme.palette.primary.main,
+              }}
+            >
               IP
             </Box>
           </Tooltip>
@@ -175,7 +181,14 @@ export const StaticRoutes = () => {
       Header: () => (
         <Box>
           <Tooltip title='Internet Protocol Version 4'>
-            <Box component='span' className={classes.tooltipStyle}>
+            <Box
+              component='span'
+              sx={{
+                borderBottom: (theme) =>
+                  `1px ${theme.palette.primary.main} solid`,
+                color: (theme) => theme.palette.primary.main,
+              }}
+            >
               IPv4
             </Box>
           </Tooltip>
@@ -205,7 +218,14 @@ export const StaticRoutes = () => {
       Header: () => (
         <Box>
           <Tooltip title='Internet Protocol Version 4'>
-            <Box component='span' className={classes.tooltipStyle}>
+            <Box
+              component='span'
+              sx={{
+                borderBottom: (theme) =>
+                  `1px ${theme.palette.primary.main} solid`,
+                color: (theme) => theme.palette.primary.main,
+              }}
+            >
               IPv4
             </Box>
           </Tooltip>

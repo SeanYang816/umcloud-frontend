@@ -11,6 +11,7 @@ import { CardHeader } from 'components/extends/CardHeader'
 import { FormikProps } from 'formik'
 import { FormikValuesType, StringStringType, OptionsOrSuggestType } from 'types'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type FormTypes = {
   parentformik: FormikProps<FormikValuesType>
@@ -20,7 +21,6 @@ type FormTypes = {
 }
 
 export const Form = ({ parentformik, suggest, options, list }: FormTypes) => {
-  const classes = useStyles()
   const { sendWsSetMessage } = useSendWsMessage()
   const macAddrList = optionsConverter(suggest, '_newmacfilter.mac_addr')
   const scheduleList = optionsConverter(options, '_newmacfilter.schedule')
@@ -53,7 +53,7 @@ export const Form = ({ parentformik, suggest, options, list }: FormTypes) => {
   return (
     <Card>
       <CardHeader title='Add New MAC Filtering Rule' />
-      <CardContent className={classes.fieldWidth}>
+      <StyledCardContent>
         <TextField
           {...textfieldProps('name', 'Name:', formik)}
           placeholder='New Port Forward Name'
@@ -69,7 +69,7 @@ export const Form = ({ parentformik, suggest, options, list }: FormTypes) => {
             formik,
           )}
         />
-      </CardContent>
+      </StyledCardContent>
       <CardActions>
         <Button icon='add' text='add' onClick={() => formik.handleSubmit()} />
       </CardActions>

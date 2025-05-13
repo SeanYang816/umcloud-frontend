@@ -5,6 +5,7 @@ import { CardHeader } from 'components/extends/CardHeader'
 import { useStyles } from 'components/fields/index.style'
 import { FormikProps } from 'formik'
 import { FormikValuesType, SelectOptionProps } from 'types'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type DaylightSavingTimeType = {
   title: string
@@ -35,14 +36,12 @@ export const DaylightSavingTime = ({
   daylightSavingEndDayOfWeekOptions,
   daylightSavingEndTimeOptions,
 }: DaylightSavingTimeType) => {
-  const classes = useStyles()
-
   const isModeEnable = formik.values.daylight_saving_enable === '1'
 
   return (
     <Card>
       <CardHeader title={title} />
-      <CardContent className={classes.fieldWidth}>
+      <StyledCardContent>
         <Select
           {...selectProps(
             'daylight_saving_enable',
@@ -137,7 +136,7 @@ export const DaylightSavingTime = ({
             </Grid>
           </>
         )}
-      </CardContent>
+      </StyledCardContent>
     </Card>
   )
 }

@@ -23,6 +23,7 @@ import { DialogController } from 'components/DialogController'
 import { useApiResultObjectToArrayByCommonId } from 'hooks/useApiResultObjectToArrayByCommonId'
 import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 export interface RipItem {
   key: string
@@ -46,8 +47,6 @@ export const Rip = () => {
   const [isFetch, setIsFetch] = useState(false)
 
   const editKey = useRef('')
-
-  const classes = useStyles()
 
   const formik = useFormik<FormikValuesType>({
     initialValues: {
@@ -163,11 +162,11 @@ export const Rip = () => {
       <Stack gap={2}>
         <Card>
           <CardHeader title='RIP Configuration' />
-          <CardContent className={classes.fieldWidth}>
+          <StyledCardContent>
             <Select
               {...selectProps('enable', 'RIP enable:', booleanList, formik)}
             />
-          </CardContent>
+          </StyledCardContent>
         </Card>
 
         <StyledMuiReactTable title='Overview' rows={list} columns={columns} />

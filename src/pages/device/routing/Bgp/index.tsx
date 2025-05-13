@@ -17,9 +17,9 @@ import { NeighborForm } from './NeighborForm'
 import { cloneDeep } from 'lodash'
 import { useStyles } from 'components/fields/index.style'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 export const Bgp = () => {
-  const classes = useStyles()
   const { sendWsSetMessage, sendWsGetMessage } = useSendWsMessage()
   const rootConfig = 'cbid.bgpd.config'
   const data = useSelector((state: DefaultRootStateProps) => state.routing.bgp)
@@ -139,13 +139,13 @@ export const Bgp = () => {
       <Card>
         <CardHeader title='BGP Configuration' />
 
-        <CardContent className={classes.fieldWidth}>
+        <StyledCardContent>
           <Select
             {...selectProps('enable', 'BGP enable:', booleanList, formik)}
           />
           <TextField {...textfieldProps('router_id', 'Router ID:', formik)} />
           <TextField {...textfieldProps('asn', 'ASN:', formik)} />
-        </CardContent>
+        </StyledCardContent>
       </Card>
 
       <OverviewForm

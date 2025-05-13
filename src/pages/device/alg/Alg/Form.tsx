@@ -11,6 +11,7 @@ import { selectProps } from 'utils/formik'
 import { FormikValuesType, StringStringType, OptionsOrSuggestType } from 'types'
 import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 type FormTypes = {
   result: StringStringType
@@ -45,7 +46,6 @@ const checkList = [
 ]
 
 export const Form = ({ result, options }: FormTypes) => {
-  const classes = useStyles()
   const { sendWsSetMessage } = useSendWsMessage()
 
   const relayList = optionsConverter(options, 'cbid.alg.alg.pppoe_relay')
@@ -88,7 +88,7 @@ export const Form = ({ result, options }: FormTypes) => {
     <>
       <Card>
         <CardHeader title='ALG' />
-        <CardContent className={classes.fieldWidth}>
+        <StyledCardContent>
           {checkList.map((item, index) => (
             <Select
               key={index}
@@ -103,7 +103,7 @@ export const Form = ({ result, options }: FormTypes) => {
               formik,
             )}
           />
-        </CardContent>
+        </StyledCardContent>
       </Card>
       <Stack direction='row' ml='auto'>
         <Button icon='save' text='save' onClick={() => formik.handleSubmit()} />

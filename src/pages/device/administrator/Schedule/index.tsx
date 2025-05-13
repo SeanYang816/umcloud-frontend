@@ -35,6 +35,7 @@ import { EditDeleteButtons } from 'components/EditDeleteButtons'
 import { MRT_ColumnDef } from 'material-react-table'
 import { DialogController } from 'components/DialogController'
 import { Button } from 'components/extends/Button'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 const daily = 'SMTWTFS'
 
@@ -61,7 +62,6 @@ type PayloadType_delete = {
 }
 
 export const Schedule = () => {
-  const classes = useStyles()
   const data = useSelector(
     (state: DefaultRootStateProps) => state.administrator.schedule,
   )
@@ -238,7 +238,7 @@ export const Schedule = () => {
 
         <Card>
           <CardHeader title='Add New Schedule Rule' />
-          <CardContent className={classes.fieldWidth}>
+          <StyledCardContent>
             <TextField {...textfieldProps('name', 'Name', formik)} />
 
             <Radios {...radiosProps('isDaily', 'Days:', isDailyList, formik)} />
@@ -283,7 +283,7 @@ export const Schedule = () => {
               value={`${formik.values.end_time}`}
               onChange={formik.setFieldValue}
             />
-          </CardContent>
+          </StyledCardContent>
           <CardActions>
             <Button
               icon='add'

@@ -16,7 +16,6 @@ import {
 import { useStyles } from 'components/fields'
 
 export const Routes = () => {
-  const classes = useStyles()
   const { sendWsGetMessage } = useSendWsMessage()
   const data = useSelector(
     (state: DefaultRootStateProps) => state.status.routes,
@@ -37,7 +36,14 @@ export const Routes = () => {
       Header: () => (
         <Box>
           <Tooltip title='Internet Protocol Version 4'>
-            <Box component='span' className={classes.tooltipStyle}>
+            <Box
+              component='span'
+              sx={{
+                borderBottom: (theme) =>
+                  `1px ${theme.palette.primary.main} solid`,
+                color: (theme) => theme.palette.primary.main,
+              }}
+            >
               IPv4
             </Box>
           </Tooltip>
@@ -52,7 +58,14 @@ export const Routes = () => {
       Header: () => (
         <Box>
           <Tooltip title='Media Access Control'>
-            <Box component='span' className={classes.tooltipStyle}>
+            <Box
+              component='span'
+              sx={{
+                borderBottom: (theme) =>
+                  `1px ${theme.palette.primary.main} solid`,
+                color: (theme) => theme.palette.primary.main,
+              }}
+            >
               MAC
             </Box>
           </Tooltip>
@@ -81,7 +94,14 @@ export const Routes = () => {
       Header: () => (
         <Box>
           <Tooltip title='Internet Protocol Version 4'>
-            <Box component='span' className={classes.tooltipStyle}>
+            <Box
+              component='span'
+              sx={{
+                borderBottom: (theme) =>
+                  `1px ${theme.palette.primary.main} solid`,
+                color: (theme) => theme.palette.primary.main,
+              }}
+            >
               IPv4
             </Box>
           </Tooltip>

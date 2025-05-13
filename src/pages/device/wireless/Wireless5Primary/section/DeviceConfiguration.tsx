@@ -9,6 +9,7 @@ import { FormikProps } from 'formik'
 import { FormikValuesType, OptionsOrSuggestType } from 'types'
 import { CardHeader } from 'components/extends/CardHeader'
 import { get_wifi_encryption } from 'utils/getWifiEncryption'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 enum hwmodeOptions {
   A = '11a',
@@ -28,7 +29,6 @@ export const DeviceConfiguration = ({
   statusData,
   formik,
 }: DeviceConfigurationProps) => {
-  const classes = useStyles()
   const theme = useTheme()
 
   const options = data?.options as OptionsOrSuggestType
@@ -70,7 +70,7 @@ export const DeviceConfiguration = ({
     <Card>
       <CardHeader title='Device Configuration' />
 
-      <CardContent className={classes.fieldWidth}>
+      <StyledCardContent>
         <Grid container minWidth={480} maxWidth={600}>
           {statusList.map((item) => (
             <Grid key={item.label} size={{ xs: 6 }} mb={1}>
@@ -112,7 +112,7 @@ export const DeviceConfiguration = ({
             {...selectProps('htmode', 'HT mode', htModeOptions, formik)}
           />
         )}
-      </CardContent>
+      </StyledCardContent>
     </Card>
   )
 }

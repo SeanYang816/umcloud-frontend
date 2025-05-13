@@ -8,6 +8,7 @@ import { FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import React, { useState } from 'react'
 import { CardHeader } from 'components/extends/CardHeader'
+import { StyledCardContent } from 'components/extends/StyledCardContent'
 
 enum TabIndex {
   GENERAL_SETUP = 0,
@@ -26,7 +27,6 @@ type DHCPServerRelayProps = {
 }
 
 export const DHCPServerRelay = ({ data, formik }: DHCPServerRelayProps) => {
-  const classes = useStyles()
   const [activeTab, setActiveTab] = useState(TabIndex.GENERAL_SETUP)
 
   const options = data?.options
@@ -40,7 +40,7 @@ export const DHCPServerRelay = ({ data, formik }: DHCPServerRelayProps) => {
   return (
     <Card>
       <CardHeader title='DHCP Server/Relay' />
-      <CardContent className={classes.fieldWidth}>
+      <StyledCardContent>
         <Tabs value={activeTab} onChange={handleTabChange}>
           <Tab label='General Setup' tabIndex={TabIndex.GENERAL_SETUP} />
           {formik.values.ignore === IgnoreType.Enable && (
@@ -104,7 +104,7 @@ export const DHCPServerRelay = ({ data, formik }: DHCPServerRelayProps) => {
             helperText='Write received DNS requests to syslog'
           />
         </TabPanel>
-      </CardContent>
+      </StyledCardContent>
     </Card>
   )
 }
