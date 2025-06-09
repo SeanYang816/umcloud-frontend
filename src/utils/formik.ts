@@ -145,3 +145,17 @@ export const handleToggle = (
 ) => {
   formik.setFieldValue(name, value)
 }
+
+// ------
+export const getFormikProps = <T>(name: keyof T, formik: FormikProps<T>) => {
+  const fieldName = name as string
+
+  return {
+    ...formik.getFieldProps(fieldName),
+    error: Boolean(formik.touched[name] && formik.errors[name]),
+    helperText:
+      formik.touched[name] && formik.errors[name]
+        ? (formik.errors[name] as string)
+        : undefined,
+  }
+}
