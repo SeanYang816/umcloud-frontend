@@ -8,16 +8,19 @@ import {
 
 type ApplyLoadingProps = {
   open: boolean
-  headerHeight: number
 }
 
-export const ApplyLoading = ({ open, headerHeight }: ApplyLoadingProps) => {
+export const ApplyLoading = ({ open }: ApplyLoadingProps) => {
   return (
     <Backdrop
       open={open}
       sx={{
-        position: 'absolute',
-        height: `calc(100vh - ${headerHeight}px)`,
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: (theme) => theme.zIndex.modal + 1,
       }}
     >
       <Paper
@@ -26,9 +29,9 @@ export const ApplyLoading = ({ open, headerHeight }: ApplyLoadingProps) => {
           borderRadius: 4,
         }}
       >
-        <Stack direction='row' alignItems='center' spacing={4} mr={2}>
+        <Stack direction='row' alignItems='center' spacing={4}>
           <CircularProgress />
-          <Typography variant='h3'>
+          <Typography variant='h5'>
             Applying changes, please wait ...
           </Typography>
         </Stack>

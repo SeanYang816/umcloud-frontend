@@ -6,11 +6,7 @@ import { clearNotification } from 'reducers/global'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-type ApplyLoadingProps = {
-  headerHeight: number
-}
-
-export const ErrorDialog = ({ headerHeight }: ApplyLoadingProps) => {
+export const ErrorDialog = () => {
   const dispatch = useDispatch()
   const notification = useSelector(
     (state: DefaultRootStateProps) => state.global.notification,
@@ -34,7 +30,6 @@ export const ErrorDialog = ({ headerHeight }: ApplyLoadingProps) => {
       open={!!notification.event}
       sx={{
         position: 'absolute',
-        height: `calc(100vh - ${headerHeight}px)`,
       }}
     >
       <Paper
