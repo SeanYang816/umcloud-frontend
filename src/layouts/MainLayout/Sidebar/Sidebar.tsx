@@ -24,7 +24,9 @@ const drawerWidth = 340
 
 export const Sidebar = () => {
   const { logout } = useAuth()
-  const username = useSelector((state: RootState) => state.authentication.user)
+  const username = useSelector(
+    (state: RootState) => state.authentication.user || '',
+  )
   const navigate = useNavigate() // 🧭
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({})
 
