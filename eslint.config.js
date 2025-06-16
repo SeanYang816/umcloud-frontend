@@ -33,6 +33,7 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node, // ✅ Add this line
+        JSX: 'readonly', // ✅ 加這行
       },
     },
     plugins: {

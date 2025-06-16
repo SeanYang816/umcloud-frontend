@@ -20,17 +20,18 @@ import { clearBasicConfigProperty } from 'reducers/basicConfig'
 import { clearWirelessProperty } from 'reducers/wireless'
 import { clearNetworkProperty } from 'reducers/network'
 
-import { Box, Button, Card, CardContent, Stack, useTheme } from '@mui/material'
+import { Button, Stack, Typography, useTheme } from '@mui/material'
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp'
 import { useNavigate } from 'react-router-dom'
 import { genChannelId } from 'utils'
 import { Dot } from 'components/Dot'
-import { CardHeader } from 'components/extends/CardHeader'
 import { toast } from 'react-toastify'
 import {
   MRT_ColumnDef,
   MRT_GlobalFilterTextField,
   MRT_ShowHideColumnsButton,
+  MRT_ToggleFiltersButton,
+  MRT_ToggleGlobalFilterButton,
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table'
@@ -38,6 +39,7 @@ import { format } from 'date-fns'
 import { isNil } from 'lodash'
 import { useDispatch } from 'react-redux'
 import { updateDevice } from 'reducers/device'
+import { useTableState } from 'hooks/useTableState'
 
 export default function Things() {
   const theme = useTheme()
@@ -45,18 +47,28 @@ export default function Things() {
   const navigate = useNavigate()
   const wslogout = () => console.info(wslogout)
   const [filterString, setFilterString] = useState<string>('')
-  const [sorting, setSorting] = useState<{ id: string; desc: boolean }[]>([])
-  const [pagination, setPagination] = useState<PaginationInputType>({
-    pageIndex: 0,
-    pageSize: 25,
-  })
 
   const [unregisterThing] = useUnregisterThingMutation()
 
   const [getThings, { loading: isFetching, data: thingsData }] =
     useGetThingsLazyQuery({ fetchPolicy: 'cache-and-network' })
   const thingsList = thingsData?.things?.list || []
-  const thingsCount = thingsData?.things?.total || 9999999
+
+  const {
+    sorting,
+    setSorting,
+    globalFilter,
+    setGlobalFilter,
+    columnFilters,
+    setColumnFilters,
+    pagination,
+    Pagination,
+  } = useTableState({
+    pageSize: 25,
+    pageIndex: 0,
+    total: thingsData?.things?.total || 0,
+    rowsLength: thingsData?.things?.list.length || 0,
+  })
 
   const handleEditWsClick = async (row: Thing) => {
     const channel = genChannelId()
@@ -72,7 +84,9 @@ export default function Things() {
     dispatch(clearBasicConfigProperty())
     dispatch(clearWirelessProperty())
     dispatch(clearNetworkProperty())
-    navigate('/things/device')
+    if (row.thingType === 'Router') {
+      navigate('/things/device')
+    }
   }
 
   const ordering: OrderingInputType | null = useMemo(() => {
@@ -260,16 +274,12 @@ export default function Things() {
             <Button
               disabled={!isOnline}
               variant='outlined'
-              size='small'
-              style={{ fontSize: '16px' }}
               onClick={() => handleEditWsClick(row.original)}
             >
               Edit
             </Button>
             <Button
               variant='outlined'
-              size='small'
-              style={{ fontSize: '16px' }}
               onClick={async () => {
                 try {
                   if (window.confirm('Conifrm  Unregister ?')) {
@@ -297,12 +307,20 @@ export default function Things() {
   const table = useMaterialReactTable({
     data: thingsList,
     columns: columns,
-    enableTopToolbar: true,
-    enableGlobalFilter: true,
-    enableDensityToggle: false,
+    enableTopToolbar: false,
+    enableBottomToolbar: false,
     enableColumnActions: false,
-    enableColumnFilters: false,
-    enableFullScreenToggle: false,
+    enableSorting: true,
+    enableStickyHeader: true,
+
+    manualSorting: true,
+    manualFiltering: true,
+    manualPagination: true,
+
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setGlobalFilter,
+    onColumnFiltersChange: setColumnFilters,
+
     state: {
       isLoading: isFetching,
     },
@@ -315,30 +333,13 @@ export default function Things() {
     muiCircularProgressProps: {
       color: 'secondary',
     },
-
-    renderTopToolbar: ({ table }) => (
-      <Stack direction='row' justifyContent='space-between'>
-        <MRT_GlobalFilterTextField
-          margin='none'
-          placeholder='Mac address'
-          table={table}
-        />
-        <Box mt={1}>
-          <MRT_ShowHideColumnsButton table={table} />
-        </Box>
-      </Stack>
-    ),
-
-    manualSorting: true,
-    onSortingChange: setSorting,
-
-    manualFiltering: true,
-    onGlobalFilterChange: setFilterString,
-
-    manualPagination: true,
-    rowCount: thingsCount,
-    pageCount: Math.ceil(thingsCount / pagination.pageSize),
-    onPaginationChange: setPagination,
+    muiTableHeadCellProps: {
+      sx: {
+        py: 2,
+        color: '#D1F1FF',
+        backgroundColor: '#0095AE',
+      },
+    },
 
     initialState: {
       showGlobalFilter: true,
@@ -357,21 +358,6 @@ export default function Things() {
         memoryUsage: false,
       },
     },
-
-    muiTablePaperProps: {
-      sx: {
-        boxShadow: 'none',
-        border: `1px ${theme.palette.grey[300]} solid`,
-        padding: `0 ${theme.spacing(2)}`,
-      },
-    },
-
-    muiTableContainerProps: {
-      sx: {
-        boxShadow: 'none',
-        marginTop: theme.spacing(2),
-      },
-    },
   })
 
   useEffect(() => {
@@ -387,11 +373,29 @@ export default function Things() {
   }, [pagination, filterString, ordering])
 
   return (
-    <Card>
-      <CardHeader title='Device list' />
-      <CardContent>
-        <MaterialReactTable table={table} />
-      </CardContent>
-    </Card>
+    <Stack>
+      <Stack
+        direction='row'
+        alignItems='center'
+        justifyContent='space-between'
+        mb={1}
+        ml={1}
+      >
+        <Typography variant='h4' color='#01334D' fontWeight='bold'>
+          Device List
+        </Typography>
+        <Stack direction='row'>
+          <Stack direction='row'>
+            <MRT_GlobalFilterTextField table={table} />
+            <MRT_ToggleGlobalFilterButton table={table} />
+          </Stack>
+          <MRT_ToggleFiltersButton table={table} />
+          <MRT_ShowHideColumnsButton table={table} />
+        </Stack>
+      </Stack>
+
+      <MaterialReactTable table={table} />
+      <Pagination />
+    </Stack>
   )
 }
