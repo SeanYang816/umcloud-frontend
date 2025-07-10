@@ -33,7 +33,7 @@ interface rawDataProps {
 }
 
 export const TotalClientDevice = ({ data, wsUrl }: TotalClientDeviceProps) => {
-  const renderRef = useRef<number>()
+  const renderRef = useRef<number>(0)
   const [rawData, setRawData] = useState<rawDataProps | null>(null)
   const [refresh, setRefresh] = useState(false)
 

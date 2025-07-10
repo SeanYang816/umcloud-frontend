@@ -37,7 +37,10 @@ export const DHCPServerRelay = ({ data, formik }: DHCPServerRelayProps) => {
 
   const options = data?.options
 
-  const handleTabChange = (_e: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (
+    _e: React.SyntheticEvent,
+    newValue: TabIndexType,
+  ) => {
     setActiveTab(newValue)
   }
 

@@ -20,7 +20,7 @@ interface ManualStateKitReturn {
   setColumnFilters: React.Dispatch<React.SetStateAction<MRT_ColumnFiltersState>>
   setPagination: React.Dispatch<React.SetStateAction<MRT_PaginationState>>
   setRowSelection: React.Dispatch<React.SetStateAction<MRT_RowSelectionState>>
-  Pagination: () => JSX.Element
+  Pagination: () => React.ReactElement
 }
 
 // Make pageIndex and pageSize optional in the function argument

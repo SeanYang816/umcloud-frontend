@@ -1,10 +1,9 @@
 import React from 'react'
 import { useFormik } from 'formik'
-import { Card, CardActions, CardContent } from '@mui/material'
+import { Card, CardActions } from '@mui/material'
 import { formValidationSchema } from './validationSchema'
 import { SERVER_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { useStyles } from 'components/fields/index.style'
 import { TextField, Select } from 'components/fields'
 import { optionsConverter } from 'utils/optionsConverter'
 import {

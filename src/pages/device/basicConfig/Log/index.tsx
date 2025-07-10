@@ -32,7 +32,10 @@ export const Log = () => {
   const deviceLogs = thing?.deviceLogs?.list ?? []
   const configLogs = thing?.configLogs?.list ?? []
 
-  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (
+    _event: React.SyntheticEvent,
+    newValue: LogTabIndexType,
+  ) => {
     setActiveTab(newValue)
   }
 

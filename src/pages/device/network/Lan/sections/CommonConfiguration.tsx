@@ -1,14 +1,6 @@
-import {
-  Card,
-  CardContent,
-  Grid,
-  Tab,
-  Tabs,
-  Typography,
-  useTheme,
-} from '@mui/material'
+import { Card, Grid, Tab, Tabs, Typography, useTheme } from '@mui/material'
 import { TabPanel } from 'components/TabPanel'
-import { Select, TextField, useStyles } from 'components/fields'
+import { Select, TextField } from 'components/fields'
 import React, { useMemo, useState } from 'react'
 import { selectProps, textfieldProps } from 'utils/formik'
 import { GetLANStatus, GetLanPage } from '../type'
@@ -44,7 +36,10 @@ export const CommonConfiguration = ({
 
   const statusResult = statusData?.result
 
-  const handleTabChange = (_e: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (
+    _e: React.SyntheticEvent,
+    newValue: TabIndexType,
+  ) => {
     setActiveTab(newValue)
   }
 
@@ -92,7 +87,7 @@ export const CommonConfiguration = ({
         <TabPanel index={TabIndex.GENERAL_SETUP} value={activeTab}>
           <Grid container minWidth={480} maxWidth={600}>
             {statusList.map((item) => (
-              <Grid key={item.label} item xs={6} mb={1}>
+              <Grid key={item.label} size={{ xs: 6 }} mb={1}>
                 <Typography
                   component='span'
                   variant='subtitle1'

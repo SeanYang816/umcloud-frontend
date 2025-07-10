@@ -1,5 +1,4 @@
-import { Card, CardActions, CardContent } from '@mui/material'
-import { useStyles } from 'components/fields/index.style'
+import { Card, CardActions } from '@mui/material'
 import { formValidationSchema } from './validationSchema'
 import { useFormik } from 'formik'
 import { optionsConverter } from 'utils/optionsConverter'

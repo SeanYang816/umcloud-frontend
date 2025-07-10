@@ -4,7 +4,6 @@ import {
   Box,
   Card,
   CardActions,
-  CardContent,
   Checkbox as MuiCheckbox,
   Stack,
 } from '@mui/material'
@@ -26,7 +25,6 @@ import {
 } from 'components/fields'
 import { useFormik } from 'formik'
 import { checkboxProps, radiosProps, textfieldProps } from 'utils/formik'
-import { useStyles } from 'components/fields/index.style'
 import { isUpperCase } from 'utils'
 import { EditModal } from './EditModal'
 import { formValidationSchema } from './validationSchema'

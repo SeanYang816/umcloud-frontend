@@ -1,5 +1,5 @@
-import { Card, CardContent, Grid, Typography, useTheme } from '@mui/material'
-import { Select, useStyles } from 'components/fields'
+import { Card, Grid, Typography, useTheme } from '@mui/material'
+import { Select } from 'components/fields'
 import { CHANNEL_OPTIONS_5GHz } from 'constant/options'
 import { useMemo } from 'react'
 import { optionsConverter } from 'utils/optionsConverter'
@@ -17,8 +17,6 @@ const HWmodeOptions = {
   A_N_AC: '11ac',
   A_N_AC_AX: '11axa',
 } as const
-
-type HWmodeOptionsType = (typeof HWmodeOptions)[keyof typeof HWmodeOptions]
 
 type DeviceConfigurationProps = {
   data: GetWireless5Primary

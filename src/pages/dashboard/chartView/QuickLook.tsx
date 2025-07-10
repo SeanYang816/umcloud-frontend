@@ -35,7 +35,7 @@ interface rawDataProps {
 }
 
 export const QuickLook = ({ data, wsUrl, spacing }: QuickLookProps) => {
-  const renderRef = useRef<number>()
+  const renderRef = useRef<number>(0)
   const [rawData, setRawData] = useState<rawDataProps | null>(null)
   const [refresh, setRefresh] = useState(false)
 

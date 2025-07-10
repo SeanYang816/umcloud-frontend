@@ -1,12 +1,5 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  SelectChangeEvent,
-  Tooltip,
-  Stack,
-} from '@mui/material'
-import { PasswordField, Select, TextField, useStyles } from 'components/fields'
+import { Box, Card, SelectChangeEvent, Tooltip, Stack } from '@mui/material'
+import { PasswordField, Select, TextField } from 'components/fields'
 import { DISABLED_OPTIONS } from 'constant/options'
 import { useFormik } from 'formik'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
@@ -160,8 +153,8 @@ export const Wireless5Multiple = () => {
     if (typeof event.target.value === 'string') {
       const networkNumber = Number(
         event.target.value[event.target.value.length - 1],
-      )
-      const mssid = networkNumber - 2
+      ) as NetworkType
+      const mssid = (networkNumber - 2) as MSSIDType
       if (isNumber(networkNumber)) {
         setNetwork(networkNumber)
         setMssid(mssid)

@@ -13,7 +13,6 @@ import {
   Routes_v6Table,
   Neighbours_v6Table,
 } from 'types/reducers'
-import { useStyles } from 'components/fields'
 
 export const Routes = () => {
   const { sendWsGetMessage } = useSendWsMessage()

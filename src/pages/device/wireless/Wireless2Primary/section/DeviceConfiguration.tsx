@@ -1,5 +1,5 @@
-import { Card, CardContent, Grid, Typography, useTheme } from '@mui/material'
-import { Select, useStyles } from 'components/fields'
+import { Card, Grid, Typography, useTheme } from '@mui/material'
+import { Select } from 'components/fields'
 import { CHANNEL_OPTIONS_2GHz } from 'constant/options'
 import { useMemo } from 'react'
 import { optionsConverter } from 'utils/optionsConverter'
@@ -17,8 +17,6 @@ const HWmodeOptions = {
   B_G_N: '11ng',
   B_G_N_AX: '11axg',
 } as const
-
-type HWmodeOptionsType = (typeof HWmodeOptions)[keyof typeof HWmodeOptions]
 
 type DeviceConfigurationProps = {
   data: GetWireless2Primary

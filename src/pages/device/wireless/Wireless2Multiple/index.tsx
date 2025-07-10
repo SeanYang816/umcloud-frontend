@@ -1,12 +1,5 @@
-import {
-  Card,
-  CardContent,
-  SelectChangeEvent,
-  Stack,
-  Tooltip,
-  Box,
-} from '@mui/material'
-import { PasswordField, Select, TextField, useStyles } from 'components/fields'
+import { Card, SelectChangeEvent, Stack, Tooltip, Box } from '@mui/material'
+import { PasswordField, Select, TextField } from 'components/fields'
 import { DISABLED_OPTIONS } from 'constant/options'
 import { useFormik } from 'formik'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
@@ -63,7 +56,7 @@ export const Wireless2Multiple = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const result = data?.result as GetWireless2MultipleResult as any
 
-  const [network, setNetwork] = useState(Network.Network3)
+  const [network, setNetwork] = useState<NetworkType>(Network.Network3)
   const [mssid, setMssid] = useState<MSSIDType>(MSSID.MSSID1)
 
   const formik = useFormik<FormikValuesType>({
@@ -161,7 +154,7 @@ export const Wireless2Multiple = () => {
       const networkNumber = Number(
         event.target.value[event.target.value.length - 1],
       ) as NetworkType
-      const mssid = networkNumber - 2
+      const mssid = (networkNumber - 2) as MSSIDType
       setNetwork(networkNumber)
       setMssid(mssid)
     }

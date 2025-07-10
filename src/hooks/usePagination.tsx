@@ -1,6 +1,7 @@
 import { SelectChangeEvent } from '@mui/material'
+import { PaginationInputType } from 'generated/graphql'
 import { useCallback } from 'react'
-import { OnChangeFn, PaginationInputType } from 'types'
+import { OnChangeFn } from 'types'
 
 type UsePaginationProps = {
   onPaginationChange: OnChangeFn<PaginationInputType>

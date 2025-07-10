@@ -2,7 +2,6 @@ import { durationConvert, bytesToSize } from 'utils/old/utility'
 
 import {
   OrderingInputType,
-  PaginationInputType,
   SortOrder,
   Thing,
   useGetThingsLazyQuery,
@@ -20,7 +19,7 @@ import { clearBasicConfigProperty } from 'reducers/basicConfig'
 import { clearWirelessProperty } from 'reducers/wireless'
 import { clearNetworkProperty } from 'reducers/network'
 
-import { Button, Stack, Typography, useTheme } from '@mui/material'
+import { Button, Stack, Typography } from '@mui/material'
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp'
 import { useNavigate } from 'react-router-dom'
 import { genChannelId } from 'utils'
@@ -42,11 +41,10 @@ import { updateDevice } from 'reducers/device'
 import { useTableState } from 'hooks/useTableState'
 
 export default function Things() {
-  const theme = useTheme()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const wslogout = () => console.info(wslogout)
-  const [filterString, setFilterString] = useState<string>('')
+  const [filterString] = useState<string>('')
 
   const [unregisterThing] = useUnregisterThingMutation()
 
@@ -57,9 +55,7 @@ export default function Things() {
   const {
     sorting,
     setSorting,
-    globalFilter,
     setGlobalFilter,
-    columnFilters,
     setColumnFilters,
     pagination,
     Pagination,

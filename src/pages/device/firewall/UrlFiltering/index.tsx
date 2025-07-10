@@ -4,7 +4,7 @@ import { DefaultRootStateProps } from 'types'
 import { SERVER_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { PageHeader } from 'components/PageHeader'
-import { Card, CardContent, Stack } from '@mui/material'
+import { Card, Stack } from '@mui/material'
 import { MultiSelect, Select } from 'components/fields'
 import { useFormik } from 'formik'
 import { optionsConverter } from 'utils/optionsConverter'
@@ -26,8 +26,6 @@ const Enabled = {
   Enable: '1',
   Disable: '0',
 } as const
-
-type EnabledTypes = (typeof Enabled)[keyof typeof Enabled]
 
 export const UrlFiltering = () => {
   const data = useSelector(

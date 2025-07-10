@@ -85,7 +85,9 @@ export const BasicViewWan1 = ({ title, result }: BasicViewWan1Props) => {
                     <Box>Connected</Box>
                   </Grid>
                   <Grid size={{ xs: 6 }}>
-                    <Box>{wan6.uptime ? durationConvert(wan6.uptime) : ''}</Box>
+                    <Box>
+                      {wan6.uptime ? durationConvert(Number(wan6?.uptime)) : 0}
+                    </Box>
                   </Grid>
                 </Grid>
               </Grid>

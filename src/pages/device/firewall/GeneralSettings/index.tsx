@@ -1,18 +1,18 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Card, CardContent, Stack } from '@mui/material'
+import { Card, Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { CardHeader } from 'components/extends/CardHeader'
 import { DefaultRootStateProps, FormikValuesType } from 'types'
 import { SERVER_ACTIONS } from 'constant'
-import { Select, useStyles } from 'components/fields'
 import { selectProps } from 'utils/formik'
 import { PageHeader } from 'components/PageHeader'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
+import { Select } from 'components/fields'
 
 type PayloadType = {
   'cbid.firewall.wan_ping.enabled': string

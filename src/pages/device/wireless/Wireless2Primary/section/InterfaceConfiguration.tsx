@@ -1,11 +1,10 @@
-import { Card, Box, CardContent, Tab, Tabs, Tooltip } from '@mui/material'
+import { Card, Box, Tab, Tabs, Tooltip } from '@mui/material'
 import { TabPanel } from 'components/TabPanel'
 import {
   MultiSelect,
   PasswordField,
   Select,
   TextField,
-  useStyles,
 } from 'components/fields'
 import { DISABLED_OPTIONS } from 'constant/options'
 import { FormikProps } from 'formik'
@@ -43,7 +42,10 @@ export const InterfaceConfiguration = ({
     TabIndex.GENERAL_SETUP,
   )
 
-  const handleTabChange = (_e: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (
+    _e: React.SyntheticEvent,
+    newValue: TabIndexType,
+  ) => {
     setActiveTab(newValue)
   }
 

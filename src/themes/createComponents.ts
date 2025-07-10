@@ -1,4 +1,4 @@
-import { Theme } from '@mui/material'
+import { CSSObject, Theme } from '@mui/material'
 
 export const createComponents = (theme: Theme) => ({
   MuiButton: {
@@ -52,7 +52,7 @@ export const createComponents = (theme: Theme) => ({
   MuiDialogTitle: {
     styleOverrides: {
       root: {
-        textAlign: 'center',
+        textAlign: 'center' as const,
         padding: `${theme.spacing(3)} ${theme.spacing(6)}`,
       },
     },
@@ -68,7 +68,7 @@ export const createComponents = (theme: Theme) => ({
     styleOverrides: {
       root: {
         justifyContent: 'flex-start',
-        textAlign: 'center',
+        textAlign: 'center' as const,
         padding: `0 ${theme.spacing(6)} ${theme.spacing(3)}`,
       },
     },
@@ -90,9 +90,9 @@ export const createComponents = (theme: Theme) => ({
   MuiTab: {
     styleOverrides: {
       root: {
-        fontSize: '18px', // not sure
+        fontSize: '14px',
         textTransform: 'none',
-      },
+      } as CSSObject,
     },
   },
   MuiPaper: {

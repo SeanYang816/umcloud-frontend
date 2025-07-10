@@ -1,4 +1,4 @@
-import { Card, Box, CardContent, Tab, Tabs, Tooltip } from '@mui/material'
+import { Card, Box, Tab, Tabs, Tooltip } from '@mui/material'
 import { TabPanel } from 'components/TabPanel'
 import {
   PasswordField,
@@ -38,9 +38,14 @@ export const InterfaceConfiguration = ({
   statusData,
   formik,
 }: InterfaceConfigurationProps) => {
-  const [activeTab, setActiveTab] = useState(TabIndex.GENERAL_SETUP)
+  const [activeTab, setActiveTab] = useState<TabIndexType>(
+    TabIndex.GENERAL_SETUP,
+  )
 
-  const handleTabChange = (_e: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (
+    _e: React.SyntheticEvent,
+    newValue: TabIndexType,
+  ) => {
     setActiveTab(newValue)
   }
 

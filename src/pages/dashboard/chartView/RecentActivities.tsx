@@ -41,7 +41,7 @@ export const RecentActivities = ({
   wsUrl,
   spacing,
 }: RecentActivitiesProps) => {
-  const renderRef = useRef<number>()
+  const renderRef = useRef<number>(0)
   const [rawData, setRawData] = useState<rawDataProps | null>(null)
   const [refresh, setRefresh] = useState(false)
 

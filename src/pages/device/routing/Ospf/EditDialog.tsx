@@ -30,9 +30,11 @@ export const EditDialog: React.FC<DialogProps> = ({ id, open, onClose }) => {
     initialValues: {
       ospf_enable: result[`${rootId}.ospf_enable`] ?? '1',
       network_type: result[`${rootId}.network_type`] ?? 'broadcast',
-      authentication: strNumToBool(result[`${rootId}.authentication`] ?? '0'),
+      authentication: strNumToBool(
+        (result[`${rootId}.authentication`] as string) ?? '0',
+      ),
       key_string: result[`${rootId}.key_string`] ?? '123',
-      key_mode: strNumToBool(result[`${rootId}.key_mode`] ?? '0'),
+      key_mode: strNumToBool((result[`${rootId}.key_mode`] as string) ?? '0'),
       cost:
         result[`${rootId}.cost`] != null
           ? Number(result[`${rootId}.cost`])

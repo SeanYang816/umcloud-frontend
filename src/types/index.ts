@@ -89,3 +89,5 @@ export type MessageStatusProps = {
 }
 
 export type EmptyProps = Record<string, never>
+
+export type OnChangeFn<T> = (updater: T | ((prev: T) => T)) => void

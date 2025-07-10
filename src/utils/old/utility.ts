@@ -22,7 +22,7 @@ export const PasteToClipboard = (param: GridCellParams) => {
 }
 
 // TODO: 230423 轉換容量
-export const bytesToSize = (bytes) => {
+export const bytesToSize = (bytes: number) => {
   if (0 === bytes) return '0 B'
   const basicUnit = 1024
   const unit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
@@ -36,7 +36,7 @@ export const bytesToSize = (bytes) => {
 }
 
 // TODO: 230424 累積上傳時間
-export const durationConvert = (time) => {
+export const durationConvert = (time: number) => {
   const accumulationTime = dayjs.duration(time, 'seconds')
   let timePicker
   if (
@@ -56,7 +56,7 @@ export const durationConvert = (time) => {
   return timePicker
 }
 
-export const bpsToSize = (bps) => {
+export const bpsToSize = (bps: number) => {
   if (0 === bps) return '0 bps'
   const basicUnit = 1000
   const unit = ['Kbps', 'Mbps', 'Gbps']

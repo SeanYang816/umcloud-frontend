@@ -3,7 +3,6 @@ import {
   CssBaseline,
   ThemeProvider as Provider,
   createTheme,
-  useTheme,
 } from '@mui/material'
 import {
   createPalette,
@@ -17,10 +16,12 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const theme = useTheme()
-  const components = createComponents(theme)
-  const palette = createPalette(theme)
-  const typography = createTypography(theme)
+  // Use default input (or your own base theme if needed)
+  const baseTheme = createTheme()
+
+  const palette = createPalette(baseTheme)
+  const typography = createTypography(baseTheme)
+  const components = createComponents(baseTheme)
 
   const themes = createTheme({
     palette,

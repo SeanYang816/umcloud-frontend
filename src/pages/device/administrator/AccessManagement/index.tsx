@@ -1,13 +1,8 @@
 import { useEffect } from 'react'
 import { PageHeader } from 'components/PageHeader'
 import { CardHeader } from 'components/extends/CardHeader'
-import { Box, Card, CardContent, InputLabel, Stack } from '@mui/material'
-import {
-  Checkbox,
-  TextField,
-  MultiCheckbox,
-  useStyles,
-} from 'components/fields'
+import { Box, Card, InputLabel, Stack } from '@mui/material'
+import { Checkbox, TextField, MultiCheckbox } from 'components/fields'
 import { checkboxProps, textfieldProps } from 'utils/formik'
 import { useFormik } from 'formik'
 import { boolToStrNum, strNumToBool } from 'utils'
