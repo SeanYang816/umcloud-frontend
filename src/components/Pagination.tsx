@@ -2,12 +2,10 @@ import React from 'react'
 import {
   IconButton,
   MenuItem,
-  Paper,
   Select,
   Stack,
   Typography,
   SelectChangeEvent,
-  Box,
 } from '@mui/material'
 import {
   FirstPage,

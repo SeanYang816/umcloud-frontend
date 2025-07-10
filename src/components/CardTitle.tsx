@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme } from '@mui/material'
-import React, { memo } from 'react'
+import { memo } from 'react'
 
 type CardTitleProps = {
   title: string
