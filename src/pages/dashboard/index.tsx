@@ -12,7 +12,7 @@ export const Dashboard = () => {
     (state: DefaultRootStateProps) => state.authentication.token,
   )
   const wsUrl = useMemo(() => {
-    return `${import.meta.env.VITE_APP_WS_BACKEND_URI}?token=${token}`
+    return `${window.__CONFIG__.VITE_APP_WS_BACKEND_URI}?token=${token}`
   }, [token])
   const spacing = 3
   const data = {

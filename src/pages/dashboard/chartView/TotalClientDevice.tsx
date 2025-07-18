@@ -69,12 +69,9 @@ export const TotalClientDevice = ({ data, wsUrl }: TotalClientDeviceProps) => {
 
   // send request every 5 seconds
   useEffect(() => {
-    renderRef.current = window.setInterval(
-      () => {
-        sendJsonMessage(wsRequestEvent)
-      },
-      import.meta.env.VITE_DASHBOARD_DATA_REFRESH_RATE_SECONDS * 1000,
-    )
+    renderRef.current = window.setInterval(() => {
+      sendJsonMessage(wsRequestEvent)
+    }, window.__CONFIG__.VITE_DASHBOARD_DATA_REFRESH_RATE_SECONDS * 1000)
 
     return () => {
       clearInterval(renderRef.current)

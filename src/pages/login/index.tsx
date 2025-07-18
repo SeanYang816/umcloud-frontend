@@ -133,7 +133,7 @@ export const Login = () => {
                   Sign In
                 </Button>
                 <Typography textAlign='center' color='#75E3FF'>
-                  Version: {import.meta.env.VITE_APP_VERSION}
+                  Version: {window.__CONFIG__.VITE_APP_VERSION}
                 </Typography>
               </>
             </CardContent>

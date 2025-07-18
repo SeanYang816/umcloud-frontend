@@ -1,0 +1,16 @@
+export {}
+
+declare global {
+  interface Window {
+    __CONFIG__: {
+      VITE_APP_BACKEND_URI: string
+      VITE_APP_WS_BACKEND_URI: string
+      VITE_APP_VERSION: string
+      VITE_AUTO_UPDATE_BUTTON_REFRESH_RATE_SECONDS: number
+      VITE_DASHBOARD_DATA_REFRESH_RATE_SECONDS: number
+      VITE_DUT_LOCAL_TIME_REPORT_RATE_SECONDS: number
+      VITE_REFRESH_APPLY_STATUS_INTERVAL_SECONDS: number
+      VITE_IDLE_LOGOUT_TIMEOUT_MINUTES: number
+    }
+  }
+}

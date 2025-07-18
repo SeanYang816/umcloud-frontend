@@ -28,7 +28,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
   )
 
   const { sendJsonMessage } = useWebSocket(
-    import.meta.env.VITE_APP_WS_BACKEND_URI,
+    window.__CONFIG__.VITE_APP_WS_BACKEND_URI,
     {
       queryParams: {
         token,

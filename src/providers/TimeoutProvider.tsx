@@ -14,13 +14,10 @@ export function TimeoutProvider({ children }: { children: ReactNode }) {
     const handleWindowEvents = () => {
       clearTimeout(timeoutRef.current)
 
-      timeoutRef.current = setTimeout(
-        () => {
-          dispatch(authLogout())
-          navigate('/login')
-        },
-        import.meta.env.VITE_IDLE_LOGOUT_TIMEOUT_MINUTES * 60000,
-      )
+      timeoutRef.current = setTimeout(() => {
+        dispatch(authLogout())
+        navigate('/login')
+      }, window.__CONFIG__.VITE_IDLE_LOGOUT_TIMEOUT_MINUTES * 60000)
     }
 
     window.addEventListener('mousemove', handleWindowEvents)

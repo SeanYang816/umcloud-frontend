@@ -112,13 +112,10 @@ export const RecentActivities = ({
 
   // send request every 5 seconds
   useEffect(() => {
-    renderRef.current = window.setInterval(
-      () => {
-        sendJsonMessage(wsRequestEvent)
-        sendJsonMessage({ event: 'pong' })
-      },
-      import.meta.env.VITE_DASHBOARD_DATA_REFRESH_RATE_SECONDS * 1000,
-    )
+    renderRef.current = window.setInterval(() => {
+      sendJsonMessage(wsRequestEvent)
+      sendJsonMessage({ event: 'pong' })
+    }, window.__CONFIG__.VITE_DASHBOARD_DATA_REFRESH_RATE_SECONDS * 1000)
 
     return () => {
       clearInterval(renderRef.current)

@@ -21,7 +21,7 @@ export const ApolloProvider: React.FC<ApolloProviderWrapperProps> = ({
   const token = useSelector(
     (state: DefaultRootStateProps) => state.authentication.token,
   )
-  const uri = `${import.meta.env.VITE_APP_BACKEND_URI}/graphql`
+  const uri = `${window.__CONFIG__.VITE_APP_BACKEND_URI}/graphql`
 
   const authLink = setContext((_, { headers }) => {
     return {
