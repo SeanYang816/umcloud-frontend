@@ -7,7 +7,6 @@ import { ToastProvider } from 'providers/ToastProvider'
 import { PersistGate } from 'redux-persist/integration/react'
 import { ApolloProvider } from 'providers/ApolloProvider'
 import { config } from 'config'
-import { WebSocketProvider } from 'providers/WebSocketProvider'
 import { TimeoutProvider } from 'providers/TimeoutProvider'
 
 function App() {
@@ -15,17 +14,15 @@ function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ApolloProvider>
-          <WebSocketProvider>
-            <ToastProvider>
-              <BrowserRouter basename={config.basename}>
-                <ThemeProvider>
-                  <TimeoutProvider>
-                    <Routes />
-                  </TimeoutProvider>
-                </ThemeProvider>
-              </BrowserRouter>
-            </ToastProvider>
-          </WebSocketProvider>
+          <ToastProvider>
+            <BrowserRouter basename={config.basename}>
+              <ThemeProvider>
+                <TimeoutProvider>
+                  <Routes />
+                </TimeoutProvider>
+              </ThemeProvider>
+            </BrowserRouter>
+          </ToastProvider>
         </ApolloProvider>
       </PersistGate>
     </Provider>

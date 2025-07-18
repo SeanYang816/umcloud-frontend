@@ -7,12 +7,14 @@ import { ApplyLoading } from 'components/ApplyLoading'
 import { ErrorDialog } from 'components/ErrorDialog'
 import { WebsocketConnecting } from 'components/WebsocketConnecting'
 import { Sidebar } from './Sidebar/Sidebar'
+import { modelType } from 'constant/things'
+import { WebSocketProvider } from 'providers/WebSocketProvider'
 
 export const MainLayout = () => {
   const location = useLocation()
   const isMdUp = useMediaQuery('(min-width:600px)')
 
-  const isDevice = location.pathname === '/things/device'
+  const isDevice = location.pathname === `/things/${modelType.bgw5105}`
   const isLoading = useSelector(
     (state: DefaultRootStateProps) => state.config.apply.isLoading,
   )
@@ -29,7 +31,7 @@ export const MainLayout = () => {
   const contentBgColor = '#F2F2F2'
 
   return (
-    <>
+    <WebSocketProvider>
       <Sidebar />
 
       {/** Contents */}
@@ -56,6 +58,6 @@ export const MainLayout = () => {
         />
         <Outlet />
       </Box>
-    </>
+    </WebSocketProvider>
   )
 }
