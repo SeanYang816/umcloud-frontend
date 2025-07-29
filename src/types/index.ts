@@ -83,11 +83,45 @@ export type OptionsOrSuggestType = {
   }[]
 }
 
-export type MessageStatusProps = {
-  msg: string
-  status: string
+export type StatusMessageType = {
+  status: '0' | string
+  msg: 'success' | string
 }
 
 export type EmptyProps = Record<string, never>
 
 export type OnChangeFn<T> = (updater: T | ((prev: T) => T)) => void
+
+export type BoolString = '0' | '1'
+
+export type ProtocolOption =
+  | 'all' // TCP + UDP
+  | 'tcp' // TCP only
+  | 'udp' // UDP only
+
+export type WanInterfaceOption =
+  | 'all' // WAN1 + WAN2
+  | 'wan' // WAN1 only
+  | 'wan2' // WAN2 only
+
+export type SourceInterfaceOption =
+  | 'lan' // LAN interface
+  | 'wan' // WAN1 + WAN2 interfaces
+
+export type Assoc = {
+  noise: number
+  tx_mhz: number
+  rx_mhz: number
+  tx_vht: boolean
+  rx_vht: boolean
+  tx_ht: boolean
+  rx_ht: boolean
+  tx_rate: number
+  rx_rate: number
+  tx_packets: number
+  rx_packets: number
+  tx_he: boolean
+  rx_he: boolean
+  inactive: number
+  signal: number
+}

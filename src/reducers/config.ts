@@ -1,20 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { MessageStatusProps } from 'types'
+import { StatusMessageType } from 'types'
 
 export type ConfigStateProps = {
   apply: {
     isLoading: boolean
-    setting: MessageStatusProps | null
-    status: MessageStatusProps | null
+    setting: StatusMessageType | null
+    status: StatusMessageType | null
   }
   dataChanges:
     | ({
         result: {
           changes: string | string[]
         }
-      } & MessageStatusProps)
+      } & StatusMessageType)
     | null
-  revertStatus: MessageStatusProps | null
+  revertStatus: StatusMessageType | null
   refetchData: {
     shouldRefetchData: boolean
     dataRefresher: boolean

@@ -39,6 +39,40 @@ import { isNil } from 'lodash'
 import { useDispatch } from 'react-redux'
 import { updateDevice } from 'reducers/device'
 import { useTableState } from 'hooks/useTableState'
+import { modelType } from 'constant/things'
+
+const fakeList = {
+  id: 'thing-001',
+  mac: 'AA:BB:CC:DD:EE:FF',
+  alias: 'FakeRouter',
+  model: 'xpb-506',
+  isAuthorized: true,
+  isArchived: false,
+  isOnline: true,
+  authorizeExpireAt: '2025-12-31T23:59:59Z',
+  archivedAt: null,
+  archiveReason: null,
+  archiveTitle: null,
+  thingType: `${modelType.xpb506}`,
+  publicIp: '203.0.113.42',
+  localIp: '192.168.1.1',
+  serialNumber: 'SN123456789',
+  firmwareVersion: 'v1.2.3',
+  firmwareUpgradeDate: '2025-06-01T12:00:00Z',
+  lastContactDate: '2025-07-18T09:00:00Z',
+  channel2ghz: 6,
+  channel5ghz1: 36,
+  channel5ghz2: null,
+  txBytes: 123456789,
+  rxBytes: 987654321,
+  cpuUsage: 28,
+  memoryUsage: 62,
+  tenantId: 101,
+  ownerId: 2001,
+  upTime: 123456,
+  createdAt: '2025-01-01T00:00:00Z',
+  updatedAt: '2025-07-18T08:59:00Z',
+}
 
 export default function Things() {
   const dispatch = useDispatch()
@@ -81,7 +115,10 @@ export default function Things() {
     dispatch(clearWirelessProperty())
     dispatch(clearNetworkProperty())
     if (row.thingType === 'Router') {
-      navigate('/things/device')
+      navigate(`/things/${modelType.bgw5105}`)
+    }
+    if (row.thingType === `${modelType.xpb506}`) {
+      navigate(`/things/${modelType.bgw5105}`)
     }
   }
 
@@ -301,7 +338,7 @@ export default function Things() {
   ]
 
   const table = useMaterialReactTable({
-    data: thingsList,
+    data: [...thingsList, fakeList],
     columns: columns,
     enableTopToolbar: false,
     enableBottomToolbar: false,

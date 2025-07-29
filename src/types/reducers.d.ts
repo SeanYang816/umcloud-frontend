@@ -1,4 +1,4 @@
-import { OverviewResult } from 'pages/device/basicConfig/BasicInformation/type'
+import { OverviewResult } from 'pages/things/bgw5105/basicConfig/BasicInformation/type'
 import {
   EmptyProps,
   OptionsOrSuggestType,
@@ -8,14 +8,14 @@ import {
 import {
   GetWireless2Primary,
   GetWireless2PrimaryStatus,
-} from 'pages/device/wireless/Wireless2Primary/type'
+} from 'pages/things/bgw5105/wireless/Wireless2Primary/type'
 import {
   GetWireless5Primary,
   GetWireless5PrimaryStatus,
-} from 'pages/device/wireless/Wireless5Primary/type'
-import { GetWireless2Multiple } from 'pages/device/wireless/Wireless2Multiple/type'
-import { GetWireless5Multiple } from 'pages/device/wireless/Wireless5Multiple/type'
-import { GetLanPage, GetLANStatus } from 'pages/device/network/Lan/type'
+} from 'pages/things/bgw5105/wireless/Wireless5Primary/type'
+import { GetWireless2Multiple } from 'pages/things/bgw5105/wireless/Wireless2Multiple/type'
+import { GetWireless5Multiple } from 'pages/things/bgw5105/wireless/Wireless5Multiple/type'
+import { GetLanPage, GetLANStatus } from 'pages/things/bgw5105/network/Lan/type'
 
 export type NetworkProps = {
   lan: GetLanPage
