@@ -1,6 +1,11 @@
 export const CUSTOM_OPTION = '-- custom --'
 export const ERROR_MAC = '00:00:00:00:00:00'
 
+export const XPB_SERVER_ACTIONS = {
+  OVERVIEW_GET_STATUS_OVERVIEW_PAGE_XPB_510:
+    'overviewPage:get-status-overview-page:xpb-510',
+}
+
 export const SERVER_ACTIONS = {
   CONFIG_GET_CHANGES: 'config:get-changes',
   CONFIG_SAVE_CHANGES: 'config:save-changes',
@@ -244,4 +249,5 @@ export const SERVER_ACTIONS = {
 
   REAL_TIME_GRAPHS_CONNECTIONS: 'real-time-graphs:connections',
   REAL_TIME_GRAPHS_QUERY_NAME_INFO: 'real-time-graphs:query-name-info',
+  ...XPB_SERVER_ACTIONS,
 }

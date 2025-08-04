@@ -3,7 +3,7 @@ import ReactECharts from 'echarts-for-react'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SERVER_ACTIONS } from 'constant'
 import { useDispatch, useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import {
   Box,
   Card,
@@ -13,7 +13,7 @@ import {
   TableCell,
   TableRow,
 } from '@mui/material'
-import { clearRealtimeGraphsTrafficGetDeviceStatus } from 'reducers/status'
+import { clearRealtimeGraphsTrafficGetDeviceStatus } from 'reducers/bgw5105/status'
 
 type TrafficTabProps = {
   propertyKey: string
@@ -25,8 +25,8 @@ export const TrafficTab = ({ propertyKey, propertyValue }: TrafficTabProps) => {
   const { sendWsGetMessage } = useSendWsMessage()
   const [isStart, setIsStart] = useState(false)
   const data = useSelector(
-    (state: DefaultRootStateProps) =>
-      state.status.realtimeGraph.trafficGetDeviceStatus,
+    (state: RootStateProps) =>
+      state.bgw5105.status.realtimeGraph.trafficGetDeviceStatus,
   )
   const result = useMemo(() => data?.result, [data?.result])
   const requestId = data?.requestId

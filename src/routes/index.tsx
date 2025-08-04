@@ -4,16 +4,16 @@ import { Error404 } from 'pages/Error404'
 import { Login } from 'pages/login'
 import { Route, Routes as RouterRoutes, useNavigate } from 'react-router-dom'
 import { routePermissions } from './routePermissions'
-import { modelType } from 'constant/things'
+import { boardType } from 'constant/things'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { useEffect } from 'react'
 import { BGW5105 } from 'pages/things/bgw5105'
 import { XPB506 } from 'pages/things/xpb506'
 
 export function Routes() {
   const { isAuthenticated, token } = useSelector(
-    (state: DefaultRootStateProps) => state.authentication,
+    (state: RootStateProps) => state.bgw5105.authentication,
   )
   const navigate = useNavigate()
 
@@ -30,8 +30,8 @@ export function Routes() {
         {routePermissions.map((item) => (
           <Route key={item.id} path={item.path} element={item.component} />
         ))}
-        <Route path={`things/${modelType.bgw5105}`} element={<BGW5105 />} />
-        <Route path={`things/${modelType.xpb506}`} element={<XPB506 />} />
+        <Route path={`things/${boardType.bgw5105}`} element={<BGW5105 />} />
+        <Route path={`things/${boardType.xpb506}`} element={<XPB506 />} />
         <Route path='*' element={<Error404 />} />
       </Route>
       <Route path='/login' element={<Login />} />

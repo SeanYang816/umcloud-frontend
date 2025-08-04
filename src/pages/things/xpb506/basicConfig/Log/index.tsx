@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Card, CardContent, Tab, Tabs } from '@mui/material'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { useSelector } from 'react-redux'
 import { TabPanel } from 'components/TabPanel'
 import { LogDevice } from './section/LogDevice'
@@ -20,7 +20,7 @@ type LogTabIndexType = (typeof LogTabIndex)[keyof typeof LogTabIndex]
 
 export const Log = () => {
   const deviceId = useSelector(
-    (state: DefaultRootStateProps) => state.device.info.row?.id as string,
+    (state: RootStateProps) => state.bgw5105.device.info.row?.id as string,
   )
   const [activeTab, setActiveTab] = useState<LogTabIndexType>(0)
 

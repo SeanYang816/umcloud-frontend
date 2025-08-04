@@ -9,7 +9,7 @@ import { boolToStrNum, strNumToBool } from 'utils'
 import { SERVER_ACTIONS } from 'constant'
 import { useSelector } from 'react-redux'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { validationSchema } from './validationSchema'
 import { Button } from 'components/extends/Button'
@@ -41,7 +41,7 @@ export const AccessManagement = () => {
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.administrator.accessManagement,
+    (state: RootStateProps) => state.bgw5105.administrator.accessManagement,
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}

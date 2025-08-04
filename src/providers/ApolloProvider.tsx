@@ -9,7 +9,7 @@ import {
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 
 interface ApolloProviderWrapperProps {
   children: React.ReactNode
@@ -19,7 +19,7 @@ export const ApolloProvider: React.FC<ApolloProviderWrapperProps> = ({
   children,
 }) => {
   const token = useSelector(
-    (state: DefaultRootStateProps) => state.authentication.token,
+    (state: RootStateProps) => state.bgw5105.authentication.token,
   )
   const uri = `${window.__CONFIG__.VITE_APP_BACKEND_URI}/graphql`
 

@@ -7,7 +7,7 @@ import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SERVER_ACTIONS } from 'constant'
 import { throttle } from 'lodash'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
 
@@ -24,7 +24,7 @@ type PayloadType_reset = {
 export const BackupFlashFirmware = () => {
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
   const { version } = useSelector(
-    (state: DefaultRootStateProps) => state.administrator.backupFlashFirmware,
+    (state: RootStateProps) => state.bgw5105.administrator.backupFlashFirmware,
   )
 
   const handleGenerateArchive = throttle(() => {

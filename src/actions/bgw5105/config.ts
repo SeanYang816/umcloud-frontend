@@ -4,7 +4,7 @@ import {
   updateApplyStatus,
   updateDataChanges,
   updateRevertStatus,
-} from 'reducers/config'
+} from 'reducers/bgw5105/config'
 
 export const getConfigs = {
   [SERVER_ACTIONS.CONFIG_GET_CHANGES]: updateDataChanges,

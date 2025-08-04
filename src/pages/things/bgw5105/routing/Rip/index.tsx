@@ -4,15 +4,11 @@ import { useFormik } from 'formik'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  DefaultRootStateProps,
-  FormikValuesType,
-  StringStringType,
-} from 'types'
+import { RootStateProps, FormikValuesType, StringStringType } from 'types'
 import { CardHeader } from 'components/extends/CardHeader'
 import { Select } from 'components/fields'
 import { selectProps } from 'utils/formik'
-import { clearProperty } from 'reducers/routing'
+import { clearProperty } from 'reducers/bgw5105/routing'
 import { EditDialog } from './EditDialog'
 import { PageHeader } from 'components/PageHeader'
 import { MRT_ColumnDef } from 'material-react-table'
@@ -39,7 +35,7 @@ export const Rip = () => {
   const dispatch = useDispatch()
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
-  const data = useSelector((state: DefaultRootStateProps) => state.routing.rip)
+  const data = useSelector((state: RootStateProps) => state.bgw5105.routing.rip)
   const result = data?.result ?? {}
 
   const [list] = useApiResultObjectToArrayByCommonId(result, 'rip-interface')

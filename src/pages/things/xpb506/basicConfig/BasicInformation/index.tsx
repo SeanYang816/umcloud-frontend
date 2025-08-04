@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material'
 import { BasicViewSystem } from './section/BasicViewSystem'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { useEffect } from 'react'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { BasicViewWire } from './section/BasicViewWire'
@@ -12,13 +12,13 @@ import { PageHeader } from 'components/PageHeader'
 
 export const BasicInformation = () => {
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.basicConfig.basicConfig,
+    (state: RootStateProps) => state.bgw5105.basicConfig.basicConfig,
   )
   const data_24g = useSelector(
-    (state: DefaultRootStateProps) => state.wireless.wireless2Primary,
+    (state: RootStateProps) => state.bgw5105.wireless.wireless2Primary,
   )
   const data_5g = useSelector(
-    (state: DefaultRootStateProps) => state.wireless.wireless5Primary,
+    (state: RootStateProps) => state.bgw5105.wireless.wireless5Primary,
   )
   const result = data?.result ?? {}
   const hwMode_24g_value =
@@ -34,7 +34,7 @@ export const BasicInformation = () => {
     hwMode_5g_options.find((obj) => obj.value === hwMode_5g_value)?.text ?? ''
   const { sendWsGetMessage } = useSendWsMessage()
   const { dataRefresher } = useSelector(
-    (state: DefaultRootStateProps) => state.config.refetchData,
+    (state: RootStateProps) => state.bgw5105.config.refetchData,
   )
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Card, CardContent, Stack } from '@mui/material'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { MRT_ColumnDef } from 'material-react-table'
 import { AssocMac, Lease } from '../BasicInformation/type'
 import { durationConvert } from 'utils/old/utility'
@@ -21,10 +21,10 @@ export type ExtendedType = {
 export const Wireless5GHz = () => {
   const { sendWsGetMessage } = useSendWsMessage()
   const result = useSelector(
-    (state: DefaultRootStateProps) => state.basicConfig.basicConfig.result,
+    (state: RootStateProps) => state.bgw5105.basicConfig.basicConfig.result,
   )
   const { dataRefresher } = useSelector(
-    (state: DefaultRootStateProps) => state.config.refetchData,
+    (state: RootStateProps) => state.bgw5105.config.refetchData,
   )
 
   const leases = result?.leases ?? []

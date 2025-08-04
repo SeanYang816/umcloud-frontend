@@ -4,7 +4,7 @@ import { Card, Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { CardHeader } from 'components/extends/CardHeader'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import { SERVER_ACTIONS } from 'constant'
 import { selectProps } from 'utils/formik'
 import { PageHeader } from 'components/PageHeader'
@@ -20,7 +20,7 @@ type PayloadType = {
 
 export const GeneralSettings = () => {
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.firewall.generalSettings,
+    (state: RootStateProps) => state.bgw5105.firewall.generalSettings,
   )
   const result = data?.result ?? {}
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()

@@ -5,7 +5,7 @@ import { Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { TextField, Select, MultiSelect, Checkbox } from 'components/fields'
 import { boolToStrNum, strNumToBool } from 'utils'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { modalValidationSchema } from './validationSchema'
 import { SERVER_ACTIONS } from 'constant'
@@ -22,7 +22,7 @@ import { Button } from 'components/extends/Button'
 
 export const EditDialog: React.FC<DialogProps> = ({ id, open, onClose }) => {
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.firewall.portForwardEdit,
+    (state: RootStateProps) => state.bgw5105.firewall.portForwardEdit,
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}

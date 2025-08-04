@@ -1,10 +1,10 @@
 import { Stack, useTheme } from '@mui/material'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 
 export const UserName = () => {
   const displayName = (useSelector(
-    (state: DefaultRootStateProps) => state.authentication.user,
+    (state: RootStateProps) => state.bgw5105.authentication.user,
   ) || '') as string
   const name = displayName?.slice(0, 2).toUpperCase()
   const theme = useTheme()

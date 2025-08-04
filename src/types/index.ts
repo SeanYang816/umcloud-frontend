@@ -10,10 +10,10 @@ import {
   StatusStateProps,
   LocalTimeProps,
 } from './reducers'
-import { ConfigStateProps } from 'reducers/config'
-import { GlobalProps } from 'reducers/global'
+import { ConfigStateProps } from 'reducers/bgw5105/config'
+import { GlobalProps } from 'reducers/bgw5105/global'
 
-export type DefaultRootStateProps = {
+export type Bgw5105StateProps = {
   authentication: AuthenticationProps
   device: DeviceStateProps
   basicConfig: BasicConfigProps
@@ -27,6 +27,10 @@ export type DefaultRootStateProps = {
   status: StatusStateProps
   config: ConfigStateProps
   global: GlobalProps
+}
+
+export type RootStateProps = {
+  bgw5105: Bgw5105StateProps
 }
 
 export type DeviceStateProps = {

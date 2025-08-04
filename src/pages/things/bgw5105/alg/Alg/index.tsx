@@ -3,11 +3,11 @@ import { Form } from './Form'
 import { useSelector } from 'react-redux'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SERVER_ACTIONS } from 'constant'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { PageHeader } from 'components/PageHeader'
 
 export const Alg = () => {
-  const data = useSelector((state: DefaultRootStateProps) => state.alg.alg)
+  const data = useSelector((state: RootStateProps) => state.alg.alg)
   const result = data?.result ?? {}
   const options = data?.options ?? {}
 

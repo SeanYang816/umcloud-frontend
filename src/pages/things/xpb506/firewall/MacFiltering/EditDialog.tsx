@@ -1,6 +1,6 @@
 import { Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SERVER_ACTIONS } from 'constant'
@@ -20,7 +20,7 @@ type EditDialogProps = {
 
 export const EditDialog = ({ id, open, onClose }: EditDialogProps) => {
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.firewall.macFilteringEdit,
+    (state: RootStateProps) => state.bgw5105.firewall.macFilteringEdit,
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}

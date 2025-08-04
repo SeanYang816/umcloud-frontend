@@ -17,7 +17,7 @@ export const slice = createSlice({
       return initialState
     },
     getLocalTime: (state, { payload }) => {
-      state.localTime = { ...payload }
+      state.bgw5105.localTime = { ...payload }
     },
     syncLocalTime: () => {
       // do nothing

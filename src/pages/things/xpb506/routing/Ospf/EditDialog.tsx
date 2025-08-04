@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import { Dialog, DialogActions, DialogContent } from '@mui/material'
 import { TextField, Select, Checkbox } from 'components/fields'
-import { DefaultRootStateProps, DialogProps, FormikValuesType } from 'types'
+import { RootStateProps, DialogProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SERVER_ACTIONS } from 'constant'
@@ -15,7 +15,7 @@ import React from 'react'
 
 export const EditDialog: React.FC<DialogProps> = ({ id, open, onClose }) => {
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.routing.ospfEdit,
+    (state: RootStateProps) => state.bgw5105.routing.ospfEdit,
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}

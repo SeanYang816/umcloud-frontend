@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { getAuthToken } from 'api/axios'
-import { authLogin, authLogout } from 'reducers/authentication'
+import { authLogin, authLogout } from 'reducers/bgw5105/authentication'
 import axios, { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 import { jwtDecode } from 'jwt-decode'

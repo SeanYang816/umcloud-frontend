@@ -7,7 +7,7 @@ import { PageHeader } from 'components/PageHeader'
 import { Load } from './Load'
 import { Connections } from './Connections'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { TrafficTab } from './TrafficTab'
 
 export const TabsIndex = {
@@ -21,8 +21,8 @@ export type TabsIndexType = (typeof TabsIndex)[keyof typeof TabsIndex]
 export const RealtimeGraphs = () => {
   const { sendWsGetMessage } = useSendWsMessage()
   const data = useSelector(
-    (state: DefaultRootStateProps) =>
-      state.status.realtimeGraph.trafficGetDevice,
+    (state: RootStateProps) =>
+      state.bgw5105.status.realtimeGraph.trafficGetDevice,
   )
   const result = data?.result
   const [tabValue, setTabValue] = useState<TabsIndexType>(TabsIndex.Load)

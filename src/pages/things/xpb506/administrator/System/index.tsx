@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { SERVER_ACTIONS } from 'constant'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SystemProperties } from './SystemProperties'
 import { PageHeader } from 'components/PageHeader'
@@ -46,15 +46,15 @@ export const System = () => {
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.administrator.system,
+    (state: RootStateProps) => state.bgw5105.administrator.system,
   )
   const { dataRefresher } = useSelector(
-    (state: DefaultRootStateProps) => state.config.refetchData,
+    (state: RootStateProps) => state.bgw5105.config.refetchData,
   )
   const localTime =
     useSelector(
-      (state: DefaultRootStateProps) =>
-        state.localTime.localTime.result.timestring,
+      (state: RootStateProps) =>
+        state.bgw5105.localTime.localTime.result.timestring,
     ) ?? ''
   const result = data?.result
   const options = data?.options

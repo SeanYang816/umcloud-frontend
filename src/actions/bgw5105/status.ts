@@ -7,7 +7,7 @@ import {
   getRealtimeLoad,
   getRoutes,
   getSystemLog,
-} from 'reducers/status'
+} from 'reducers/bgw5105/status'
 
 export const getStatus = {
   [SERVER_ACTIONS.CELLULAR_GET_CELLULAR_PAGE]: getCellular,

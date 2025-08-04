@@ -1,25 +1,25 @@
 import { Box, useMediaQuery } from '@mui/material'
 
 import { Outlet, useLocation } from 'react-router-dom'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { useSelector } from 'react-redux'
 import { ApplyLoading } from 'components/ApplyLoading'
 import { ErrorDialog } from 'components/ErrorDialog'
 import { WebsocketConnecting } from 'components/WebsocketConnecting'
 import { Sidebar } from './Sidebar/Sidebar'
-import { modelType } from 'constant/things'
+import { boardType } from 'constant/things'
 import { WebSocketProvider } from 'providers/WebSocketProvider'
 
 export const MainLayout = () => {
   const location = useLocation()
   const isMdUp = useMediaQuery('(min-width:600px)')
 
-  const isDevice = location.pathname === `/things/${modelType.bgw5105}`
+  const isDevice = location.pathname === `/things/${boardType.bgw5105}`
   const isLoading = useSelector(
-    (state: DefaultRootStateProps) => state.config.apply.isLoading,
+    (state: RootStateProps) => state.bgw5105.config.apply.isLoading,
   )
   const isConnecting = useSelector(
-    (state: DefaultRootStateProps) => state.global.isWSConnected,
+    (state: RootStateProps) => state.bgw5105.global.isWSConnected,
   )
   const isDeviceLoading = isDevice && isLoading
   const websocketDisconnected = isDevice && !isConnecting

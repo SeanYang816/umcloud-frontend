@@ -1,10 +1,10 @@
 import { SERVER_ACTIONS } from 'constant'
-import { getBasicConfig } from 'reducers/basicConfig'
-import { getLan, updateLan, updateLanStatus } from 'reducers/network'
+import { getBasicConfig } from 'reducers/bgw5105/basicConfig'
+import { getLan, updateLan, updateLanStatus } from 'reducers/bgw5105/network'
 import {
   updateWireless2PrimaryStatus,
   updateWireless5PrimaryStatus,
-} from 'reducers/wireless'
+} from 'reducers/bgw5105/wireless'
 
 export const getBasicConfigs = {
   [SERVER_ACTIONS.OVERVIEW_GET_STATUS_OVERVIEW_PAGE]: getBasicConfig,

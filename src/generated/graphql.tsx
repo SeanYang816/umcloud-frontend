@@ -737,6 +737,7 @@ export type Thing = {
   archiveTitle?: Maybe<Scalars['String']['output']>
   archivedAt?: Maybe<Scalars['DateTime']['output']>
   authorizeExpireAt?: Maybe<Scalars['DateTime']['output']>
+  board?: Maybe<Scalars['String']['output']>
   channel2ghz?: Maybe<Scalars['Int']['output']>
   channel5ghz1?: Maybe<Scalars['Int']['output']>
   channel5ghz2?: Maybe<Scalars['Int']['output']>
@@ -1080,6 +1081,7 @@ export type GetThingQuery = {
     upTime?: number | null
     createdAt?: any | null
     updatedAt?: any | null
+    board?: string | null
   } | null
 }
 
@@ -1128,6 +1130,7 @@ export type GetThingsQuery = {
       upTime?: number | null
       createdAt?: any | null
       updatedAt?: any | null
+      board?: string | null
     }>
   } | null
 }
@@ -1198,7 +1201,6 @@ export function useChangePasswordMutation(
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-
   return Apollo.useMutation<
     ChangePasswordMutation,
     ChangePasswordMutationVariables
@@ -1249,7 +1251,6 @@ export function useArchiveThingMutation(
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-
   return Apollo.useMutation<
     ArchiveThingMutation,
     ArchiveThingMutationVariables
@@ -1360,7 +1361,6 @@ export function useChangeStoreNameMutation(
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-
   return Apollo.useMutation<
     ChangeStoreNameMutation,
     ChangeStoreNameMutationVariables
@@ -1463,10 +1463,13 @@ export function useGetMessagesQuery(
   baseOptions: Apollo.QueryHookOptions<
     GetMessagesQuery,
     GetMessagesQueryVariables
-  >,
+  > &
+    (
+      | { variables: GetMessagesQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-
   return Apollo.useQuery<GetMessagesQuery, GetMessagesQueryVariables>(
     GetMessagesDocument,
     options,
@@ -1479,20 +1482,23 @@ export function useGetMessagesLazyQuery(
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-
   return Apollo.useLazyQuery<GetMessagesQuery, GetMessagesQueryVariables>(
     GetMessagesDocument,
     options,
   )
 }
 export function useGetMessagesSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetMessagesQuery,
-    GetMessagesQueryVariables
-  >,
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetMessagesQuery,
+        GetMessagesQueryVariables
+      >,
 ) {
-  const options = { ...defaultOptions, ...baseOptions }
-
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions }
   return Apollo.useSuspenseQuery<GetMessagesQuery, GetMessagesQueryVariables>(
     GetMessagesDocument,
     options,
@@ -1542,6 +1548,7 @@ export const GetThingDocument = gql`
       upTime
       createdAt
       updatedAt
+      board
     }
   }
 `
@@ -1563,10 +1570,10 @@ export const GetThingDocument = gql`
  * });
  */
 export function useGetThingQuery(
-  baseOptions: Apollo.QueryHookOptions<GetThingQuery, GetThingQueryVariables>,
+  baseOptions: Apollo.QueryHookOptions<GetThingQuery, GetThingQueryVariables> &
+    ({ variables: GetThingQueryVariables; skip?: boolean } | { skip: boolean }),
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-
   return Apollo.useQuery<GetThingQuery, GetThingQueryVariables>(
     GetThingDocument,
     options,
@@ -1579,20 +1586,20 @@ export function useGetThingLazyQuery(
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-
   return Apollo.useLazyQuery<GetThingQuery, GetThingQueryVariables>(
     GetThingDocument,
     options,
   )
 }
 export function useGetThingSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetThingQuery,
-    GetThingQueryVariables
-  >,
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetThingQuery, GetThingQueryVariables>,
 ) {
-  const options = { ...defaultOptions, ...baseOptions }
-
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions }
   return Apollo.useSuspenseQuery<GetThingQuery, GetThingQueryVariables>(
     GetThingDocument,
     options,
@@ -1657,6 +1664,7 @@ export const GetThingsDocument = gql`
         upTime
         createdAt
         updatedAt
+        board
       }
     }
   }
@@ -1689,7 +1697,6 @@ export function useGetThingsQuery(
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-
   return Apollo.useQuery<GetThingsQuery, GetThingsQueryVariables>(
     GetThingsDocument,
     options,
@@ -1702,20 +1709,20 @@ export function useGetThingsLazyQuery(
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-
   return Apollo.useLazyQuery<GetThingsQuery, GetThingsQueryVariables>(
     GetThingsDocument,
     options,
   )
 }
 export function useGetThingsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetThingsQuery,
-    GetThingsQueryVariables
-  >,
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetThingsQuery, GetThingsQueryVariables>,
 ) {
-  const options = { ...defaultOptions, ...baseOptions }
-
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions }
   return Apollo.useSuspenseQuery<GetThingsQuery, GetThingsQueryVariables>(
     GetThingsDocument,
     options,
@@ -1768,7 +1775,6 @@ export function useSendCommandMutation(
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-
   return Apollo.useMutation<SendCommandMutation, SendCommandMutationVariables>(
     SendCommandDocument,
     options,
@@ -1814,7 +1820,6 @@ export function useThingLessLocationsQuery(
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-
   return Apollo.useQuery<
     ThingLessLocationsQuery,
     ThingLessLocationsQueryVariables
@@ -1827,20 +1832,23 @@ export function useThingLessLocationsLazyQuery(
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-
   return Apollo.useLazyQuery<
     ThingLessLocationsQuery,
     ThingLessLocationsQueryVariables
   >(ThingLessLocationsDocument, options)
 }
 export function useThingLessLocationsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    ThingLessLocationsQuery,
-    ThingLessLocationsQueryVariables
-  >,
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        ThingLessLocationsQuery,
+        ThingLessLocationsQueryVariables
+      >,
 ) {
-  const options = { ...defaultOptions, ...baseOptions }
-
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions }
   return Apollo.useSuspenseQuery<
     ThingLessLocationsQuery,
     ThingLessLocationsQueryVariables
@@ -1893,7 +1901,6 @@ export function useUnregisterThingMutation(
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-
   return Apollo.useMutation<
     UnregisterThingMutation,
     UnregisterThingMutationVariables

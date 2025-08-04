@@ -3,7 +3,7 @@ import ReactECharts from 'echarts-for-react'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SERVER_ACTIONS } from 'constant'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import {
   Box,
   Card,
@@ -19,7 +19,7 @@ export const Load = () => {
   const { sendWsGetMessage } = useSendWsMessage()
   const [isStart, setIsStart] = useState(false)
   const { result } = useSelector(
-    (state: DefaultRootStateProps) => state.status.realtimeGraph.load,
+    (state: RootStateProps) => state.bgw5105.status.realtimeGraph.load,
   )
   const lastStampRef = useRef(0)
 

@@ -9,15 +9,15 @@ import {
 } from 'generated/graphql'
 import { useEffect, useMemo, useState } from 'react'
 
-import { clearConfigProperty } from 'reducers/config'
-import { clearFirewallProperty } from 'reducers/firewall'
-import { clearAlgProperty } from 'reducers/alg'
-import { clearRoutingProperty } from 'reducers/routing'
-import { clearAdministratorProperty } from 'reducers/administrator'
-import { clearStatusProperty } from 'reducers/status'
-import { clearBasicConfigProperty } from 'reducers/basicConfig'
-import { clearWirelessProperty } from 'reducers/wireless'
-import { clearNetworkProperty } from 'reducers/network'
+import { clearConfigProperty } from 'reducers/bgw5105/config'
+import { clearFirewallProperty } from 'reducers/bgw5105/firewall'
+import { clearAlgProperty } from 'reducers/bgw5105/alg'
+import { clearRoutingProperty } from 'reducers/bgw5105/routing'
+import { clearAdministratorProperty } from 'reducers/bgw5105/administrator'
+import { clearStatusProperty } from 'reducers/bgw5105/status'
+import { clearBasicConfigProperty } from 'reducers/bgw5105/basicConfig'
+import { clearWirelessProperty } from 'reducers/bgw5105/wireless'
+import { clearNetworkProperty } from 'reducers/bgw5105/network'
 
 import { Button, Stack, Typography } from '@mui/material'
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp'
@@ -37,9 +37,9 @@ import {
 import { format } from 'date-fns'
 import { isNil } from 'lodash'
 import { useDispatch } from 'react-redux'
-import { updateDevice } from 'reducers/device'
+import { updateDevice } from 'reducers/bgw5105/device'
 import { useTableState } from 'hooks/useTableState'
-import { modelType } from 'constant/things'
+import { boardType } from 'constant/things'
 
 const fakeList = {
   id: 'thing-001',
@@ -53,7 +53,7 @@ const fakeList = {
   archivedAt: null,
   archiveReason: null,
   archiveTitle: null,
-  thingType: `${modelType.xpb506}`,
+  thingType: `${boardType.xpb506}`,
   publicIp: '203.0.113.42',
   localIp: '192.168.1.1',
   serialNumber: 'SN123456789',
@@ -115,10 +115,10 @@ export default function Things() {
     dispatch(clearWirelessProperty())
     dispatch(clearNetworkProperty())
     if (row.thingType === 'Router') {
-      navigate(`/things/${modelType.bgw5105}`)
+      navigate(`/things/${boardType.bgw5105}`)
     }
-    if (row.thingType === `${modelType.xpb506}`) {
-      navigate(`/things/${modelType.bgw5105}`)
+    if (row.thingType === `${boardType.xpb506}`) {
+      navigate(`/things/${boardType.bgw5105}`)
     }
   }
 

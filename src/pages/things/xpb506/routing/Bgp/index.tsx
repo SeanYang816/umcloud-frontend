@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import * as Yup from 'yup'
 import { Box, Card, Stack } from '@mui/material'
 import { CardHeader } from 'components/extends/CardHeader'
@@ -21,7 +21,7 @@ import { StyledCardContent } from 'components/extends/StyledCardContent'
 export const Bgp = () => {
   const { sendWsSetMessage, sendWsGetMessage } = useSendWsMessage()
   const rootConfig = 'cbid.bgpd.config'
-  const data = useSelector((state: DefaultRootStateProps) => state.routing.bgp)
+  const data = useSelector((state: RootStateProps) => state.bgw5105.routing.bgp)
   const result = data?.result ?? {}
   const options = data?.options ?? {}
   const suggest = data?.suggest ?? {}

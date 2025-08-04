@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DefaultRootStateProps, StringStringType } from 'types'
+import { RootStateProps, StringStringType } from 'types'
 import { SERVER_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { clearProperty } from 'reducers/firewall'
+import { clearProperty } from 'reducers/bgw5105/firewall'
 import { Form } from './Form'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -23,7 +23,7 @@ export const PortTrigger = () => {
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.firewall.portTrigger,
+    (state: RootStateProps) => state.bgw5105.firewall.portTrigger,
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}

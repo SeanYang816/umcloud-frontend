@@ -12,7 +12,7 @@ import {
   updateRipEdit,
   getStaticRoutes,
   updateStaticRoutes,
-} from 'reducers/routing'
+} from 'reducers/bgw5105/routing'
 
 export const getRoutings = {
   [SERVER_ACTIONS.ROUTING_GET_STATIC_ROUTES_PAGE]: getStaticRoutes,

@@ -2,7 +2,7 @@ import * as Yup from 'yup'
 import { Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import { CommonConfiguration } from './sections/CommonConfiguration'
 import { DHCPServerRelay } from './sections/DHCPServerRelay'
 import { StaticLeases } from './sections/StaticLeases'
@@ -22,12 +22,12 @@ type ValidationObjProps = {
 
 export const Lan = () => {
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
-  const data = useSelector((state: DefaultRootStateProps) => state.network.lan)
+  const data = useSelector((state: RootStateProps) => state.bgw5105.network.lan)
   const statusData = useSelector(
-    (state: DefaultRootStateProps) => state.network.lanStatus,
+    (state: RootStateProps) => state.bgw5105.network.lanStatus,
   )
   const { dataRefresher } = useSelector(
-    (state: DefaultRootStateProps) => state.config.refetchData,
+    (state: RootStateProps) => state.bgw5105.config.refetchData,
   )
 
   const result = data?.result

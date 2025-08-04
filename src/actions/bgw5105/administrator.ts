@@ -13,7 +13,7 @@ import {
   getBackupFlashFirmware,
   updateBackupFlashFirmware,
   getBackupVersion,
-} from 'reducers/administrator'
+} from 'reducers/bgw5105/administrator'
 
 export const updateAdministrators = {
   // Administration

@@ -2,14 +2,14 @@ import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { Grid } from '@mui/material'
 import { genChannelId, genRequestId } from 'utils/reg'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { TotalClientDevice } from './chartView/TotalClientDevice'
 import { RecentActivities } from './chartView/RecentActivities'
 import { QuickLook } from './chartView/QuickLook'
 
 export const Dashboard = () => {
   const token = useSelector(
-    (state: DefaultRootStateProps) => state.authentication.token,
+    (state: RootStateProps) => state.bgw5105.authentication.token,
   )
   const wsUrl = useMemo(() => {
     return `${window.__CONFIG__.VITE_APP_WS_BACKEND_URI}?token=${token}`

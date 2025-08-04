@@ -1,40 +1,51 @@
-query GetThings($region:String,$filterString:String,$status:String,$ordering:OrderingInputType,$pagination:PaginationInputType)
-{
-    things(status: $status,region:$region ,filterString:$filterString ,ordering:$ordering ,pagination:$pagination)
-    {
-        total
-		list {
-			id
-            mac
-            alias
-            model
-            isAuthorized
-            isArchived
-            isOnline
-            authorizeExpireAt
-            archivedAt
-            archiveReason
-            archiveTitle
-            thingType
-            publicIp
-            localIp
-            serialNumber
-            firmwareVersion
-            firmwareUpgradeDate
-            lastContactDate
-            channel2ghz
-            channel5ghz1
-            channel5ghz2
-            txBytes
-            rxBytes
-            lastContactDate
-            cpuUsage
-            memoryUsage
-            tenantId
-            ownerId
-            upTime
-            createdAt
-            updatedAt
-		}
+query GetThings(
+  $region: String
+  $filterString: String
+  $status: String
+  $ordering: OrderingInputType
+  $pagination: PaginationInputType
+) {
+  things(
+    status: $status
+    region: $region
+    filterString: $filterString
+    ordering: $ordering
+    pagination: $pagination
+  ) {
+    total
+    list {
+      id
+      mac
+      alias
+      model
+      isAuthorized
+      isArchived
+      isOnline
+      authorizeExpireAt
+      archivedAt
+      archiveReason
+      archiveTitle
+      thingType
+      publicIp
+      localIp
+      serialNumber
+      firmwareVersion
+      firmwareUpgradeDate
+      lastContactDate
+      channel2ghz
+      channel5ghz1
+      channel5ghz2
+      txBytes
+      rxBytes
+      lastContactDate
+      cpuUsage
+      memoryUsage
+      tenantId
+      ownerId
+      upTime
+      createdAt
+      updatedAt
+      board
     }
+  }
 }

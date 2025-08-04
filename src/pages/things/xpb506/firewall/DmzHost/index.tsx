@@ -4,7 +4,7 @@ import { Card, Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { CardHeader } from 'components/extends/CardHeader'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import { SERVER_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { TextField, Select } from 'components/fields'
@@ -21,7 +21,7 @@ type PayloadType = {
 
 export const DmzHost = () => {
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.firewall.dmzHost,
+    (state: RootStateProps) => state.bgw5105.firewall.dmzHost,
   )
   const result = data?.result ?? {}
 

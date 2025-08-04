@@ -1,6 +1,6 @@
 import { Dialog, DialogActions, DialogContent } from '@mui/material'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SERVER_ACTIONS } from 'constant'
@@ -15,7 +15,7 @@ import { Button } from 'components/extends/Button'
 
 export const EditDialog = ({ id, open, onClose }: DialogProps) => {
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.firewall.portTriggerEdit,
+    (state: RootStateProps) => state.bgw5105.firewall.portTriggerEdit,
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}

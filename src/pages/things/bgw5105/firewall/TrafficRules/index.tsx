@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DefaultRootStateProps, StringStringType } from 'types'
+import { RootStateProps, StringStringType } from 'types'
 import { SERVER_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { clearProperty } from 'reducers/firewall'
+import { clearProperty } from 'reducers/bgw5105/firewall'
 import { PortForm } from './PortForm'
 import { EditDialog } from './EditDialog'
 import { ForwardForm } from './ForwardForm'
@@ -23,7 +23,7 @@ export const TrafficRules = () => {
   const dispatch = useDispatch()
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.firewall.trafficRules,
+    (state: RootStateProps) => state.bgw5105.firewall.trafficRules,
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}

@@ -25,7 +25,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { isArray, isNull } from 'lodash'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SERVER_ACTIONS } from 'constant'
@@ -36,7 +36,7 @@ import {
   updateRevertStatus,
   updateDataRefresher,
   updateShouldRefetchData,
-} from 'reducers/config'
+} from 'reducers/bgw5105/config'
 import { Button } from 'components/extends/Button'
 import { DialogController } from 'components/DialogController'
 import { toast } from 'react-toastify'
@@ -58,16 +58,16 @@ export const XPB506: React.FC = () => {
   const { sendWsApplyChanges, sendWsGetMessage, sendWsRevertChanges } =
     useSendWsMessage()
   const result = useSelector(
-    (state: DefaultRootStateProps) => state.config.dataChanges?.result,
+    (state: RootStateProps) => state.bgw5105.config.dataChanges?.result,
   )
   const { sn, mac } = useSelector(
-    (state: DefaultRootStateProps) => state.device.info,
+    (state: RootStateProps) => state.bgw5105.device.info,
   )
   const { status, setting } = useSelector(
-    (state: DefaultRootStateProps) => state.config.apply,
+    (state: RootStateProps) => state.bgw5105.config.apply,
   )
   const { shouldRefetchData, dataRefresher } = useSelector(
-    (state: DefaultRootStateProps) => state.config.refetchData,
+    (state: RootStateProps) => state.bgw5105.config.refetchData,
   )
 
   const [tabValue, setTabValue] = useState<number>(0)
@@ -205,7 +205,7 @@ export const XPB506: React.FC = () => {
   ])
 
   const revertStatus = useSelector(
-    (state: DefaultRootStateProps) => state.config.revertStatus,
+    (state: RootStateProps) => state.bgw5105.config.revertStatus,
   )
   useEffect(() => {
     // Revert

@@ -10,7 +10,7 @@ import {
   updateWireless2Multiple,
   getWireless5Multiple,
   updateWireless5Multiple,
-} from 'reducers/wireless'
+} from 'reducers/bgw5105/wireless'
 
 export const getWireless = {
   [SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_PRIMARY_SSID_CONFIG]:

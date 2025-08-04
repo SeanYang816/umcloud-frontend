@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { authLogout } from 'reducers/authentication'
+import { authLogout } from 'reducers/bgw5105/authentication'
 
 export function TimeoutProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate()

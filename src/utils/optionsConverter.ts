@@ -5,7 +5,8 @@ export const optionsConverter = (
   options: OptionsOrSuggestType = {},
   propertyName = '',
 ) => {
-  if (isEmpty(options) || !options[propertyName]) return []
+  console.log(options, propertyName)
+  if (isEmpty(options) || !options?.[propertyName]) return []
 
   return options[propertyName].map((k) => ({
     label: k.text,

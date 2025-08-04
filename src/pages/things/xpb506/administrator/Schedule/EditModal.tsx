@@ -19,7 +19,7 @@ import {
 } from 'components/fields'
 import { checkboxProps, radiosProps, textfieldProps } from 'utils/formik'
 import { modalValidationSchema } from './validationSchema'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import { useSelector } from 'react-redux'
 import { Button } from 'components/extends/Button'
 
@@ -51,7 +51,7 @@ const daysList = [
 
 export const EditModal: React.FC<EditModalProps> = ({ id, open, onClose }) => {
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.administrator.scheduleEdit,
+    (state: RootStateProps) => state.bgw5105.administrator.scheduleEdit,
   )
   const result = data?.result ?? {}
 

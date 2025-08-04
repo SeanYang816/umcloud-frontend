@@ -11,11 +11,7 @@ import { CardHeader } from 'components/extends/CardHeader'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useSelector } from 'react-redux'
 import { SERVER_ACTIONS } from 'constant'
-import {
-  DefaultRootStateProps,
-  FormikValuesType,
-  StringStringType,
-} from 'types'
+import { RootStateProps, FormikValuesType, StringStringType } from 'types'
 import { useApiResultObjectToArrayByCommonId } from 'hooks/useApiResultObjectToArrayByCommonId'
 import {
   Checkbox,
@@ -61,7 +57,7 @@ type PayloadType_delete = {
 
 export const Schedule = () => {
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.administrator.schedule,
+    (state: RootStateProps) => state.bgw5105.administrator.schedule,
   )
   const result = data?.result ?? {}
 

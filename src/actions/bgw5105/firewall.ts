@@ -32,7 +32,7 @@ import {
   updateTrafficRules,
   getTrafficRulesEdit,
   updateTrafficRulesEdit,
-} from 'reducers/firewall'
+} from 'reducers/bgw5105/firewall'
 
 export const updateFirewalls = {
   // General Settings

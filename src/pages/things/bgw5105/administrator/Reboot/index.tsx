@@ -9,7 +9,7 @@ import { useFormik } from 'formik'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SERVER_ACTIONS } from 'constant'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
@@ -32,7 +32,7 @@ const rootId = 'cbid.autoreboot.reboot_config.'
 
 export const Reboot = () => {
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.administrator.reboot,
+    (state: RootStateProps) => state.bgw5105.administrator.reboot,
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}

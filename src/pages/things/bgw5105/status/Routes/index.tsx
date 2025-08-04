@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SERVER_ACTIONS } from 'constant'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { PageHeader } from 'components/PageHeader'
 import { Box, Tooltip } from '@mui/material'
 import { StyledMuiReactTable } from 'components/StyledMuiReactTable'
@@ -17,7 +17,7 @@ import {
 export const Routes = () => {
   const { sendWsGetMessage } = useSendWsMessage()
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.status.routes,
+    (state: RootStateProps) => state.bgw5105.status.routes,
   )
   const result = data?.result ?? {}
 

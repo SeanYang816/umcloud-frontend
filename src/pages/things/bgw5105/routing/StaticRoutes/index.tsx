@@ -3,11 +3,7 @@ import { SERVER_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import {
-  DefaultRootStateProps,
-  FormikValuesType,
-  StringStringType,
-} from 'types'
+import { RootStateProps, FormikValuesType, StringStringType } from 'types'
 import { PageHeader } from 'components/PageHeader'
 import { MRT_ColumnDef } from 'material-react-table'
 import { DeleteButton } from 'components/DeleteButton'
@@ -29,7 +25,7 @@ export const StaticRoutes = () => {
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
   const { options, result } = useSelector(
-    (state: DefaultRootStateProps) => state.routing.staticRoutes,
+    (state: RootStateProps) => state.bgw5105.routing.staticRoutes,
   )
 
   const [list] = useApiResultObjectToArrayByCommonId(result, 'route')

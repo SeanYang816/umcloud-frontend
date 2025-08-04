@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import { Dialog, DialogActions, DialogContent } from '@mui/material'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SERVER_ACTIONS } from 'constant'
@@ -21,7 +21,7 @@ import { Button } from 'components/extends/Button'
 
 export const EditDialog: React.FC<DialogProps> = ({ id, open, onClose }) => {
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.firewall.trafficRulesEdit,
+    (state: RootStateProps) => state.bgw5105.firewall.trafficRulesEdit,
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}

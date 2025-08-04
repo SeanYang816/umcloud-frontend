@@ -4,7 +4,7 @@ import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { MaterialReactTable, MRT_ColumnDef } from 'material-react-table'
 import { useEffect, useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 
 type newLogsType = {
   no: string
@@ -47,7 +47,7 @@ function read_log_data(data: string) {
 export const SystemLog = () => {
   const { sendWsGetMessage } = useSendWsMessage()
   const { result } = useSelector(
-    (state: DefaultRootStateProps) => state.status.systemLog,
+    (state: RootStateProps) => state.bgw5105.status.systemLog,
   )
 
   const dataList = useMemo(() => {

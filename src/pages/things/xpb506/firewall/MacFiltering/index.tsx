@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react'
 import { SERVER_ACTIONS } from 'constant'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  DefaultRootStateProps,
-  FormikValuesType,
-  StringStringType,
-} from 'types'
+import { RootStateProps, FormikValuesType, StringStringType } from 'types'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { Form } from './Form'
-import { clearProperty } from 'reducers/firewall'
+import { clearProperty } from 'reducers/bgw5105/firewall'
 import { EditDialog } from './EditDialog'
 import { ModeForm } from './ModeForm'
 import { toggleStrNum } from 'utils'
@@ -28,7 +24,7 @@ export const MacFiltering = () => {
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.firewall.macFiltering,
+    (state: RootStateProps) => state.bgw5105.firewall.macFiltering,
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}

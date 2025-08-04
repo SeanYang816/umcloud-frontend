@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SERVER_ACTIONS } from 'constant'
@@ -16,7 +16,7 @@ import { Button } from 'components/extends/Button'
 
 export const EditDialog: React.FC<DialogProps> = ({ id, open, onClose }) => {
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.firewall.oneToOneNatEdit,
+    (state: RootStateProps) => state.bgw5105.firewall.oneToOneNatEdit,
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}

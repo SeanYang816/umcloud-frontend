@@ -1,15 +1,15 @@
 import { Backdrop, IconButton, Paper, Stack, Typography } from '@mui/material'
 import { Close } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
-import { clearNotification } from 'reducers/global'
+import { RootStateProps } from 'types'
+import { clearNotification } from 'reducers/bgw5105/global'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export const ErrorDialog = () => {
   const dispatch = useDispatch()
   const notification = useSelector(
-    (state: DefaultRootStateProps) => state.global.notification,
+    (state: RootStateProps) => state.bgw5105.global.notification,
   )
   const navigate = useNavigate()
 

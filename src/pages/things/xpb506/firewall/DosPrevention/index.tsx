@@ -2,14 +2,14 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { SERVER_ACTIONS } from 'constant'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { Form } from './Form'
 import { PageHeader } from 'components/PageHeader'
 
 export const DosPrevention = () => {
   const { sendWsGetMessage } = useSendWsMessage()
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.firewall.dosPrevention,
+    (state: RootStateProps) => state.bgw5105.firewall.dosPrevention,
   )
   const result = data?.result ?? {}
 

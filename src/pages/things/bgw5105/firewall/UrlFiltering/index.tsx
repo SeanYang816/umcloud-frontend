@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { SERVER_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { PageHeader } from 'components/PageHeader'
@@ -29,7 +29,7 @@ const Enabled = {
 
 export const UrlFiltering = () => {
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.firewall.urlFiltering,
+    (state: RootStateProps) => state.bgw5105.firewall.urlFiltering,
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}

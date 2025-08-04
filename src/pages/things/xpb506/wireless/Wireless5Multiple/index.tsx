@@ -6,7 +6,7 @@ import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {
-  DefaultRootStateProps,
+  RootStateProps,
   FormikValuesType,
   OptionsOrSuggestType,
   SelectOptionProps,
@@ -51,7 +51,7 @@ export const Wireless5Multiple = () => {
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.wireless.wireless5Multiple,
+    (state: RootStateProps) => state.bgw5105.wireless.wireless5Multiple,
   )
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -11,13 +11,13 @@ import {
   TableRow,
 } from '@mui/material'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { CardHeader } from 'components/extends/CardHeader'
 
 export const Cellular = () => {
   const { sendWsGetMessage } = useSendWsMessage()
   const { result } = useSelector(
-    (state: DefaultRootStateProps) => state.status.cellular,
+    (state: RootStateProps) => state.bgw5105.status.cellular,
   )
 
   const someArr = useMemo(

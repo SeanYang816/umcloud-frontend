@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { DefaultRootStateProps, FormikValuesType } from 'types'
+import { RootStateProps, FormikValuesType } from 'types'
 import { DeviceConfiguration } from './section/DeviceConfiguration'
 import { InterfaceConfiguration } from './section/InterfaceConfiguration'
 import { SetWireless5Primary } from './type'
@@ -16,13 +16,13 @@ export const Wireless5Primary = () => {
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.wireless.wireless5Primary,
+    (state: RootStateProps) => state.bgw5105.wireless.wireless5Primary,
   )
   const statusData = useSelector(
-    (state: DefaultRootStateProps) => state.wireless.wireless5PrimaryStatus,
+    (state: RootStateProps) => state.bgw5105.wireless.wireless5PrimaryStatus,
   )
   const { dataRefresher } = useSelector(
-    (state: DefaultRootStateProps) => state.config.refetchData,
+    (state: RootStateProps) => state.bgw5105.config.refetchData,
   )
 
   const result = data?.result

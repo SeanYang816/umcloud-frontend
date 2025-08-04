@@ -1,12 +1,16 @@
-import { actionUpdaters, actions } from 'actions'
+import { allActionsGetters, allActionUpdaters } from 'actions'
+import { actionUpdaters, actions } from 'actions/bgw5105'
 import { toastHandler } from 'config/statusCode'
 import { isNil } from 'lodash'
 import { ReactNode, createContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useWebSocket from 'react-use-websocket'
 import { SendJsonMessage } from 'react-use-websocket/dist/lib/types'
-import { updateNotification, updateWebSocketStatus } from 'reducers/global'
-import { DefaultRootStateProps } from 'types'
+import {
+  updateNotification,
+  updateWebSocketStatus,
+} from 'reducers/bgw5105/global'
+import { RootStateProps } from 'types'
 
 export const ServerEvent = {
   Ping: 'ping',
@@ -24,7 +28,7 @@ export const WebsocketContext = createContext<WebSocketContextProps>(null)
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
   const dispatch = useDispatch()
   const token = useSelector(
-    (state: DefaultRootStateProps) => state.authentication.token,
+    (state: RootStateProps) => state.bgw5105.authentication.token,
   )
 
   const { sendJsonMessage } = useWebSocket(
@@ -43,10 +47,10 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         try {
           const json = JSON.parse(e.data)
           const event = json?.event
-          const isUpdater = !isNil(actionUpdaters[json.event])
+          const isUpdater = !isNil(allActionUpdaters[json.event])
           const action = isUpdater
-            ? actionUpdaters[json.event]
-            : actions[json.event]
+            ? allActionUpdaters[json.event]
+            : allActionsGetters[json.event]
           const status = json?.result?.status
 
           switch (event) {

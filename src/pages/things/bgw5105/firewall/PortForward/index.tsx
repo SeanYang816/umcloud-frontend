@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { SERVER_ACTIONS } from 'constant'
-import { DefaultRootStateProps, StringStringType } from 'types'
+import { RootStateProps, StringStringType } from 'types'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { clearProperty } from 'reducers/firewall'
+import { clearProperty } from 'reducers/bgw5105/firewall'
 import { MRT_ColumnDef } from 'material-react-table'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -23,7 +23,7 @@ export const PortForward = () => {
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
   const data = useSelector(
-    (state: DefaultRootStateProps) => state.firewall.portForward,
+    (state: RootStateProps) => state.bgw5105.firewall.portForward,
   )
   const result = data?.result ?? {}
   const options = data?.options ?? {}
