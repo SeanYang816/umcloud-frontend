@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify'
 
 export const useMutationHandler = <ResultType, DataType>(
-  performMutation: (data?: DataType) => Promise<ResultType>,
+  performMutation: (_data?: DataType) => Promise<ResultType>,
   actionName: string,
 ) => {
   const handleMutation = async (data?: DataType) => {

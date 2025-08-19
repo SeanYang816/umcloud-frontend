@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { CardHeader } from 'components/extends/CardHeader'
 import { RootStateProps, FormikValuesType } from 'types'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { selectProps } from 'utils/formik'
 import { PageHeader } from 'components/PageHeader'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
@@ -26,7 +26,7 @@ export const GeneralSettings = () => {
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_GENERAL_SETTINGS_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.FIREWALL_GET_GENERAL_SETTINGS_PAGE)
   }, [sendWsGetMessage])
 
   const formik = useFormik<FormikValuesType>({
@@ -42,7 +42,7 @@ export const GeneralSettings = () => {
         'cbid.firewall.wan_ping.enabled': formik.values.enableWanPing,
       } as PayloadType
       sendWsSetMessage(
-        SERVER_ACTIONS.FIREWALL_SET_GENERAL_SETTINGS_PAGE,
+        BGW_EVENT_ACTIONS.FIREWALL_SET_GENERAL_SETTINGS_PAGE,
         payload,
       )
     },

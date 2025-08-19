@@ -1,45 +1,42 @@
-import { isArray, isNil } from 'lodash'
-import React, { useState, useEffect } from 'react'
+import { isEmpty, isNil } from 'lodash'
+import { useMemo } from 'react'
 import { StringStringType, StringObjectType } from 'types'
 
 export function useApiResultObjectToArrayByCommonId(
   result: StringObjectType,
   name: string,
 ) {
-  const [state, setState] = useState<StringObjectType[]>([])
+  const derived = useMemo<StringStringType[]>(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (isEmpty(result) || isNil((result as any)[name])) return []
 
-  useEffect(() => {
-    if (isNil(result) || !isArray(result[name])) {
-      setState([])
-
-      return
-    }
-
-    const keysArray = result[name] as string[]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const keysArray = (result as any)[name] as string[]
+    if (!Array.isArray(keysArray)) return []
 
     const groupArray: Array<StringObjectType> = []
 
-    keysArray.forEach((key) => {
+    for (const key of keysArray) {
       const newObj: StringObjectType = {}
 
-      Object.keys(result).forEach((propertyKey) => {
-        const [part1, part2, id, lastPart] = propertyKey.split('.')
-
-        if (part1 && part2 && id && lastPart && key === id) {
-          if (!newObj.key) {
-            newObj.key = id
-          }
-          newObj[lastPart] = result[propertyKey]
+      for (const propertyKey of Object.keys(result)) {
+        const parts = propertyKey.split('.')
+        if (parts.length !== 4) continue
+        const [, , id, lastPart] = parts
+        if (id === key) {
+          if (!newObj.key) newObj.key = id
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          newObj[lastPart] = (result as any)[propertyKey]
         }
-      })
+      }
       groupArray.push(newObj)
-    })
+    }
 
-    setState(groupArray)
+    return groupArray as StringStringType[]
   }, [result, name])
 
-  return [state, setState] as [
-    StringStringType[],
-    React.Dispatch<React.SetStateAction<StringStringType[]>>,
-  ]
+  // If you must keep the tuple shape for compatibility:
+  // return [derived, () => {}] as const
+
+  return [derived] as [StringStringType[]]
 }

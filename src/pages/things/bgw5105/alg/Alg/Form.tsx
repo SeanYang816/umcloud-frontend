@@ -2,7 +2,7 @@ import { Card, Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { CardHeader } from 'components/extends/CardHeader'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { Select } from 'components/fields'
 import { optionsConverter } from 'utils/optionsConverter'
@@ -79,7 +79,7 @@ export const Form = ({ result, options }: FormTypes) => {
         'cbid.alg.alg.ipsec_pth': String(values.ipsec_pth),
         'cbid.alg.alg.pppoe_relay': String(values.pppoe_relay),
       }
-      sendWsSetMessage(SERVER_ACTIONS.ALG_SET_ALG_PAGE, payload)
+      sendWsSetMessage(BGW_EVENT_ACTIONS.ALG_SET_ALG_PAGE, payload)
     },
   })
 

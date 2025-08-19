@@ -18,8 +18,8 @@ export type PaginationProps = {
   pageIndex: number
   pageSize: number
   rowCount: number
-  setPageIndex: (index: number) => void
-  setPageSize: (size: number) => void
+  setPageIndex: (_index: number) => void
+  setPageSize: (_size: number) => void
 }
 
 export const Pagination: React.FC<PaginationProps> = ({

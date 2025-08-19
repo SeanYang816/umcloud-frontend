@@ -15,7 +15,7 @@ type CustomHHmmSelectProps = {
   value?: string
   fullWidth?: boolean
   isEnd?: boolean // New prop to allow hours up to 24
-  onChange?: (name: string, value: string) => void
+  onChange?: (_name: string, _value: string) => void
 }
 
 export const CustomHHmmSelect: React.FC<CustomHHmmSelectProps> = ({

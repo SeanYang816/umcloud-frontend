@@ -3,7 +3,7 @@ import { TextField, Select } from 'components/fields'
 import { forwardFormValidationSchema } from './validationSchema'
 import { useFormik } from 'formik'
 import { optionsConverter } from 'utils/optionsConverter'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { selectProps, textfieldProps } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
@@ -42,15 +42,18 @@ export const ForwardForm = ({ options, list }: FormTypes) => {
         }),
         {},
       )
-      sendWsSetMessage(SERVER_ACTIONS.FIREWALL_ADD_NEW_FORWARD_TRAFFIC_RULES, {
-        'cbi.sts.firewall.rule': concatenatedKeys,
-        '_newfwd.name': values.name,
-        '_newfwd.src': values.src,
-        '_newfwd.dest': values.dest,
-        '_newfwd.schedule': values.schedule,
-        '_newfwd.submit': 'Add',
-        ...enabledItems,
-      })
+      sendWsSetMessage(
+        BGW_EVENT_ACTIONS.FIREWALL_ADD_NEW_FORWARD_TRAFFIC_RULES,
+        {
+          'cbi.sts.firewall.rule': concatenatedKeys,
+          '_newfwd.name': values.name,
+          '_newfwd.src': values.src,
+          '_newfwd.dest': values.dest,
+          '_newfwd.schedule': values.schedule,
+          '_newfwd.submit': 'Add',
+          ...enabledItems,
+        },
+      )
       resetForm()
     },
   })

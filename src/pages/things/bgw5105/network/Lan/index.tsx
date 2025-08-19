@@ -10,7 +10,7 @@ import { HostEntries } from './sections/HostEntries'
 import { StaticArp } from './sections/StaticArp'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useEffect } from 'react'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useApiResultObjectToArrayByCommonId } from 'hooks/useApiResultObjectToArrayByCommonId'
 import { Button } from 'components/extends/Button'
 import { validationSchema } from './validationSchema'
@@ -121,7 +121,7 @@ export const Lan = () => {
     enableReinitialize: true,
     validationSchema: Yup.object().shape(validationObj),
     onSubmit: () => {
-      sendWsSetMessage(SERVER_ACTIONS.LAN_SET_LAN_PAGE, payload)
+      sendWsSetMessage(BGW_EVENT_ACTIONS.LAN_SET_LAN_PAGE, payload)
     },
   })
 
@@ -204,53 +204,53 @@ export const Lan = () => {
   }
 
   const handleStaticLeasesAdd = () => {
-    sendWsSetMessage(SERVER_ACTIONS.LAN_ADD_STATIC_LEASES, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.LAN_ADD_STATIC_LEASES, {
       ...payload,
       'cbi.cts.dhcp.host.': 'Add',
     })
   }
 
   const handleStaticLeasesDelete = (key: string) => {
-    sendWsSetMessage(SERVER_ACTIONS.LAN_DELETE_STATIC_LEASES, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.LAN_DELETE_STATIC_LEASES, {
       ...payload,
       [`cbi.rts.dhcp.${key}`]: 'Delete',
     })
   }
 
   const handleHostAdd = () => {
-    sendWsSetMessage(SERVER_ACTIONS.LAN_ADD_HOST_ENTRIES, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.LAN_ADD_HOST_ENTRIES, {
       ...payload,
       'cbi.cts.dhcp.domain.': 'Add',
     })
   }
 
   const handleHostDelete = (key: string) => {
-    sendWsSetMessage(SERVER_ACTIONS.LAN_DELETE_HOST_ENTRIES, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.LAN_DELETE_HOST_ENTRIES, {
       ...payload,
       [`cbi.rts.dhcp.${key}`]: 'Delete',
     })
   }
 
   const handleStaticArpAdd = () => {
-    sendWsSetMessage(SERVER_ACTIONS.LAN_ADD_STATIC_ARP, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.LAN_ADD_STATIC_ARP, {
       ...payload,
       'cbi.cts.arpbind.arpbind.': 'Add',
     })
   }
 
   const handleStaticArpDelete = (key: string) => {
-    sendWsSetMessage(SERVER_ACTIONS.LAN_DELETE_STATIC_ARP, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.LAN_DELETE_STATIC_ARP, {
       ...payload,
       [`cbi.rts.arpbind.${key}`]: 'Delete',
     })
   }
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.LAN_GET_LAN_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.LAN_GET_LAN_PAGE)
   }, [sendWsGetMessage])
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.LAN_GET_LAN_STATUS)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.LAN_GET_LAN_STATUS)
   }, [sendWsGetMessage, dataRefresher])
 
   return (

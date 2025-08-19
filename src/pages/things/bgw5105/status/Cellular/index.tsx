@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { PageHeader } from 'components/PageHeader'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import {
   Card,
   CardContent,
@@ -37,7 +37,7 @@ export const Cellular = () => {
   )
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.CELLULAR_GET_CELLULAR_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.CELLULAR_GET_CELLULAR_PAGE)
   }, [sendWsGetMessage])
 
   return (

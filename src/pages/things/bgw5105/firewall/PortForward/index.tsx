@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { RootStateProps, StringStringType } from 'types'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { clearProperty } from 'reducers/bgw5105/firewall'
@@ -60,7 +60,7 @@ export const PortForward = () => {
 
   const handleDialogOpen = (key: string) => {
     setEditKey(key)
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_PORT_FORWARD_EDIT_PAGE, key)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.FIREWALL_GET_PORT_FORWARD_EDIT_PAGE, key)
   }
 
   const handleDialogClose = () => {
@@ -70,7 +70,7 @@ export const PortForward = () => {
   }
 
   const handleDelete = (key: string) => {
-    sendWsSetMessage(SERVER_ACTIONS.FIREWALL_DELETE_PORT_FORWARD_RULE, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_DELETE_PORT_FORWARD_RULE, {
       [`cbi.rts.firewall.${key}`]: 'Delete',
     })
   }
@@ -83,7 +83,7 @@ export const PortForward = () => {
       enabledProps[`cbid.firewall.${item.key}.enabled`] = item.enabled
     })
 
-    sendWsSetMessage(SERVER_ACTIONS.FIREWALL_SET_PORT_FORWARD_PAGE, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_SET_PORT_FORWARD_PAGE, {
       'cbi.sts.firewall.portforward': concatenatedKeys,
       ...enabledProps,
     })
@@ -188,7 +188,7 @@ export const PortForward = () => {
 
   useEffect(() => {
     setIsFetch(true)
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_PORT_FORWARD_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.FIREWALL_GET_PORT_FORWARD_PAGE)
   }, [isFetch, sendWsGetMessage])
 
   return (

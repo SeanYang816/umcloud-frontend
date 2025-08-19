@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootStateProps, StringStringType } from 'types'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { clearProperty } from 'reducers/bgw5105/firewall'
 import { Form } from './Form'
@@ -38,7 +38,10 @@ export const OneToOneNat = () => {
 
   const handleDialogOpen = (key: string) => {
     setEditKey(key)
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_ONE_TO_ONE_NAT_EDIT_PAGE, key)
+    sendWsGetMessage(
+      BGW_EVENT_ACTIONS.FIREWALL_GET_ONE_TO_ONE_NAT_EDIT_PAGE,
+      key,
+    )
   }
 
   const handleDialogClose = () => {
@@ -70,7 +73,7 @@ export const OneToOneNat = () => {
   }
 
   const handleDelete = (key: string) => {
-    sendWsSetMessage(SERVER_ACTIONS.FIREWALL_DELETE_ONE_TO_ONE_NAT, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_DELETE_ONE_TO_ONE_NAT, {
       'cbi.submit': '1',
       [`cbi.rts.firewall.${key}`]: 'Delete',
     })
@@ -83,7 +86,7 @@ export const OneToOneNat = () => {
     list.forEach((item: StringStringType) => {
       enabledProps[`cbid.firewall.${item.key}.enabled`] = item.enabled
     })
-    sendWsSetMessage(SERVER_ACTIONS.FIREWALL_SET_ONE_TO_ONE_NAT_PAGE, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_SET_ONE_TO_ONE_NAT_PAGE, {
       'cbi.sts.firewall.staticnat': concatenatedKeys,
       ...enabledProps,
     })
@@ -202,7 +205,7 @@ export const OneToOneNat = () => {
 
   useEffect(() => {
     setIsFetch(true)
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_ONE_TO_ONE_NAT_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.FIREWALL_GET_ONE_TO_ONE_NAT_PAGE)
   }, [isFetch, sendWsGetMessage])
 
   return (

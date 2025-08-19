@@ -1,5 +1,5 @@
 import { Card, Stack } from '@mui/material'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useFormik } from 'formik'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useEffect, useState, useRef } from 'react'
@@ -40,7 +40,7 @@ export const Ospf = () => {
     },
     enableReinitialize: true,
     onSubmit: (values) => {
-      sendWsSetMessage(SERVER_ACTIONS.ROUTING_SET_OSPF_PAGE, {
+      sendWsSetMessage(BGW_EVENT_ACTIONS.ROUTING_SET_OSPF_PAGE, {
         'cbid.ospfd.config.enable': values.enable,
         'cbid.ospfd.config.router_id': values.router_id,
         'cbid.ospfd.config.neighbor_ip': [],
@@ -50,7 +50,7 @@ export const Ospf = () => {
 
   const handleDialogOpen = (key: string) => {
     editKey.current = key
-    sendWsGetMessage(SERVER_ACTIONS.ROUTING_GET_OSPF_EDIT_PAGE, key)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.ROUTING_GET_OSPF_EDIT_PAGE, key)
   }
 
   const handleDialogClose = () => {
@@ -153,7 +153,7 @@ export const Ospf = () => {
 
   useEffect(() => {
     setIsFetch(true)
-    sendWsGetMessage(SERVER_ACTIONS.ROUTING_GET_OSPF_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.ROUTING_GET_OSPF_PAGE)
   }, [isFetch, sendWsGetMessage])
 
   return (

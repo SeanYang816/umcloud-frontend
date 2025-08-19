@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootStateProps, StringStringType } from 'types'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
@@ -35,7 +35,7 @@ export const IpFiltering = () => {
 
   const handleDialogOpen = (key: string) => {
     setEditKey(key)
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_IP_FILTERING_EDIT_PAGE, key)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.FIREWALL_GET_IP_FILTERING_EDIT_PAGE, key)
   }
 
   const handleDialogClose = () => {
@@ -67,7 +67,7 @@ export const IpFiltering = () => {
   }
 
   const handleDelete = (key: string) => {
-    sendWsSetMessage(SERVER_ACTIONS.FIREWALL_DELETE_IP_FILTERING_RULE, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_DELETE_IP_FILTERING_RULE, {
       'cbi.submit': '1',
       [`cbi.rts.firewall.${key}`]: 'Delete',
     })
@@ -81,7 +81,7 @@ export const IpFiltering = () => {
       enabledProps[`cbid.firewall.${item.key}.enabled`] = item.enabled
     })
 
-    sendWsSetMessage(SERVER_ACTIONS.FIREWALL_SET_IP_FILTERING_PAGE, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_SET_IP_FILTERING_PAGE, {
       'cbi.sts.firewall.rule': concatenatedKeys,
       ...enabledProps,
     })
@@ -186,7 +186,7 @@ export const IpFiltering = () => {
 
   useEffect(() => {
     setIsFetch(true)
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_IP_FILTERING_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.FIREWALL_GET_IP_FILTERING_PAGE)
   }, [isFetch, sendWsGetMessage])
 
   return (

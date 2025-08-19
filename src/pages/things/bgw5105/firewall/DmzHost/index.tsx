@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { CardHeader } from 'components/extends/CardHeader'
 import { RootStateProps, FormikValuesType } from 'types'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { TextField, Select } from 'components/fields'
 import { PageHeader } from 'components/PageHeader'
@@ -42,12 +42,12 @@ export const DmzHost = () => {
         'cbid.dmz.dmz.enable': String(values.enable),
         'cbid.dmz.dmz.dmz_ip': String(values.dmz_ip),
       }
-      sendWsSetMessage(SERVER_ACTIONS.FIREWALL_SET_DMZ_HOST_PAGE, payload)
+      sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_SET_DMZ_HOST_PAGE, payload)
     },
   })
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_DMZ_HOST_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.FIREWALL_GET_DMZ_HOST_PAGE)
   }, [sendWsGetMessage])
 
   return (

@@ -4,7 +4,7 @@ import { Button } from './extends/Button'
 
 type EditButtonType = {
   id: string
-  onEdit: (key: string) => void
+  onEdit: (_key: string) => void
 }
 
 export const EditButton = ({ id, onEdit }: EditButtonType) => {

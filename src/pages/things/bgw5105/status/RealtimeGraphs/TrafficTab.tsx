@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootStateProps } from 'types'
 import {
@@ -178,13 +178,14 @@ export const TrafficTab = ({ propertyKey, propertyValue }: TrafficTabProps) => {
       ])
       lastStampRef.current = result[result.length - 1][0]
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isStart, result, requestId]) // 沒有把 initialArr 加進來，因為會導致無限迴圈
 
   useEffect(() => {
     dispatch(clearRealtimeGraphsTrafficGetDeviceStatus())
     const sendMessage = () => {
       sendWsGetMessage(
-        SERVER_ACTIONS.REAL_TIME_GRAPHS_TRAFFIC_GET_DEVICE_STATUS,
+        BGW_EVENT_ACTIONS.REAL_TIME_GRAPHS_TRAFFIC_GET_DEVICE_STATUS,
         propertyKey,
         propertyKey,
       )

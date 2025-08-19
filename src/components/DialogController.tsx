@@ -1,7 +1,7 @@
 import React, { useState, useCallback, ReactNode } from 'react'
 
 interface DialogControllerProps {
-  children: (props: {
+  children: (_props: {
     open: boolean
     onOpen: () => void
     onClose: () => void

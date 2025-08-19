@@ -7,7 +7,7 @@ import { RootStateProps, FormikValuesType } from 'types'
 import { DeviceConfiguration } from './section/DeviceConfiguration'
 import { InterfaceConfiguration } from './section/InterfaceConfiguration'
 import { SetWireless5Primary } from './type'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { validationSchema } from './validationSchema'
 import { Button } from 'components/extends/Button'
 import { PageHeader } from 'components/PageHeader'
@@ -118,20 +118,22 @@ export const Wireless5Primary = () => {
           values.multicast_rekey_timeout,
       } as SetWireless5Primary
       sendWsSetMessage(
-        SERVER_ACTIONS.WIRELESS_FIVE_GHZ_SET_PRIMARY_SSID_CONFIG,
+        BGW_EVENT_ACTIONS.WIRELESS_FIVE_GHZ_SET_PRIMARY_SSID_CONFIG,
         payload,
       )
     },
   })
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.WIRELESS_FIVE_GHZ_GET_PRIMARY_SSID_CONFIG)
+    sendWsGetMessage(
+      BGW_EVENT_ACTIONS.WIRELESS_FIVE_GHZ_GET_PRIMARY_SSID_CONFIG,
+    )
   }, [sendWsGetMessage])
 
   useEffect(() => {
     if (data) {
       sendWsGetMessage(
-        SERVER_ACTIONS.WIRELESS_FIVE_GHZ_GET_PRIMARY_SSID_WIFI_STATUS,
+        BGW_EVENT_ACTIONS.WIRELESS_FIVE_GHZ_GET_PRIMARY_SSID_WIFI_STATUS,
       )
     }
   }, [data, sendWsGetMessage, dataRefresher])

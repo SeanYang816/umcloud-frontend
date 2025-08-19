@@ -5,7 +5,7 @@ import { TextField, Select, Checkbox } from 'components/fields'
 import { RootStateProps, DialogProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { checkboxProps, selectProps, textfieldProps } from 'utils/formik'
 import { boolToStrNum, strNumToBool } from 'utils'
 import { modalValidationSchema } from './validationSchema'
@@ -40,7 +40,7 @@ export const EditDialog: React.FC<DialogProps> = ({ id, open, onClose }) => {
     validationSchema: modalValidationSchema,
     onSubmit: (values) => {
       sendWsSetMessage(
-        SERVER_ACTIONS.ROUTING_SET_RIP_EDIT_PAGE,
+        BGW_EVENT_ACTIONS.ROUTING_SET_RIP_EDIT_PAGE,
         {
           [`${rootId}.rip_enable`]: values.rip_enable,
           [`${rootId}.send_version`]: values.send_version,

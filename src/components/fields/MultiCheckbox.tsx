@@ -11,7 +11,7 @@ type CustomCheckboxProps = {
   label?: string
   helperText?: string
   value: string[]
-  onClick: (value: string[]) => void
+  onClick: (_value: string[]) => void
   options: { label: string; value: string; checked?: boolean }[] // Array of checkbox options
 }
 

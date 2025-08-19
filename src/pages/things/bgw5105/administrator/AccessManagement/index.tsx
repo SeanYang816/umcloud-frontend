@@ -6,7 +6,7 @@ import { Checkbox, TextField, MultiCheckbox } from 'components/fields'
 import { checkboxProps, textfieldProps } from 'utils/formik'
 import { useFormik } from 'formik'
 import { boolToStrNum, strNumToBool } from 'utils'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSelector } from 'react-redux'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { RootStateProps, FormikValuesType } from 'types'
@@ -76,7 +76,7 @@ export const AccessManagement = () => {
     validationSchema: validationSchema,
     onSubmit: () => {
       sendWsSetMessage(
-        SERVER_ACTIONS.ACCESS_MANAGEMENT_SET_ACCESS_MANAGEMENT_PAGE,
+        BGW_EVENT_ACTIONS.ACCESS_MANAGEMENT_SET_ACCESS_MANAGEMENT_PAGE,
         payload,
       )
     },
@@ -104,7 +104,7 @@ export const AccessManagement = () => {
 
   const handleDownloadPrivateKey = () => {
     sendWsSetMessage(
-      SERVER_ACTIONS.ACCESS_MANAGEMENT_DOWNLOAD_SSH_PRIVATE_KEY,
+      BGW_EVENT_ACTIONS.ACCESS_MANAGEMENT_DOWNLOAD_SSH_PRIVATE_KEY,
       {
         [`${rootId}lo_ssh_keys_dl`]: 'Download Private Key',
         ...payload,
@@ -113,7 +113,7 @@ export const AccessManagement = () => {
   }
 
   const handleRegeneratePrivateKey = () => {
-    sendWsGetMessage(SERVER_ACTIONS.ACCESS_MANAGEMENT_REGENERATE_SSH_KEYS)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.ACCESS_MANAGEMENT_REGENERATE_SSH_KEYS)
   }
 
   const handleRemoteIfaceClick = (value: string[]) => {
@@ -122,7 +122,7 @@ export const AccessManagement = () => {
 
   useEffect(() => {
     sendWsGetMessage(
-      SERVER_ACTIONS.ACCESS_MANAGEMENT_GET_ACCESS_MANAGEMENT_PAGE,
+      BGW_EVENT_ACTIONS.ACCESS_MANAGEMENT_GET_ACCESS_MANAGEMENT_PAGE,
     )
   }, [sendWsGetMessage])
 

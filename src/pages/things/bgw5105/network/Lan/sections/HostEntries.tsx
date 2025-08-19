@@ -13,7 +13,7 @@ type HostEntriesProps = {
   data: GetLanPage
   list: DeleteHostEntriesProps[]
   onAdd: () => void
-  onDelete: (arg0: string) => void
+  onDelete: (_arg: string) => void
 }
 
 export const HostEntries = ({

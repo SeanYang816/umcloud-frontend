@@ -1,7 +1,7 @@
 import { Card, Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { TextField, Select } from 'components/fields'
 import { dosPreventionValidationSchema } from './validationSchema'
 import { CardHeader } from 'components/extends/CardHeader'
@@ -71,7 +71,10 @@ export const Form = ({ result }: { result: StringStringType }) => {
         [`${rootId}.icmp_burst`]: String(values.icmp_burst),
         [`${rootId}.icmp_rate`]: String(values.icmp_rate),
       }
-      sendWsSetMessage(SERVER_ACTIONS.FIREWALL_SET_DOS_PREVENTION_PAGE, payload)
+      sendWsSetMessage(
+        BGW_EVENT_ACTIONS.FIREWALL_SET_DOS_PREVENTION_PAGE,
+        payload,
+      )
     },
   })
 

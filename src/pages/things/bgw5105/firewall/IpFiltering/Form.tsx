@@ -3,7 +3,7 @@ import { TextField, Select } from 'components/fields'
 import { formValidationSchema } from './validationSchema'
 import { useFormik } from 'formik'
 import { optionsConverter } from 'utils/optionsConverter'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { selectProps, textfieldProps } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
@@ -54,7 +54,7 @@ export const Form = ({ suggest, options, list }: FormTypes) => {
         {},
       )
 
-      sendWsSetMessage(SERVER_ACTIONS.FIREWALL_ADD_IP_FILTERING_RULE, {
+      sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_ADD_IP_FILTERING_RULE, {
         '_newipfilter.submit': 'Add',
         '_newipfilter.name': values.name,
         '_newipfilter.srcip': values.srcip,

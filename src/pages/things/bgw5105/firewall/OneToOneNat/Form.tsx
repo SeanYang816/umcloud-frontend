@@ -2,7 +2,7 @@ import { Card, CardActions } from '@mui/material'
 import { formValidationSchema } from './validationSchema'
 import { useFormik } from 'formik'
 import { optionsConverter } from 'utils/optionsConverter'
-import { CUSTOM_OPTION, SERVER_ACTIONS } from 'constant'
+import { CUSTOM_OPTION, BGW_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { CardHeader } from 'components/extends/CardHeader'
 import { TextField, Select, Checkbox } from 'components/fields'
@@ -50,7 +50,7 @@ export const Form = ({ suggest, options, list }: FormTypes) => {
         {},
       )
 
-      sendWsSetMessage(SERVER_ACTIONS.FIREWALL_ADD_ONE_TO_ONE_NAT, {
+      sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_ADD_ONE_TO_ONE_NAT, {
         'cbi.cts.firewall.staticnat.': 'Add',
         '_newonenat.name': values.name,
         '_newonenat.priaddr':

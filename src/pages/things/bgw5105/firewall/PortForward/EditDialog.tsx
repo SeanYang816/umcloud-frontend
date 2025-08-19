@@ -8,7 +8,7 @@ import { boolToStrNum, strNumToBool } from 'utils'
 import { RootStateProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { modalValidationSchema } from './validationSchema'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import {
   checkboxProps,
   multiSelectProps,
@@ -74,7 +74,7 @@ export const EditDialog: React.FC<DialogProps> = ({ id, open, onClose }) => {
       }
 
       await sendWsSetMessage(
-        SERVER_ACTIONS.FIREWALL_SET_PORT_FORWARD_EDIT_PAGE,
+        BGW_EVENT_ACTIONS.FIREWALL_SET_PORT_FORWARD_EDIT_PAGE,
         payload,
         id,
       )

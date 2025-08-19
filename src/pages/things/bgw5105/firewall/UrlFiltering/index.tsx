@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { RootStateProps } from 'types'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { PageHeader } from 'components/PageHeader'
 import { Card, Stack } from '@mui/material'
@@ -69,12 +69,15 @@ export const UrlFiltering = () => {
         [`${rootId}.blockurl`]: values.blockurl,
         [`${rootId}.time_schedule`]: values.time_schedule,
       } as PayloadType
-      sendWsSetMessage(SERVER_ACTIONS.FIREWALL_SET_URL_FILTERING_PAGE, payload)
+      sendWsSetMessage(
+        BGW_EVENT_ACTIONS.FIREWALL_SET_URL_FILTERING_PAGE,
+        payload,
+      )
     },
   })
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_URL_FILTERING_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.FIREWALL_GET_URL_FILTERING_PAGE)
   }, [sendWsGetMessage])
 
   return (

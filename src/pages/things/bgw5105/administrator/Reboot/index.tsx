@@ -7,7 +7,7 @@ import { Select } from 'components/fields'
 import { selectProps } from 'utils/formik'
 import { useFormik } from 'formik'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSelector } from 'react-redux'
 import { RootStateProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
@@ -55,7 +55,7 @@ export const Reboot = () => {
       reboot: '1',
     }
     if (window.confirm('Are you sure you want to restart the device?')) {
-      sendWsSetMessage(SERVER_ACTIONS.REBOOT_PERFORM_REBOOT, payload)
+      sendWsSetMessage(BGW_EVENT_ACTIONS.REBOOT_PERFORM_REBOOT, payload)
     }
   }
 
@@ -67,12 +67,12 @@ export const Reboot = () => {
       const payload: PayloadType_timeSchedule = {
         [`${rootId}time_schedule`]: values.time_schedule,
       } as PayloadType_timeSchedule
-      sendWsSetMessage(SERVER_ACTIONS.REBOOT_SET_SETTINGS_PAGE, payload)
+      sendWsSetMessage(BGW_EVENT_ACTIONS.REBOOT_SET_SETTINGS_PAGE, payload)
     },
   })
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.REBOOT_GET_SETTINGS_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.REBOOT_GET_SETTINGS_PAGE)
   }, [sendWsGetMessage])
 
   return (

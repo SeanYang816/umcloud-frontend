@@ -1,11 +1,12 @@
 import { actionUpdaters, actions } from './bgw5105'
-import { getActions } from './xpb510'
+import { xpbActionGetters, xpbActionSetters } from './xpb510'
 
 export const allActionsGetters = {
   ...actions,
-  ...getActions,
+  ...xpbActionGetters,
 }
 
 export const allActionUpdaters = {
+  ...xpbActionSetters,
   ...actionUpdaters,
 }

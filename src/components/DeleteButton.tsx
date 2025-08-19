@@ -4,7 +4,7 @@ import { Button } from './extends/Button'
 
 type DeleteButtonType = {
   id: string
-  onDelete: (key: string) => void
+  onDelete: (_key: string) => void
 }
 
 export const DeleteButton = ({ id, onDelete }: DeleteButtonType) => {

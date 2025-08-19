@@ -2,7 +2,7 @@ import React from 'react'
 import { useFormik } from 'formik'
 import { Card, CardActions } from '@mui/material'
 import { formValidationSchema } from './validationSchema'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { TextField, Select } from 'components/fields'
 import { optionsConverter } from 'utils/optionsConverter'
@@ -50,7 +50,7 @@ export const Form: React.FC<FormTypes> = ({ suggest, options, list }) => {
         {},
       )
 
-      sendWsSetMessage(SERVER_ACTIONS.FIREWALL_ADD_PORT_FORWARD_RULE, {
+      sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_ADD_PORT_FORWARD_RULE, {
         '_newfwd.name': values.name,
         '_newfwd.proto': values.proto,
         '_newfwd.extzone': 'wan', // no show

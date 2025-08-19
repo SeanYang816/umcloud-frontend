@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootStateProps, StringStringType } from 'types'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { clearProperty } from 'reducers/bgw5105/firewall'
 import { Form } from './Form'
@@ -55,7 +55,7 @@ export const PortTrigger = () => {
   }
 
   const handleDelete = (key: string) => {
-    sendWsSetMessage(SERVER_ACTIONS.FIREWALL_DELETE_PORT_TRIGGER_RULE, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_DELETE_PORT_TRIGGER_RULE, {
       'cbi.submit': '1',
       [`cbi.rts.firewall.${key}`]: 'Delete',
     })
@@ -63,7 +63,7 @@ export const PortTrigger = () => {
 
   const handleDialogOpen = (key: string) => {
     setEditKey(key)
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_PORT_TRIGGER_EDIT_PAGE, key)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.FIREWALL_GET_PORT_TRIGGER_EDIT_PAGE, key)
   }
 
   const handleDialogClose = () => {
@@ -80,7 +80,7 @@ export const PortTrigger = () => {
       enabledProps[`cbid.firewall.${item.key}.enabled`] = item.enabled
     })
 
-    sendWsSetMessage(SERVER_ACTIONS.FIREWALL_SET_PORT_TRIGGER_PAGE, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_SET_PORT_TRIGGER_PAGE, {
       'cbi.sts.firewall.trigger': concatenatedKeys,
       ...enabledProps,
     })
@@ -192,7 +192,7 @@ export const PortTrigger = () => {
 
   useEffect(() => {
     setIsFetch(true)
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_PORT_TRIGGER_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.FIREWALL_GET_PORT_TRIGGER_PAGE)
   }, [isFetch, sendWsGetMessage])
 
   return (

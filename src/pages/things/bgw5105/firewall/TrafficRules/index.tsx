@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootStateProps, StringStringType } from 'types'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { clearProperty } from 'reducers/bgw5105/firewall'
 import { PortForm } from './PortForm'
@@ -34,7 +34,10 @@ export const TrafficRules = () => {
 
   const handleDialogOpen = (key: string) => {
     setEditKey(key)
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_TRAFFIC_RULES_EDIT_PAGE, key)
+    sendWsGetMessage(
+      BGW_EVENT_ACTIONS.FIREWALL_GET_TRAFFIC_RULES_EDIT_PAGE,
+      key,
+    )
   }
 
   const handleDialogClose = () => {
@@ -63,7 +66,7 @@ export const TrafficRules = () => {
   }
 
   const handleDelete = (key: string) => {
-    sendWsSetMessage(SERVER_ACTIONS.FIREWALL_DELETE_TRAFFIC_RULES, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_DELETE_TRAFFIC_RULES, {
       'cbi.submit': '1',
       [`cbi.rts.firewall.${key}`]: 'Delete',
     })
@@ -76,7 +79,7 @@ export const TrafficRules = () => {
     list.forEach((item: StringStringType) => {
       enabledProps[`cbid.firewall.${item.key}.enabled`] = item.enabled
     })
-    sendWsSetMessage(SERVER_ACTIONS.FIREWALL_SET_TRAFFIC_RULES_PAGE, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_SET_TRAFFIC_RULES_PAGE, {
       'cbi.sts.firewall.rule': concatenatedKeys,
       ...enabledProps,
     })
@@ -184,7 +187,7 @@ export const TrafficRules = () => {
 
   useEffect(() => {
     setIsFetch(true)
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_TRAFFIC_RULES_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.FIREWALL_GET_TRAFFIC_RULES_PAGE)
   }, [isFetch, sendWsGetMessage])
 
   return (

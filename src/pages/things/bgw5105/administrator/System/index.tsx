@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSelector } from 'react-redux'
 import { RootStateProps, FormikValuesType } from 'types'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
@@ -135,7 +135,10 @@ export const System = () => {
         [`${rootId}localtime_second`]: values.localtime_second,
         [`${rootId}ntpserver`]: values.ntpserver,
       } as PayloadType
-      sendWsSetMessage(SERVER_ACTIONS.SYSTEM_SET_SYSTEM_TIME_DATE_PAGE, payload)
+      sendWsSetMessage(
+        BGW_EVENT_ACTIONS.SYSTEM_SET_SYSTEM_TIME_DATE_PAGE,
+        payload,
+      )
     },
   })
 
@@ -232,17 +235,17 @@ export const System = () => {
   )
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.SYSTEM_GET_SYSTEM_TIME_DATE_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.SYSTEM_GET_SYSTEM_TIME_DATE_PAGE)
   }, [sendWsGetMessage])
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.SYSTEM_GET_LOCAL_TIME)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.SYSTEM_GET_LOCAL_TIME)
   }, [sendWsGetMessage, dataRefresher])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (formik.values.clock_mode === '0') {
-        sendWsSetMessage(SERVER_ACTIONS.SYSTEM_SET_LOCAL_TIME, {
+        sendWsSetMessage(BGW_EVENT_ACTIONS.SYSTEM_SET_LOCAL_TIME, {
           set: Math.floor(new Date().getTime() / 1000),
         })
       }

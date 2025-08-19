@@ -7,7 +7,7 @@ import { RootStateProps, FormikValuesType } from 'types'
 import { DeviceConfiguration } from './section/DeviceConfiguration'
 import { InterfaceConfiguration } from './section/InterfaceConfiguration'
 import { SetWireless2Primary } from './type'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { validationSchema } from './validationSchema'
 import { Button } from 'components/extends/Button'
 import { PageHeader } from 'components/PageHeader'
@@ -120,7 +120,7 @@ export const Wireless2Primary = () => {
           values.multicast_rekey_timeout,
       } as SetWireless2Primary
       sendWsSetMessage(
-        SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_PRIMARY_SSID_CONFIG,
+        BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_PRIMARY_SSID_CONFIG,
         payload,
       )
     },
@@ -128,14 +128,14 @@ export const Wireless2Primary = () => {
 
   useEffect(() => {
     sendWsGetMessage(
-      SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_PRIMARY_SSID_CONFIG,
+      BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_PRIMARY_SSID_CONFIG,
     )
   }, [sendWsGetMessage])
 
   useEffect(() => {
     if (data) {
       sendWsGetMessage(
-        SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_PRIMARY_SSID_WIFI_STATUS,
+        BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_PRIMARY_SSID_WIFI_STATUS,
       )
     }
   }, [data, sendWsGetMessage, dataRefresher])

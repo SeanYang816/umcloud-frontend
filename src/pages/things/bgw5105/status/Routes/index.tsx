@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSelector } from 'react-redux'
 import { RootStateProps } from 'types'
 import { PageHeader } from 'components/PageHeader'
@@ -169,7 +169,7 @@ export const Routes = () => {
   ]
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.ROUTES_GET_ROUTE_ARP_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.ROUTES_GET_ROUTE_ARP_PAGE)
   }, [sendWsGetMessage])
 
   return (

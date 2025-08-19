@@ -28,7 +28,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootStateProps } from 'types'
 import { isArray, isNull } from 'lodash'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import {
   updateApplyLoading,
   updateApplySetting,
@@ -140,7 +140,7 @@ export const BGW5105: React.FC = () => {
   const unappliedChangesButtonText = `unapplied changes: ${unappliedChangesDataLength}`
 
   const requestApplyStatus = useCallback(
-    () => sendWsGetMessage(SERVER_ACTIONS.CONFIG_GET_APPLY_STATUS),
+    () => sendWsGetMessage(BGW_EVENT_ACTIONS.CONFIG_GET_APPLY_STATUS),
     [sendWsGetMessage],
   )
 
@@ -164,7 +164,7 @@ export const BGW5105: React.FC = () => {
 
   useEffect(() => {
     // Check for changes
-    sendWsGetMessage(SERVER_ACTIONS.CONFIG_GET_CHANGES)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.CONFIG_GET_CHANGES)
   }, [sendWsGetMessage])
 
   const isApplySuccess =
@@ -186,7 +186,7 @@ export const BGW5105: React.FC = () => {
         dispatch(updateApplyLoading(false))
         dispatch(updateApplySetting(null))
         dispatch(updateApplyStatus(null))
-        sendWsGetMessage(SERVER_ACTIONS.CONFIG_GET_CHANGES)
+        sendWsGetMessage(BGW_EVENT_ACTIONS.CONFIG_GET_CHANGES)
       }
     }
 

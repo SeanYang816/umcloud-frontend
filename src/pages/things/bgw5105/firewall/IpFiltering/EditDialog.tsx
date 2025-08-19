@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { RootStateProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { TextField, Select } from 'components/fields'
 import { useFormik } from 'formik'
 import { modalValidationSchema } from './validationSchema'
@@ -53,7 +53,7 @@ export const EditDialog: React.FC<DialogProps> = ({ id, open, onClose }) => {
         [`${rootId}.time_schedule`]: values.time_schedule,
       }
       await sendWsSetMessage(
-        SERVER_ACTIONS.FIREWALL_SET_IP_FILTERING_EDIT_PAGE,
+        BGW_EVENT_ACTIONS.FIREWALL_SET_IP_FILTERING_EDIT_PAGE,
         payload,
         id,
       )

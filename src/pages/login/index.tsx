@@ -30,8 +30,6 @@ export const Login = () => {
     },
   })
 
-  console.log(formik.errors)
-
   return (
     <Box
       component='form'

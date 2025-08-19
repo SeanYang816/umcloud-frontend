@@ -11,7 +11,7 @@ type StaticArpProps = {
   formik: FormikProps<FormikValuesType>
   list: DeleteStaticARPProps[]
   onAdd: () => void
-  onDelete: (arg0: string) => void
+  onDelete: (_arg: string) => void
 }
 
 export const StaticArp = ({

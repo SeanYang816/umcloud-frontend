@@ -1,5 +1,5 @@
 import { allActionsGetters, allActionUpdaters } from 'actions'
-import { actionUpdaters, actions } from 'actions/bgw5105'
+import { actions } from 'actions/bgw5105'
 import { toastHandler } from 'config/statusCode'
 import { isNil } from 'lodash'
 import { ReactNode, createContext } from 'react'
@@ -23,6 +23,7 @@ export type WebSocketContextProps = {
   sendJsonMessage: SendJsonMessage
 } | null
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const WebsocketContext = createContext<WebSocketContextProps>(null)
 
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
@@ -64,7 +65,9 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
               if (action) {
                 const { result: data, requestId: requestId } = json
                 const dataAndRequestId = { ...data, requestId }
-                dispatch(action?.(dataAndRequestId))
+                if (typeof action === 'function') {
+                  dispatch(action?.(dataAndRequestId))
+                }
                 if (isUpdater) {
                   toastHandler(status)
                 }

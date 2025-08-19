@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@mui/material'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { MaterialReactTable, MRT_ColumnDef } from 'material-react-table'
 import { useEffect, useMemo } from 'react'
@@ -76,7 +76,7 @@ export const SystemLog = () => {
   ]
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.SYSTEM_LOG_GET_SYSTEM_LOG)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.SYSTEM_LOG_GET_SYSTEM_LOG)
   }, [sendWsGetMessage])
 
   return (

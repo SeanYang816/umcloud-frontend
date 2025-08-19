@@ -10,7 +10,7 @@ import {
 import { CardHeader } from 'components/extends/CardHeader'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useSelector } from 'react-redux'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { RootStateProps, FormikValuesType, StringStringType } from 'types'
 import { useApiResultObjectToArrayByCommonId } from 'hooks/useApiResultObjectToArrayByCommonId'
 import {
@@ -96,7 +96,7 @@ export const Schedule = () => {
         [`${rootId}stop.time`]: values.end_time, // DOC: document is wrong, 'end' should be 'stop'
       } as PayloadType_add
 
-      sendWsSetMessage(SERVER_ACTIONS.SCHEDULE_ADD_SCHEDULE_RULE, payload)
+      sendWsSetMessage(BGW_EVENT_ACTIONS.SCHEDULE_ADD_SCHEDULE_RULE, payload)
       resetForm()
     },
   })
@@ -120,7 +120,7 @@ export const Schedule = () => {
 
   const handleDialogOpen = (key: string) => {
     setEditKey(key)
-    sendWsGetMessage(SERVER_ACTIONS.SCHEDULE_GET_SCHEDULE_EDIT_PAGE, key)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.SCHEDULE_GET_SCHEDULE_EDIT_PAGE, key)
   }
 
   const handleDialogClose = () => {
@@ -133,13 +133,13 @@ export const Schedule = () => {
       const payload: PayloadType_delete = {
         [`cbi.rts.schedule.${key}`]: 'Delete',
       }
-      sendWsSetMessage(SERVER_ACTIONS.SCHEDULE_DELETE_SCHEDULE_RULE, payload)
+      sendWsSetMessage(BGW_EVENT_ACTIONS.SCHEDULE_DELETE_SCHEDULE_RULE, payload)
     },
     [sendWsSetMessage],
   )
 
   const handleApply = useCallback(() => {
-    sendWsSetMessage(SERVER_ACTIONS.SCHEDULE_SET_SCHEDULE_PAGE, {})
+    sendWsSetMessage(BGW_EVENT_ACTIONS.SCHEDULE_SET_SCHEDULE_PAGE, {})
   }, [sendWsSetMessage])
 
   const columns: MRT_ColumnDef<StringStringType>[] = [
@@ -213,7 +213,7 @@ export const Schedule = () => {
 
   useEffect(() => {
     setIsFetch(true)
-    sendWsGetMessage(SERVER_ACTIONS.SCHEDULE_GET_SCHEDULE_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.SCHEDULE_GET_SCHEDULE_PAGE)
   }, [isFetch, sendWsGetMessage])
 
   return (

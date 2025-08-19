@@ -1,6 +1,6 @@
 import { SetStateAction, SyntheticEvent, useEffect, useState } from 'react'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { Card, CardContent, Tab } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { PageHeader } from 'components/PageHeader'
@@ -37,7 +37,7 @@ export const RealtimeGraphs = () => {
   ) => setTrafficValue(value)
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.REAL_TIME_GRAPHS_TRAFFIC_GET_DEVICE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.REAL_TIME_GRAPHS_TRAFFIC_GET_DEVICE)
   }, [sendWsGetMessage])
 
   useEffect(() => {

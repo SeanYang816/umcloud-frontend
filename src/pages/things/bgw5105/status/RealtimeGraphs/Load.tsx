@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSelector } from 'react-redux'
 import { RootStateProps } from 'types'
 import {
@@ -164,7 +164,7 @@ export const Load = () => {
 
   useEffect(() => {
     const sendMessage = () => {
-      sendWsGetMessage(SERVER_ACTIONS.REAL_TIME_GRAPHS_LOAD)
+      sendWsGetMessage(BGW_EVENT_ACTIONS.REAL_TIME_GRAPHS_LOAD)
     }
     intervalRef.current = setInterval(sendMessage, 3000) as unknown as number
 

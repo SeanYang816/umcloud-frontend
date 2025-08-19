@@ -15,7 +15,7 @@ import { selectProps, textfieldProps } from 'utils/formik'
 import { GetWireless2MultipleResult } from './type'
 import { optionsConverter } from 'utils/optionsConverter'
 import { CardHeader } from 'components/extends/CardHeader'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { validationSchema } from './validationSchema'
 import { EncryptionOption } from 'enums'
 import { PageHeader } from 'components/PageHeader'
@@ -103,43 +103,43 @@ export const Wireless2Multiple = () => {
       switch (mssid) {
         case MSSID.MSSID1:
           sendWsSetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_1_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_1_CONFIG,
             payload,
           )
           break
         case MSSID.MSSID2:
           sendWsSetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_2_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_2_CONFIG,
             payload,
           )
           break
         case MSSID.MSSID3:
           sendWsSetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_3_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_3_CONFIG,
             payload,
           )
           break
         case MSSID.MSSID4:
           sendWsSetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_4_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_4_CONFIG,
             payload,
           )
           break
         case MSSID.MSSID5:
           sendWsSetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_5_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_5_CONFIG,
             payload,
           )
           break
         case MSSID.MSSID6:
           sendWsSetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_6_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_6_CONFIG,
             payload,
           )
           break
         case MSSID.MSSID7:
           sendWsSetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_7_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_SET_MULTIPLE_SSID_7_CONFIG,
             payload,
           )
           break
@@ -165,44 +165,44 @@ export const Wireless2Multiple = () => {
       switch (mssid) {
         case MSSID.MSSID1:
           sendWsGetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_1_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_1_CONFIG,
           )
           break
         case MSSID.MSSID2:
           sendWsGetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_2_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_2_CONFIG,
           )
           break
         case MSSID.MSSID3:
           sendWsGetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_3_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_3_CONFIG,
           )
           break
         case MSSID.MSSID4:
           sendWsGetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_4_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_4_CONFIG,
           )
           break
         case MSSID.MSSID5:
           sendWsGetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_5_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_5_CONFIG,
           )
           break
         case MSSID.MSSID6:
           sendWsGetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_6_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_6_CONFIG,
           )
           break
         case MSSID.MSSID7:
           sendWsGetMessage(
-            SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_7_CONFIG,
+            BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_MULTIPLE_SSID_7_CONFIG,
           )
           break
         default:
           break
       }
     },
-    [sendWsSetMessage],
+    [sendWsGetMessage],
   )
 
   const ssidOptions = useMemo((): SelectOptionProps[] => {

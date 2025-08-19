@@ -6,7 +6,7 @@ import {
 } from 'providers/WebSocketProvider'
 import { Context, useCallback, useContext } from 'react'
 import { RootStateProps } from 'types'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import sleep from 'utils/sleep'
 
 export const useSendWsMessage = () => {
@@ -56,7 +56,7 @@ export const useSendWsMessage = () => {
           },
         })
         await sleep(500)
-        await sendWsGetMessage(SERVER_ACTIONS.CONFIG_GET_CHANGES)
+        await sendWsGetMessage(BGW_EVENT_ACTIONS.CONFIG_GET_CHANGES)
       },
       [mac, sendJsonMessage, sendWsGetMessage, sn],
     )
@@ -64,7 +64,7 @@ export const useSendWsMessage = () => {
     const sendWsApplyChanges = useCallback(() => {
       const requestId = genRequestId()
       sendJsonMessage({
-        event: SERVER_ACTIONS.CONFIG_SAVE_CHANGES,
+        event: BGW_EVENT_ACTIONS.CONFIG_SAVE_CHANGES,
         data: {
           requestId,
           target: {
@@ -81,7 +81,7 @@ export const useSendWsMessage = () => {
     const sendWsRevertChanges = useCallback(async () => {
       const requestId = genRequestId()
       await sendJsonMessage({
-        event: SERVER_ACTIONS.CONFIG_REVERT_CHANGES,
+        event: BGW_EVENT_ACTIONS.CONFIG_REVERT_CHANGES,
         data: {
           requestId,
           target: {
@@ -94,7 +94,7 @@ export const useSendWsMessage = () => {
         },
       })
       await sleep(500)
-      await sendWsGetMessage(SERVER_ACTIONS.CONFIG_GET_CHANGES)
+      await sendWsGetMessage(BGW_EVENT_ACTIONS.CONFIG_GET_CHANGES)
     }, [mac, sendJsonMessage, sendWsGetMessage, sn])
 
     return {

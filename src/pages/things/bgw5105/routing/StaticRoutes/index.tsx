@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -54,7 +54,7 @@ export const StaticRoutes = () => {
     enableReinitialize: true,
     validationSchema: Yup.object().shape(validationObj),
     onSubmit: () => {
-      sendWsSetMessage(SERVER_ACTIONS.ROUTING_SET_STATIC_ROUTES_PAGE, {
+      sendWsSetMessage(BGW_EVENT_ACTIONS.ROUTING_SET_STATIC_ROUTES_PAGE, {
         ...payload,
       })
     },
@@ -79,14 +79,14 @@ export const StaticRoutes = () => {
   )
 
   const onDelete = (key: string) => {
-    sendWsSetMessage(SERVER_ACTIONS.ROUTING_DELETE_STATIC_IPV4_ROUTES, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.ROUTING_DELETE_STATIC_IPV4_ROUTES, {
       [`cbi.rts.network.${key}`]: 'Delete',
       ...payload,
     })
   }
 
   const handleAddClick = () => {
-    sendWsSetMessage(SERVER_ACTIONS.ROUTING_ADD_STATIC_IPV4_ROUTES, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.ROUTING_ADD_STATIC_IPV4_ROUTES, {
       'cbi.cts.network.route.': 'Add',
       ...payload,
     })
@@ -261,7 +261,7 @@ export const StaticRoutes = () => {
   ]
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.ROUTING_GET_STATIC_ROUTES_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.ROUTING_GET_STATIC_ROUTES_PAGE)
   }, [sendWsGetMessage])
 
   return (

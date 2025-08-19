@@ -41,39 +41,6 @@ import { updateDevice } from 'reducers/bgw5105/device'
 import { useTableState } from 'hooks/useTableState'
 import { boardType } from 'constant/things'
 
-const fakeList = {
-  id: 'thing-001',
-  mac: 'AA:BB:CC:DD:EE:FF',
-  alias: 'FakeRouter',
-  model: 'xpb-506',
-  isAuthorized: true,
-  isArchived: false,
-  isOnline: true,
-  authorizeExpireAt: '2025-12-31T23:59:59Z',
-  archivedAt: null,
-  archiveReason: null,
-  archiveTitle: null,
-  thingType: `${boardType.xpb506}`,
-  publicIp: '203.0.113.42',
-  localIp: '192.168.1.1',
-  serialNumber: 'SN123456789',
-  firmwareVersion: 'v1.2.3',
-  firmwareUpgradeDate: '2025-06-01T12:00:00Z',
-  lastContactDate: '2025-07-18T09:00:00Z',
-  channel2ghz: 6,
-  channel5ghz1: 36,
-  channel5ghz2: null,
-  txBytes: 123456789,
-  rxBytes: 987654321,
-  cpuUsage: 28,
-  memoryUsage: 62,
-  tenantId: 101,
-  ownerId: 2001,
-  upTime: 123456,
-  createdAt: '2025-01-01T00:00:00Z',
-  updatedAt: '2025-07-18T08:59:00Z',
-}
-
 export default function Things() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -114,11 +81,11 @@ export default function Things() {
     dispatch(clearBasicConfigProperty())
     dispatch(clearWirelessProperty())
     dispatch(clearNetworkProperty())
-    if (row.thingType === 'Router') {
+    if (row.board !== `${boardType.xpb506}`) {
       navigate(`/things/${boardType.bgw5105}`)
     }
-    if (row.thingType === `${boardType.xpb506}`) {
-      navigate(`/things/${boardType.bgw5105}`)
+    if (row.board === `${boardType.xpb506}`) {
+      navigate(`/things/${boardType.xpb506}`)
     }
   }
 
@@ -323,6 +290,7 @@ export default function Things() {
                     toast.success('Successfully Deleted')
                   }
                 } catch (error: unknown) {
+                  console.info(error)
                   toast.error('There is a problem with deletion! !')
                   throw new Error('There is a problem with deletion! !')
                 }
@@ -338,7 +306,7 @@ export default function Things() {
   ]
 
   const table = useMaterialReactTable({
-    data: [...thingsList, fakeList],
+    data: thingsList,
     columns: columns,
     enableTopToolbar: false,
     enableBottomToolbar: false,

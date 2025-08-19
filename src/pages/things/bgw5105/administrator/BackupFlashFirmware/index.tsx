@@ -4,7 +4,7 @@ import { Card, Grid, InputLabel, Stack } from '@mui/material'
 import { CardHeader } from 'components/extends/CardHeader'
 import { DisplayField } from 'components/fields'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { throttle } from 'lodash'
 import { useSelector } from 'react-redux'
 import { RootStateProps } from 'types'
@@ -33,7 +33,7 @@ export const BackupFlashFirmware = () => {
       backup: '1',
     }
     sendWsSetMessage(
-      SERVER_ACTIONS.FIRMWARE_DOWNLOAD_CONFIGURATION_BACKUP,
+      BGW_EVENT_ACTIONS.FIRMWARE_DOWNLOAD_CONFIGURATION_BACKUP,
       payload,
     )
   }, 3000)
@@ -44,12 +44,12 @@ export const BackupFlashFirmware = () => {
         exec: '1',
         reset: 'reset',
       }
-      sendWsSetMessage(SERVER_ACTIONS.FIRMWARE_RESET_TO_DEFAULTS, payload)
+      sendWsSetMessage(BGW_EVENT_ACTIONS.FIRMWARE_RESET_TO_DEFAULTS, payload)
     }
   }
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.FIRMWARE_GET_FIRMWARE_VERSION)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.FIRMWARE_GET_FIRMWARE_VERSION)
   }, [sendWsGetMessage])
 
   return (

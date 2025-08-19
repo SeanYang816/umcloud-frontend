@@ -16,7 +16,7 @@ import { HelperText } from 'components/extends/HelperText'
 type SelectProps = {
   value: string
   options: SelectOptionProps[]
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
+  onChange: (_event: ChangeEvent<HTMLInputElement>) => void
   displayEmpty?: boolean
   id?: string
   label?: React.ReactNode

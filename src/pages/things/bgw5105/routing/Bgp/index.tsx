@@ -1,4 +1,4 @@
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useFormik } from 'formik'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useEffect } from 'react'
@@ -110,26 +110,26 @@ export const Bgp = () => {
     }),
 
     onSubmit: (values) => {
-      sendWsSetMessage(SERVER_ACTIONS.ROUTING_SET_BGP_PAGE, sendData(values))
+      sendWsSetMessage(BGW_EVENT_ACTIONS.ROUTING_SET_BGP_PAGE, sendData(values))
     },
   })
 
   const handleAddClick = () => {
-    sendWsSetMessage(SERVER_ACTIONS.ROUTING_ADD_BGP_IPV4_NEIGHBOR, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.ROUTING_ADD_BGP_IPV4_NEIGHBOR, {
       'cbi.cts.bgpd.neighbor.': 'Add',
       ...sendData(formik.values),
     })
   }
 
   const handleDeleteClick = (key: string) => {
-    sendWsSetMessage(SERVER_ACTIONS.ROUTING_DELETE_BGP_IPV4_NEIGHBOR, {
+    sendWsSetMessage(BGW_EVENT_ACTIONS.ROUTING_DELETE_BGP_IPV4_NEIGHBOR, {
       [`cbi.rts.bgpd.${key}`]: 'Delete',
       ...sendData(formik.values),
     })
   }
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.ROUTING_GET_BGP_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.ROUTING_GET_BGP_PAGE)
   }, [sendWsGetMessage])
 
   return (

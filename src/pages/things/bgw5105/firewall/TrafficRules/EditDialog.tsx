@@ -5,7 +5,7 @@ import { Dialog, DialogActions, DialogContent } from '@mui/material'
 import { RootStateProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import {
   multiSelectProps,
   radiosProps,
@@ -80,7 +80,7 @@ export const EditDialog: React.FC<DialogProps> = ({ id, open, onClose }) => {
         [`${rootId}.time_schedule`]: values.time_schedule, // Schedule
       }
       await sendWsSetMessage(
-        SERVER_ACTIONS.FIREWALL_SET_TRAFFIC_RULES_EDIT_PAGE,
+        BGW_EVENT_ACTIONS.FIREWALL_SET_TRAFFIC_RULES_EDIT_PAGE,
         payload,
         id,
       )

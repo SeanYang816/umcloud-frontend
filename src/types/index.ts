@@ -12,6 +12,23 @@ import {
 } from './reducers'
 import { ConfigStateProps } from 'reducers/bgw5105/config'
 import { GlobalProps } from 'reducers/bgw5105/global'
+import { GetOverviewPageResponse } from './xpb510/status/overview'
+import {
+  GetClimateHistoryResponse,
+  GetFanStatusResponse,
+} from './xpb510/iot/iot'
+import { FirewallState } from 'reducers/xpb510/network/firewall'
+import { LanPageState } from 'reducers/xpb510/network/lan'
+import { AlgPageState } from 'reducers/xpb510/network/alg'
+import { RoutingState } from 'reducers/xpb510/network/routing'
+import { SystemState } from 'reducers/xpb510/administrator/system'
+import { ScheduleState } from 'reducers/xpb510/administrator/schedule'
+import { AccessManagementState } from 'reducers/xpb510/administrator/accessManagement'
+import { BackupFlashFirmwareState } from 'reducers/xpb510/administrator/backupFlashFirmware'
+import { RebootState } from 'reducers/xpb510/administrator/reboot'
+import { SystemLogState } from 'reducers/xpb510/status/systemLog'
+import { RoutesState } from 'reducers/xpb510/status/routes'
+import { RealTimeGraphsState } from 'reducers/xpb510/status/realtimeGraphs'
 
 export type Bgw5105StateProps = {
   authentication: AuthenticationProps
@@ -29,8 +46,37 @@ export type Bgw5105StateProps = {
   global: GlobalProps
 }
 
+export type Xpb510StateProps = {
+  status: {
+    overview: GetOverviewPageResponse
+    systemLog: SystemLogState
+    routes: RoutesState
+    realtimeGraphs: RealTimeGraphsState
+  }
+  iot: {
+    climateControl: {
+      climate: GetClimateHistoryResponse | null
+      fan: GetFanStatusResponse | null
+    }
+  }
+  network: {
+    firewall: FirewallState
+    lan: LanPageState
+    alg: AlgPageState
+    routing: RoutingState
+  }
+  administrator: {
+    system: SystemState
+    schedule: ScheduleState
+    accessManagement: AccessManagementState
+    backupFlashFirmware: BackupFlashFirmwareState
+    reboot: RebootState
+  }
+}
+
 export type RootStateProps = {
   bgw5105: Bgw5105StateProps
+  xpb510: Xpb510StateProps
 }
 
 export type DeviceStateProps = {
@@ -94,9 +140,9 @@ export type StatusMessageType = {
 
 export type EmptyProps = Record<string, never>
 
-export type OnChangeFn<T> = (updater: T | ((prev: T) => T)) => void
+export type OnChangeFn<T> = (_updater: T | ((_prev: T) => T)) => void
 
-export type BoolString = '0' | '1'
+export type BoolString = '0' | '1' | string
 
 export type ProtocolOption =
   | 'all' // TCP + UDP

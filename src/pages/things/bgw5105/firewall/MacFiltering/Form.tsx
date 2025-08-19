@@ -3,7 +3,7 @@ import { TextField, Select } from 'components/fields'
 import { formValidationSchema } from './validationSchema'
 import { useFormik } from 'formik'
 import { optionsConverter } from 'utils/optionsConverter'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { selectProps, textfieldProps } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
@@ -36,7 +36,7 @@ export const Form = ({ parentformik, suggest, options, list }: FormTypes) => {
         {},
       )
 
-      sendWsSetMessage(SERVER_ACTIONS.FIREWALL_ADD_MAC_FILTERING_RULE, {
+      sendWsSetMessage(BGW_EVENT_ACTIONS.FIREWALL_ADD_MAC_FILTERING_RULE, {
         'cbi.cts.firewall.macfilter.': 'Add',
         'cbid.firewall.mac_filter.enabled': parentformik.values.enabled,
         'cbid.firewall.mac_filter.mode': parentformik.values.mode,

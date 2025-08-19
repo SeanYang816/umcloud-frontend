@@ -4,8 +4,8 @@ import { Button } from './extends/Button'
 
 type EditDeleteButtonsType = {
   id: string
-  onEdit: (key: string) => void
-  onDelete: (key: string) => void
+  onEdit: (_key: string) => void
+  onDelete: (_key: string) => void
 }
 
 export const EditDeleteButtons = ({

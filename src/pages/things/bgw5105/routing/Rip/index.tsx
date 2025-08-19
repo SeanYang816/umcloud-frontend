@@ -1,5 +1,5 @@
 import { Card, Stack } from '@mui/material'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { useFormik } from 'formik'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useEffect, useState, useRef } from 'react'
@@ -50,7 +50,7 @@ export const Rip = () => {
     },
     enableReinitialize: true,
     onSubmit: (values) => {
-      sendWsSetMessage(SERVER_ACTIONS.ROUTING_SET_RIP_PAGE, {
+      sendWsSetMessage(BGW_EVENT_ACTIONS.ROUTING_SET_RIP_PAGE, {
         'cbid.ripd.config.enable': values.enable,
         'cbid.ripd.config.version': values.version,
       })
@@ -59,7 +59,7 @@ export const Rip = () => {
 
   const handleDialogOpen = (key: string) => {
     editKey.current = key
-    sendWsGetMessage(SERVER_ACTIONS.ROUTING_GET_RIP_EDIT_PAGE, key)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.ROUTING_GET_RIP_EDIT_PAGE, key)
   }
 
   const handleDialogClose = () => {
@@ -148,7 +148,7 @@ export const Rip = () => {
 
   useEffect(() => {
     setIsFetch(true)
-    sendWsGetMessage(SERVER_ACTIONS.ROUTING_GET_RIP_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.ROUTING_GET_RIP_PAGE)
   }, [isFetch, sendWsGetMessage])
 
   return (

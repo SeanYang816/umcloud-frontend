@@ -42,6 +42,7 @@ export const createComponents = (theme: Theme) => ({
         zIndex: 10000,
       },
       paper: {
+        minHeight: '300px',
         maxWidth: '550px',
         borderRadius: '10px',
         border: `1px ${theme.palette.grey[700]} solid`,

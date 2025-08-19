@@ -8,7 +8,7 @@ import { AssocMac, Lease } from '../BasicInformation/type'
 import { durationConvert } from 'utils/old/utility'
 import { Wireless2Chart } from './Wireless2Chart'
 import { CardHeader } from 'components/extends/CardHeader'
-import { ERROR_MAC, SERVER_ACTIONS } from 'constant'
+import { ERROR_MAC, BGW_EVENT_ACTIONS } from 'constant'
 import { isEmpty } from 'lodash'
 import { PageHeader } from 'components/PageHeader'
 import { StyledMuiReactTable } from 'components/StyledMuiReactTable'
@@ -62,7 +62,7 @@ export const Wireless2GHz = () => {
   )
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.OVERVIEW_GET_STATUS_OVERVIEW_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.OVERVIEW_GET_STATUS_OVERVIEW_PAGE)
   }, [sendWsGetMessage, dataRefresher])
 
   const columns: MRT_ColumnDef<Lease & AssocMac & ExtendedType>[] = [

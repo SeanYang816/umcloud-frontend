@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { RootStateProps } from 'types'
 import { Form } from './Form'
 import { PageHeader } from 'components/PageHeader'
@@ -14,7 +14,7 @@ export const DosPrevention = () => {
   const result = data?.result ?? {}
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.FIREWALL_GET_DOS_PREVENTION_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.FIREWALL_GET_DOS_PREVENTION_PAGE)
   }, [sendWsGetMessage])
 
   return (

@@ -7,7 +7,7 @@ import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { BasicViewWire } from './section/BasicViewWire'
 import { BasicViewWan1 } from './section/BasicViewWan1'
 import { WifiNetIndex } from 'enums'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import { PageHeader } from 'components/PageHeader'
 
 export const BasicInformation = () => {
@@ -38,11 +38,13 @@ export const BasicInformation = () => {
   )
 
   useEffect(() => {
-    sendWsGetMessage(SERVER_ACTIONS.OVERVIEW_GET_STATUS_OVERVIEW_PAGE)
+    sendWsGetMessage(BGW_EVENT_ACTIONS.OVERVIEW_GET_STATUS_OVERVIEW_PAGE)
     sendWsGetMessage(
-      SERVER_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_PRIMARY_SSID_CONFIG,
+      BGW_EVENT_ACTIONS.WIRELESS_TWO_POINT_FOUR_GHZ_GET_PRIMARY_SSID_CONFIG,
     )
-    sendWsGetMessage(SERVER_ACTIONS.WIRELESS_FIVE_GHZ_GET_PRIMARY_SSID_CONFIG)
+    sendWsGetMessage(
+      BGW_EVENT_ACTIONS.WIRELESS_FIVE_GHZ_GET_PRIMARY_SSID_CONFIG,
+    )
   }, [sendWsGetMessage, dataRefresher])
 
   return (

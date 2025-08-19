@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { isUpperCase } from 'utils'
-import { SERVER_ACTIONS } from 'constant'
+import { BGW_EVENT_ACTIONS } from 'constant'
 import {
   CustomHHmmSelect,
   Radios,
@@ -26,7 +26,7 @@ import { Button } from 'components/extends/Button'
 type EditModalProps = {
   id: string
   open: boolean
-  onClose: (key: string) => void
+  onClose: (_key: string) => void
 }
 
 type PayloadType = {
@@ -101,7 +101,7 @@ export const EditModal: React.FC<EditModalProps> = ({ id, open, onClose }) => {
       } as PayloadType
 
       sendWsSetMessage(
-        SERVER_ACTIONS.SCHEDULE_SET_SCHEDULE_EDIT_PAGE,
+        BGW_EVENT_ACTIONS.SCHEDULE_SET_SCHEDULE_EDIT_PAGE,
         payload,
         id,
       )
