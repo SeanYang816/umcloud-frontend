@@ -117,6 +117,12 @@ export default function Things() {
       size: 50,
     },
     {
+      id: 'board',
+      header: 'Board',
+      accessorFn: (row) => row.board ?? 'Other',
+      size: 50,
+    },
+    {
       id: 'isAuthorized',
       header: 'Authorize Status',
       accessorFn: (row) => row.isAuthorized,

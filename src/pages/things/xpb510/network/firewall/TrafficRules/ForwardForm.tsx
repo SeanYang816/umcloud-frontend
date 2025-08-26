@@ -1,29 +1,37 @@
 import { Card, CardActions } from '@mui/material'
-import { TextField, Select } from 'components/fields'
+import { TextField, Select } from 'components/formik'
 import { forwardFormValidationSchema } from './validationSchema'
 import { useFormik } from 'formik'
 import { optionsConverter } from 'utils/optionsConverter'
 import { XPB_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { selectProps, textfieldProps } from 'utils/formik'
+import { formikField } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
-import { FormikValuesType, StringStringType, OptionsOrSuggestType } from 'types'
+import { StringStringType, Options } from 'types'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
+import { FC } from 'react'
 
 type FormTypes = {
-  options: OptionsOrSuggestType
+  options: Options
   list: StringStringType[]
 }
 
-export const ForwardForm = ({ options, list }: FormTypes) => {
+type FormValues = {
+  name: string
+  src: string
+  dest: string
+  schedule: string
+}
+
+export const ForwardForm: FC<FormTypes> = ({ options, list }) => {
   const { sendWsSetMessage } = useSendWsMessage()
 
   const srcList = optionsConverter(options, '_newfwd.src')
   const destList = optionsConverter(options, '_newfwd.dest')
   const scheduleList = optionsConverter(options, '_newopen.schedule')
 
-  const formik = useFormik<FormikValuesType>({
+  const formik = useFormik<FormValues>({
     initialValues: {
       name: '',
       src: '',
@@ -62,16 +70,21 @@ export const ForwardForm = ({ options, list }: FormTypes) => {
     <Card>
       <CardHeader title='New forward rule' />
       <StyledCardContent>
-        <TextField
-          {...textfieldProps('name', 'Name:', formik)}
-          placeholder='New input rule'
-        />
-        <Select {...selectProps('src', 'Source interface:', srcList, formik)} />
+        <TextField label='Name' {...formikField(formik, 'name')} />
         <Select
-          {...selectProps('dest', 'Destination interface:', destList, formik)}
+          label='Source interface'
+          options={srcList}
+          {...formikField(formik, 'src')}
         />
         <Select
-          {...selectProps('schedule', 'Schedule:', scheduleList, formik)}
+          label='Destination interface'
+          options={destList}
+          {...formikField(formik, 'dest')}
+        />
+        <Select
+          label='Schedule'
+          options={scheduleList}
+          {...formikField(formik, 'schedule')}
         />
       </StyledCardContent>
       <CardActions>

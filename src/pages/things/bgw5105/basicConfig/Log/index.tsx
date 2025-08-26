@@ -25,7 +25,7 @@ export const Log = () => {
   const [activeTab, setActiveTab] = useState<LogTabIndexType>(0)
 
   const { data } = useGetThingQuery({ variables: { id: deviceId } }) // currently, no pageIndex & pageSize params to search data over 10000 +
-
+  console.log(data)
   const thing = data?.thing as Thing
 
   const debugLogs = thing?.debugLogs?.list ?? []

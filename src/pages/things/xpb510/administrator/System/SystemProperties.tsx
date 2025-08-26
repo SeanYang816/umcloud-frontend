@@ -1,14 +1,11 @@
 import { Card } from '@mui/material'
-import {
-  TextField as TextField,
-  Select as Select,
-  DisplayField,
-} from 'components/fields'
-import { selectProps, textfieldProps } from 'utils/formik'
+import { DisplayField } from 'components/fields'
+import { formikField } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
 import { FormikProps } from 'formik'
 import { FormikValuesType, SelectOptionProps } from 'types'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
+import { Select, TextField } from 'components/formik'
 
 type SystemPropertiesType = {
   title: string
@@ -31,10 +28,12 @@ export const SystemProperties = ({
           {/* Local Time */}
           <DisplayField label='Local Time' text={localTime} />
           {/* Hostname */}
-          <TextField {...textfieldProps('hostname', 'Hostname', formik)} />
+          <TextField label='Hostname' {...formikField(formik, 'hostname')} />
           {/* Timezone */}
           <Select
-            {...selectProps('zonename', 'Timezone', zoneOptions, formik)}
+            label='Timezone'
+            options={zoneOptions}
+            {...formikField(formik, 'zonename')}
           />
         </StyledCardContent>
       </Card>

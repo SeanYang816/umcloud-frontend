@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { BGW_EVENT_ACTIONS, XPB_EVENT_ACTIONS } from 'constant'
 import { RootStateProps, StringStringType } from 'types'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { clearProperty } from 'reducers/bgw5105/firewall'
 import { MRT_ColumnDef } from 'material-react-table'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -16,6 +15,7 @@ import { StyledMuiReactTable } from 'components/StyledMuiReactTable'
 import { useApiResultObjectToArrayByCommonId } from 'hooks/useApiResultObjectToArrayByCommonId'
 import { DialogController } from 'components/DialogController'
 import { Button } from 'components/extends/Button'
+import { resetFirewallState } from 'reducers/xpb510/network/firewall'
 
 export const PortForward = () => {
   const dispatch = useDispatch()
@@ -65,7 +65,6 @@ export const PortForward = () => {
   const handleDialogClose = () => {
     setEditKey('')
     setIsFetch(false)
-    dispatch(clearProperty('portForwardEdit'))
   }
 
   const handleDelete = (key: string) => {
@@ -198,7 +197,11 @@ export const PortForward = () => {
   useEffect(() => {
     setIsFetch(true)
     sendWsGetMessage(XPB_EVENT_ACTIONS.XPB_510_FIREWALL_GET_PORT_FORWARD_PAGE)
-  }, [isFetch, sendWsGetMessage])
+
+    return () => {
+      dispatch(resetFirewallState())
+    }
+  }, [dispatch, isFetch, sendWsGetMessage])
 
   return (
     <>
@@ -210,20 +213,25 @@ export const PortForward = () => {
       {!data ? (
         <LinearProgress />
       ) : (
-        <Stack gap={2}>
-          <StyledMuiReactTable
-            title='Port Forward Rules'
-            rows={list}
-            columns={columns}
-          />
+        <>
+          <Stack gap={2}>
+            <StyledMuiReactTable
+              title='Port Forward Rules'
+              rows={list}
+              columns={columns}
+            />
 
-          <AddPortForwardForm suggest={suggest} options={options} list={list} />
-        </Stack>
+            <AddPortForwardForm
+              suggest={suggest}
+              options={options}
+              list={list}
+            />
+          </Stack>
+          <Stack direction='row' ml='auto'>
+            <Button icon='save' text='save' onClick={handleApply} />
+          </Stack>
+        </>
       )}
-
-      <Stack direction='row' ml='auto'>
-        <Button icon='save' text='save' onClick={handleApply} />
-      </Stack>
     </>
   )
 }

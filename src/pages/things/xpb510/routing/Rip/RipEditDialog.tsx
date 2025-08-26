@@ -1,12 +1,17 @@
 import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
-import { Dialog, DialogActions, DialogContent } from '@mui/material'
-import { TextField, Select, Checkbox } from 'components/fields'
+import {
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+} from '@mui/material'
+import { TextField, Select, Checkbox } from 'components/formik'
 import { RootStateProps, DialogProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { XPB_EVENT_ACTIONS } from 'constant'
-import { checkboxProps, selectProps, textfieldProps } from 'utils/formik'
+import { formikField } from 'utils/formik'
 import { boolToStrNum, strNumToBool } from 'utils'
 import { modalValidationSchema } from './validationSchema'
 import { booleanList } from 'config'
@@ -63,31 +68,42 @@ export const RipEditDialog: React.FC<DialogProps> = ({ id, open, onClose }) => {
 
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
-      <DialogContent>
-        <Select
-          {...selectProps('rip_enable', 'RIP enable:', booleanList, formik)}
-        />
-        <Select
-          {...selectProps('send_version', 'Send version:', sendList, formik)}
-        />
-        <Select
-          {...selectProps(
-            'receive_version',
-            'Receive version:',
-            receiveList,
-            formik,
-          )}
-        />
-        <Checkbox
-          {...checkboxProps('authentication', 'Key authentication:', formik)}
-        />
-        <TextField {...textfieldProps('key_string', 'Key string:', formik)} />
-        <Checkbox
-          {...checkboxProps('key_mode', 'Plain text password:', formik)}
-        />
-      </DialogContent>
+      {!data ? (
+        <CircularProgress />
+      ) : (
+        <DialogContent>
+          <Select
+            label='RIP enable'
+            options={booleanList}
+            {...formikField(formik, 'rip_enable')}
+          />
+          <Select
+            label='Send version'
+            options={sendList}
+            {...formikField(formik, 'send_version')}
+          />
+          <Select
+            label='Receive version'
+            options={receiveList}
+            {...formikField(formik, 'receive_version')}
+          />
+          <Checkbox
+            label='Key authentication'
+            {...formikField(formik, 'authentication')}
+          />
+          <TextField
+            label='Key string'
+            {...formikField(formik, 'key_string')}
+          />
+          <Checkbox
+            label='Plain text password'
+            {...formikField(formik, 'key_mode')}
+          />
+        </DialogContent>
+      )}
       <DialogActions>
         <Button
+          disabled={!data || formik.isSubmitting || !formik.dirty}
           icon='confirm'
           text='confirm'
           onClick={() => formik.handleSubmit()}

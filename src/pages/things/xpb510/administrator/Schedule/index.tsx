@@ -14,14 +14,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { XPB_EVENT_ACTIONS } from 'constant'
 import { RootStateProps, FormikValuesType, StringStringType } from 'types'
 import { useApiResultObjectToArrayByCommonId } from 'hooks/useApiResultObjectToArrayByCommonId'
-import {
-  Checkbox,
-  CustomHHmmSelect,
-  Radios,
-  TextField,
-} from 'components/fields'
+import { CustomHHmmSelect } from 'components/fields'
 import { useFormik } from 'formik'
-import { checkboxProps, radiosProps, textfieldProps } from 'utils/formik'
+import { formikField } from 'utils/formik'
 import { isUpperCase } from 'utils'
 import { EditScheduleDialog } from './EditScheduleDialog'
 import { formValidationSchema } from './validationSchema'
@@ -32,6 +27,7 @@ import { DialogController } from 'components/DialogController'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
 import { resetSchedule } from 'reducers/xpb510/administrator/schedule'
+import { Checkbox, Radios, TextField } from 'components/formik'
 
 const daily = 'SMTWTFS'
 
@@ -255,10 +251,12 @@ export const Schedule = () => {
             <Card>
               <CardHeader title='Add New Schedule Rule' />
               <StyledCardContent>
-                <TextField {...textfieldProps('name', 'Name', formik)} />
+                <TextField label='Name' {...formikField(formik, 'name')} />
 
                 <Radios
-                  {...radiosProps('isDaily', 'Days:', isDailyList, formik)}
+                  label='Days'
+                  options={isDailyList}
+                  {...formikField(formik, 'isDaily')}
                 />
                 <Box
                   mt={-1}
@@ -293,7 +291,8 @@ export const Schedule = () => {
                 </Box>
 
                 <Checkbox
-                  {...checkboxProps('isAllDay', 'All Day - 24 Hrs', formik)}
+                  label='All Day - 24 Hrs'
+                  {...formikField(formik, 'isAllDay')}
                 />
                 <CustomHHmmSelect
                   disabled={formik.values.isAllDay === true}

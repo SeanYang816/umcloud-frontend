@@ -7,9 +7,9 @@ import { RootStateProps, FormikValuesType } from 'types'
 import * as Yup from 'yup'
 import { Box, Card, Stack } from '@mui/material'
 import { CardHeader } from 'components/extends/CardHeader'
-import { TextField, Select } from 'components/fields'
+import { TextField, Select } from 'components/formik'
 import { PageHeader } from 'components/PageHeader'
-import { selectProps, textfieldProps } from 'utils/formik'
+import { formikField } from 'utils/formik'
 import { booleanList, validation } from 'config'
 import { useApiResultObjectToArrayByCommonId } from 'hooks/useApiResultObjectToArrayByCommonId'
 import { OverviewForm } from './OverviewForm'
@@ -17,6 +17,7 @@ import { NeighborForm } from './NeighborForm'
 import { cloneDeep } from 'lodash'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
+import { GetBgpPageResult } from 'types/xpb510/network/routing'
 
 export const Bgp = () => {
   const { sendWsSetMessage, sendWsGetMessage } = useSendWsMessage()
@@ -24,7 +25,7 @@ export const Bgp = () => {
   const data = useSelector(
     (state: RootStateProps) => state.xpb510.network.routing.bgp,
   )
-  const result = data?.result ?? {}
+  const result = data?.result ?? ({} as GetBgpPageResult)
   const options = data?.options ?? {}
   const suggest = data?.suggest ?? {}
 
@@ -148,10 +149,12 @@ export const Bgp = () => {
 
         <StyledCardContent>
           <Select
-            {...selectProps('enable', 'BGP enable:', booleanList, formik)}
+            label='BGP enable'
+            options={booleanList}
+            {...formikField(formik, 'enable')}
           />
-          <TextField {...textfieldProps('router_id', 'Router ID:', formik)} />
-          <TextField {...textfieldProps('asn', 'ASN:', formik)} />
+          <TextField label='Router ID' {...formikField(formik, 'router_id')} />
+          <TextField label='ASN' {...formikField(formik, 'asn')} />
         </StyledCardContent>
       </Card>
 

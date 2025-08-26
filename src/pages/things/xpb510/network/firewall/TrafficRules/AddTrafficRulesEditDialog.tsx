@@ -7,22 +7,22 @@ import {
   DialogActions,
   DialogContent,
 } from '@mui/material'
-import { RootStateProps, FormikValuesType } from 'types'
+import { RootStateProps } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { XPB_EVENT_ACTIONS } from 'constant'
-import {
-  multiSelectProps,
-  radiosProps,
-  selectProps,
-  textfieldProps,
-} from 'utils/formik'
-import { TextField, Select, MultiSelect, Radios } from 'components/fields'
+import { formikArrayField, formikField } from 'utils/formik'
 import { modalValidationSchema } from './validationSchema'
 import { DialogProps } from 'types'
 import sleep from 'utils/sleep'
 import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
+import {
+  SetTrafficEditCbidKey,
+  SetTrafficEditPayload,
+  SetTrafficFieldMap,
+} from 'types/xpb510/network/firewall'
+import { MultiSelect, Select, TextField, Radios } from 'components/formik'
 
 export const AddTrafficRulesEditDialog: React.FC<DialogProps> = ({
   id,
@@ -54,7 +54,7 @@ export const AddTrafficRulesEditDialog: React.FC<DialogProps> = ({
   const srcList = optionsConverter(options, `cbid.firewall.${id}.src`)
   const targetList = optionsConverter(options, `cbid.firewall.${id}.target`)
 
-  const formik = useFormik<FormikValuesType>({
+  const formik = useFormik<SetTrafficFieldMap>({
     initialValues: {
       __enabled: result[`cbid.firewall.${id}.__enabled`] ?? '',
       name: result[`cbid.firewall.${id}.name`] ?? '',
@@ -75,23 +75,27 @@ export const AddTrafficRulesEditDialog: React.FC<DialogProps> = ({
     enableReinitialize: true,
     validationSchema: modalValidationSchema,
     onSubmit: async (values) => {
-      const payload = {
-        [`cbid.firewall.${id}.__enabled`]: values.__enabled, // Rule is enabled/disabled
-        [`cbid.firewall.${id}.name`]: values.name, // Name
-        [`cbid.firewall.${id}.family`]: values.family, // Restrict to address family
-        [`cbid.firewall.${id}.proto`]: values.proto, // Protocol
-        [`cbid.firewall.${id}.icmp_type`]: values.icmp_type, // Match ICMP type
-        [`cbid.firewall.${id}.src`]: values.src, // Source zone (Radio)
-        [`cbid.firewall.${id}.src_mac`]: values.src_mac, // Source MAC address
-        [`cbid.firewall.${id}.src_ip`]: values.src_ip, // Source address
-        [`cbid.firewall.${id}.src_port`]: values.src_port, // Source port
-        [`cbid.firewall.${id}.dest`]: values.dest, // Destination zone (Radio)
-        [`cbid.firewall.${id}.dest_ip`]: values.dest_ip, // Destination address
-        [`cbid.firewall.${id}.dest_port`]: values.dest_port, // Destination port
-        [`cbid.firewall.${id}.target`]: values.target, // action
-        [`cbid.firewall.${id}.extra`]: values.extra, // Extra arguments
-        [`cbid.firewall.${id}.time_schedule`]: values.time_schedule, // Schedule
-      }
+      const k = <K extends keyof SetTrafficFieldMap>(kk: K) =>
+        `cbid.firewall.${id}.${kk}` as SetTrafficEditCbidKey<typeof id, K>
+
+      const payload: SetTrafficEditPayload<typeof id> = {}
+
+      payload[k('__enabled')] = values.__enabled
+      payload[k('name')] = values.name
+      payload[k('family')] = values.family
+      payload[k('proto')] = values.proto
+      payload[k('icmp_type')] = values.icmp_type // string[]
+      payload[k('src')] = values.src
+      payload[k('src_mac')] = values.src_mac
+      payload[k('src_ip')] = values.src_ip
+      payload[k('src_port')] = values.src_port
+      payload[k('dest')] = values.dest
+      payload[k('dest_ip')] = values.dest_ip
+      payload[k('dest_port')] = values.dest_port
+      payload[k('target')] = values.target
+      payload[k('extra')] = values.extra
+      payload[k('time_schedule')] = values.time_schedule
+
       await sendWsSetMessage(
         XPB_EVENT_ACTIONS.XPB_510_FIREWALL_SET_TRAFFIC_RULES_EDIT_PAGE,
         payload,
@@ -110,75 +114,74 @@ export const AddTrafficRulesEditDialog: React.FC<DialogProps> = ({
         <>
           <DialogContent>
             <Select
-              {...selectProps(
-                '__enabled',
-                'Rule is enabled:',
-                booleanList,
-                formik,
-              )}
+              label='Rule is enabled'
+              options={booleanList}
+              {...formikField(formik, '__enabled')}
             />
-            <TextField {...textfieldProps('name', 'Name:', formik)} />
+            <TextField label='Name' {...formikField(formik, 'name')} />
             <Select
-              {...selectProps(
-                'family',
-                'Restrict to address family:',
-                familyList,
-                formik,
-              )}
+              label='Restrict to address family'
+              options={familyList}
+              {...formikField(formik, 'family')}
             />
-            <Select {...selectProps('proto', 'Protocol:', protoList, formik)} />
+            <Select
+              label='Protocol'
+              options={protoList}
+              {...formikField(formik, 'proto')}
+            />
             <MultiSelect
-              {...multiSelectProps(
-                'icmp_type',
-                'Match ICMP type',
-                imcpTypeList,
-                formik,
-              )}
               freeSolo
-            />
-            <Radios {...radiosProps('src', 'Source zone:', srcList, formik)} />
-            <Select
-              {...selectProps(
-                'src_mac',
-                'Source MAC address:',
-                srcMacList,
-                formik,
-              )}
-            />
-            <Select
-              {...selectProps('src_ip', 'Source address:', srcIpList, formik)}
-            />
-            <TextField
-              {...textfieldProps('src_port', 'Source port:', formik)}
-              placeholder='Any'
+              label='Match ICMP type'
+              options={imcpTypeList}
+              {...formikArrayField(formik, 'icmp_type')}
             />
             <Radios
-              {...radiosProps('dest', 'Destination zone:', destList, formik)}
+              label='Source zone'
+              options={srcList}
+              {...formikField(formik, 'src')}
             />
             <Select
-              {...selectProps(
-                'dest_ip',
-                'Destination address:',
-                destIpList,
-                formik,
-              )}
+              label='Source MAC address'
+              options={srcMacList}
+              {...formikField(formik, 'src_mac')}
+            />
+            <Select
+              label='Source address'
+              options={srcIpList}
+              {...formikField(formik, 'src_ip')}
             />
             <TextField
-              {...textfieldProps('dest_port', 'Destination port:', formik)}
-              placeholder='Any'
+              label='Source port'
+              {...formikField(formik, 'src_port')}
             />
-            <Select {...selectProps('target', 'Action:', targetList, formik)} />
+            <Radios
+              label='Destination zone'
+              options={destList}
+              {...formikField(formik, 'dest')}
+            />
+            <Select
+              label='Destination address'
+              options={destIpList}
+              {...formikField(formik, 'dest_ip')}
+            />
             <TextField
-              {...textfieldProps('extra', 'Extra arguments:', formik)}
+              label='Destination port'
+              {...formikField(formik, 'dest_port')}
+            />
+            <Select
+              label='Action'
+              options={targetList}
+              {...formikField(formik, 'target')}
+            />{' '}
+            <TextField
+              label='Extra arguments'
+              {...formikField(formik, 'extra')}
               helperText='Passes additional arguments to iptables. Use with care!'
             />
             <Select
-              {...selectProps(
-                'time_schedule',
-                'Schedule:',
-                scheduleList,
-                formik,
-              )}
+              label='Schedule'
+              options={scheduleList}
+              {...formikField(formik, 'time_schedule')}
             />
           </DialogContent>
           <DialogActions>

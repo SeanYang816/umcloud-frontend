@@ -6,8 +6,8 @@ import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootStateProps, FormikValuesType, StringStringType } from 'types'
 import { CardHeader } from 'components/extends/CardHeader'
-import { Select, TextField } from 'components/fields'
-import { selectProps, textfieldProps } from 'utils/formik'
+import { Select, TextField } from 'components/formik'
+import { formikField } from 'utils/formik'
 import { clearProperty } from 'reducers/bgw5105/routing'
 import { OspfEditDialog } from './OspfEditDialog'
 import { PageHeader } from 'components/PageHeader'
@@ -20,6 +20,7 @@ import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
 import { resetRouting } from 'reducers/xpb510/network/routing'
+import { GetOspfPageResponse } from 'types/xpb510/network/routing'
 
 export const Ospf = () => {
   const dispatch = useDispatch()
@@ -27,7 +28,7 @@ export const Ospf = () => {
   const data = useSelector(
     (state: RootStateProps) => state.xpb510.network.routing.ospf,
   )
-  const result = data?.result ?? {}
+  const result = data?.result ?? ({} as GetOspfPageResponse['result'])
 
   const [list] = useApiResultObjectToArrayByCommonId(result, 'ospf-interface')
   const [isFetch, setIsFetch] = useState(false)
@@ -173,15 +174,13 @@ export const Ospf = () => {
               <CardHeader title='OSPF Configuration' />
               <StyledCardContent>
                 <Select
-                  {...selectProps(
-                    'enable',
-                    'OSPF enable:',
-                    booleanList,
-                    formik,
-                  )}
+                  label='OSPF enable'
+                  options={booleanList}
+                  {...formikField(formik, 'enable')}
                 />
                 <TextField
-                  {...textfieldProps('router_id', 'Router ID:', formik)}
+                  label='Router ID'
+                  {...formikField(formik, 'router_id')}
                 />
               </StyledCardContent>
             </Card>

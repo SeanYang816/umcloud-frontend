@@ -6,12 +6,12 @@ import {
   DialogActions,
   DialogContent,
 } from '@mui/material'
-import { TextField, Select, Checkbox } from 'components/fields'
+import { TextField, Select, Checkbox } from 'components/formik'
 import { RootStateProps, DialogProps, FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { BGW_EVENT_ACTIONS } from 'constant'
-import { checkboxProps, selectProps, textfieldProps } from 'utils/formik'
+import { formikField } from 'utils/formik'
 import { boolToStrNum, strNumToBool } from 'utils'
 import { modalValidationSchema } from './validationSchema'
 import { booleanList } from 'config'
@@ -87,52 +87,49 @@ export const OspfEditDialog: React.FC<DialogProps> = ({
         <>
           <DialogContent>
             <Select
-              {...selectProps(
-                'ospf_enable',
-                'OSPF enable:',
-                booleanList,
-                formik,
-              )}
+              label='OSPF enable'
+              options={booleanList}
+              {...formikField(formik, 'ospf_enable')}
             />
             <Select
-              {...selectProps(
-                'network_type',
-                'Network type:',
-                networkList,
-                formik,
-              )}
+              label='Network type'
+              options={networkList}
+              {...formikField(formik, 'network_type')}
             />
             <Checkbox
-              {...checkboxProps(
-                'authentication',
-                'Key authentication:',
-                formik,
-              )}
+              label='Key authentication'
+              {...formikField(formik, 'authentication')}
             />
             <TextField
-              {...textfieldProps('key_string', 'Key string:', formik)}
+              label='Key string'
+              {...formikField(formik, 'key_string')}
             />
             <Checkbox
-              {...checkboxProps('key_mode', 'Plain text password:', formik)}
+              label='Plain text password string'
+              {...formikField(formik, 'key_mode')}
             />
             <TextField
               type='number'
-              {...textfieldProps('cost', 'Cost:', formik)}
-              helperText='1~65535'
+              label='Cost'
+              placeholder='1~65535'
+              {...formikField(formik, 'cost')}
             />
             <TextField
               type='number'
-              {...textfieldProps('priority', 'Priority:', formik)}
-              helperText='0~255'
+              label='Priority'
+              placeholder='0~255'
+              {...formikField(formik, 'priority')}
             />
             <TextField
               type='number'
-              {...textfieldProps('area', 'Area:', formik)}
-              helperText=' ip or 0~4294967295'
+              label='Area'
+              {...formikField(formik, 'area')}
+              placeholder='ip or 0~4294967295'
             />
           </DialogContent>
           <DialogActions>
             <Button
+              disabled={!formik.isValid || !formik.dirty || formik.isSubmitting}
               icon='confirm'
               text='confirm'
               onClick={() => formik.handleSubmit()}

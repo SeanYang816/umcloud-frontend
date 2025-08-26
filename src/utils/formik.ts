@@ -159,3 +159,75 @@ export const getFormikProps = <T>(name: keyof T, formik: FormikProps<T>) => {
         : undefined,
   }
 }
+
+// ----- new -----
+
+// formikField.ts
+
+export type ChangeEventLike<T> = {
+  target: {
+    value: T
+    name?: string // optional so both styles work
+  }
+}
+
+export function formikField<
+  FormValues extends Record<string, unknown>,
+  T = string,
+>(formik: FormikProps<FormValues>, name: keyof FormValues & string) {
+  const { value, onChange, onBlur } = formik.getFieldProps(name)
+  const touched = formik.touched[name]
+  const error = formik.errors[name]
+
+  return {
+    name,
+    // Cast to T for consumers that expect a stricter type (e.g., string Select)
+    value: (value as unknown as T) ?? ('' as unknown as T),
+    onChange: onChange as (_e: ChangeEventLike<T>) => void,
+    onBlur,
+    error: Boolean(touched && error),
+    helperText: (touched && (error as string)) || undefined,
+  } as const
+}
+
+export function formikBoolField<FormValues extends Record<string, unknown>>(
+  formik: FormikProps<FormValues>,
+  name: keyof FormValues & string,
+) {
+  const touched = formik.touched[name]
+  const error = formik.errors[name]
+
+  return {
+    name,
+    checked: Boolean(formik.values[name]),
+    // matches your Checkbox's onChange signature: ({ target: { name, value: boolean } })
+    onChange: ({
+      target: { value },
+    }: {
+      target: { name: string; value: boolean }
+    }) => formik.setFieldValue(name, value),
+    onBlur: () => formik.setFieldTouched(name, true),
+    error: Boolean(touched && error),
+    helperText: (touched && (error as string)) || undefined,
+  } as const
+}
+
+export function formikArrayField<FormValues extends Record<string, unknown>>(
+  formik: FormikProps<FormValues>,
+  name: keyof FormValues & string,
+) {
+  const touched = formik.touched[name]
+  const error = formik.errors[name]
+
+  return {
+    name,
+    value: (formik.values[name] as unknown as string[]) ?? [],
+    onChange: ((e: ChangeEventLike<string[]>) =>
+      formik.setFieldValue(name, e.target.value)) as (
+      _e: ChangeEventLike<string[]>,
+    ) => void,
+    onBlur: () => formik.setFieldTouched(name, true),
+    error: Boolean(touched && error),
+    helperText: (touched && (error as string)) || undefined,
+  } as const
+}

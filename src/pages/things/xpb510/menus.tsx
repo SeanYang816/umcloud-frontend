@@ -9,7 +9,6 @@ import {
   PortTrigger,
   TrafficRules,
 } from './network/firewall'
-import { Alg } from './alg'
 import { Bgp, Ospf, Rip, StaticRoutes } from './routing'
 import {
   AccessManagement,
@@ -22,6 +21,7 @@ import { RealtimeGraphs, Routes, SystemLog } from './status'
 
 import { Lan } from './network/lan'
 import { Iot } from './iot'
+import { Alg } from './network/alg'
 
 export type TabMenuProps = {
   label: string

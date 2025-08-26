@@ -1,3 +1,8 @@
+import React, { forwardRef, useEffect, useMemo } from 'react'
+import {
+  Button as MuiButton,
+  ButtonProps as MuiButtonProps,
+} from '@mui/material'
 import {
   AddRounded,
   AutorenewRounded,
@@ -12,16 +17,9 @@ import {
   SettingsPowerRounded,
   UndoRounded,
 } from '@mui/icons-material'
-import {
-  ButtonProps as MuiButtonProps,
-  Button as MuiButton,
-  Typography,
-  Box,
-} from '@mui/material'
-import { debounce } from 'lodash'
-import React, { useMemo } from 'react'
+import { debounce, DebouncedFunc } from 'lodash'
 
-const icons = {
+export const icons = {
   add: AddRounded,
   save: CheckRounded,
   apply: DoneAllRounded,
@@ -34,36 +32,67 @@ const icons = {
   renew: AutorenewRounded,
   reset: SettingsPowerRounded,
   reboot: PowerSettingsNewRounded,
+} as const
+
+export type IconKey = keyof typeof icons
+
+type BaseProps = Omit<MuiButtonProps, 'startIcon' | 'onClick' | 'children'>
+
+export type ButtonProps = BaseProps & {
+  icon?: IconKey
+  /** Simple label; if you need rich content, pass children instead. */
+  text?: string
+  children?: React.ReactNode
+  /** Kept as `() => void` to avoid synthetic event pooling issues with debounce. */
+  onClick?: () => void
+  /** Debounce delay in ms (default: 200). */
+  debounceMs?: number
+  /** Set true to disable debouncing. */
+  disableDebounce?: boolean
 }
 
-type ButtonProps<T extends keyof typeof icons> = {
-  icon?: T // Assuming icon is a React component
-  text: string
-  onClick: () => void
-} & MuiButtonProps
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
+    {
+      icon,
+      text,
+      children,
+      onClick,
+      debounceMs = 200,
+      disableDebounce = false,
+      variant = 'contained',
+      color = 'primary',
+      ...muiProps
+    },
+    ref,
+  ) {
+    // Create/cancel debounced handler safely.
+    const debounced: DebouncedFunc<() => void> | undefined = useMemo(() => {
+      if (!onClick || disableDebounce) return undefined
 
-export const Button: React.FC<ButtonProps<keyof typeof icons>> = ({
-  icon = '' as keyof typeof icons,
-  text,
-  onClick,
-  ...muiButtonProps
-}) => {
-  const Icon = icons[icon] ?? Box
+      return debounce(onClick, debounceMs)
+    }, [onClick, debounceMs, disableDebounce])
 
-  const debouncedOnClick = useMemo(() => debounce(onClick, 200), [onClick])
+    useEffect(() => {
+      return () => {
+        debounced?.cancel()
+      }
+    }, [debounced])
 
-  return (
-    <MuiButton
-      variant='contained'
-      color='primary'
-      onClick={debouncedOnClick}
-      sx={{ padding: '2px 12px 2px 8px' }}
-      {...muiButtonProps}
-    >
-      <Icon fontSize='medium' />
-      <Typography fontWeight={900} ml={0.5}>
-        {text}
-      </Typography>
-    </MuiButton>
-  )
-}
+    const clickHandler = debounced ? () => debounced() : onClick
+    const StartIcon = icon ? icons[icon] : undefined
+
+    return (
+      <MuiButton
+        ref={ref}
+        variant={variant}
+        color={color}
+        startIcon={StartIcon ? <StartIcon fontSize='medium' /> : undefined}
+        onClick={clickHandler}
+        {...muiProps}
+      >
+        {text ?? children}
+      </MuiButton>
+    )
+  },
+)

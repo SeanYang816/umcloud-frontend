@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootStateProps, StringStringType } from 'types'
 import { XPB_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { clearProperty } from 'reducers/bgw5105/firewall'
 import { AddPortTriggerForm } from './AddPortTriggerForm'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -76,7 +75,6 @@ export const PortTrigger = () => {
   const handleDialogClose = () => {
     setEditKey('')
     setIsFetch(false)
-    dispatch(clearProperty('portTriggerEdit'))
   }
 
   const handleApply = () => {

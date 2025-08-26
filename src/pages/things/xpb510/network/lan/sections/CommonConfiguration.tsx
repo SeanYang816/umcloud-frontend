@@ -1,15 +1,18 @@
 import { Card, Grid, Tab, Tabs, Typography, useTheme } from '@mui/material'
 import { TabPanel } from 'components/TabPanel'
-import { Select, TextField } from 'components/fields'
+import { Select, TextField } from 'components/formik'
 import React, { useMemo, useState } from 'react'
-import { selectProps, textfieldProps } from 'utils/formik'
-import { GetLANStatus, GetLanPage } from '../type'
+import { formikField } from 'utils/formik'
 import { FormikValuesType } from 'types'
 import { FormikProps } from 'formik'
 import { bytesToSize, durationConvert } from 'utils/old/utility'
 import { CardHeader } from 'components/extends/CardHeader'
 import { optionsConverter } from 'utils/optionsConverter'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
+import {
+  GetLanPageResponse,
+  GetLanStatusResponse,
+} from 'types/xpb510/network/lan'
 
 const TabIndex = {
   GENERAL_SETUP: 0,
@@ -19,8 +22,8 @@ const TabIndex = {
 type TabIndexType = (typeof TabIndex)[keyof typeof TabIndex]
 
 type CommonConfigurationProps = {
-  data: GetLanPage
-  statusData: GetLANStatus
+  data: GetLanPageResponse
+  statusData: GetLanStatusResponse
   formik: FormikProps<FormikValuesType>
 }
 
@@ -100,21 +103,25 @@ export const CommonConfiguration = ({
             ))}
           </Grid>
           <Select
-            {...selectProps('__natmode', 'Mode', natModeOptions, formik)}
+            label='Mode'
+            options={natModeOptions}
+            {...formikField(formik, '__natmode')}
           />
-          <TextField {...textfieldProps('ipaddr', 'IPv4 address', formik)} />
-          <TextField {...textfieldProps('netmask', 'IPv4 netmask', formik)} />
+          <TextField label='IPv4 address' {...formikField(formik, 'ipaddr')} />
+          <TextField label='IPv4 netmask' {...formikField(formik, 'netmask')} />
         </TabPanel>
 
         <TabPanel index={TabIndex.ADVANCED_SETTINGS} value={activeTab}>
           <TextField
-            {...textfieldProps('macaddr', 'Override MAC address', formik)}
+            label='Override MAC address'
             placeholder='00:11:E0:00:51:06'
+            {...formikField(formik, 'macaddr')}
           />
           <TextField
-            {...textfieldProps('mtu', 'Override MTU', formik)}
             type='number'
+            label='Override MTU'
             placeholder='1500'
+            {...formikField(formik, 'mtu')}
           />
         </TabPanel>
       </StyledCardContent>

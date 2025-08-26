@@ -1,16 +1,18 @@
 import { StyledMuiReactTable } from 'components/StyledMuiReactTable'
 import { Button } from 'components/extends/Button'
-import { Select, TextField } from 'components/fields'
+import { Select, TextField } from 'components/formik'
 import { validation } from 'config'
 import { MRT_ColumnDef } from 'material-react-table'
 import { optionsConverter } from 'utils/optionsConverter'
-import { DeleteHostEntriesProps, GetLanPage } from '../type'
 import { FormikProps } from 'formik'
 import { FormikValuesType } from 'types'
+import { GetLanPageResponse } from 'types/xpb510/network/lan'
+import { DeleteHostEntriesProps } from 'pages/things/bgw5105/network/Lan/type'
+import { formikField } from 'utils/formik'
 
 type HostEntriesProps = {
   formik: FormikProps<FormikValuesType>
-  data: GetLanPage
+  data: GetLanPageResponse
   list: DeleteHostEntriesProps[]
   onAdd: () => void
   onDelete: (_arg0: string) => void
@@ -36,8 +38,8 @@ export const HostEntries = ({
 
         return (
           <TextField
-            {...formik.getFieldProps(`hostEntires_${key}_name`)}
-            errorMessage={
+            {...formikField(formik, `hostEntires_${key}_name`)}
+            helperText={
               formik.touched[`hostEntires_${key}_name`] &&
               !validation.hostname.reg.test(value)
                 ? validation.hostname.error
@@ -57,9 +59,9 @@ export const HostEntries = ({
 
         return (
           <Select
-            {...formik.getFieldProps(`hostEntires_${key}_ip`)}
             options={optionsConverter(suggest, key + '.ip')}
-            errorMessage={
+            {...formikField(formik, `hostEntires_${key}_ip`)}
+            helperText={
               formik.touched[`hostEntires_${key}_ip`] &&
               !validation.ip4addr.reg.test(value)
                 ? validation.ip4addr.error

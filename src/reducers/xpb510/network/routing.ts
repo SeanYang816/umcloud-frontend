@@ -4,12 +4,12 @@ import {
   GetOSPFEditPageResponse,
   GetOspfPageResponse,
   GetRipEditPageResponse,
-  GetRIPPageResponse,
+  GetRipPageResponse,
   GetStaticRoutesPageResponse,
 } from 'types/xpb510/network/routing'
 
 type StaticRoutesState = GetStaticRoutesPageResponse | null
-type RipState = GetRIPPageResponse | null
+type RipState = GetRipPageResponse | null
 type RipEditState = GetRipEditPageResponse | null
 type OspfState = GetOspfPageResponse | null
 type OspfEditState = GetOSPFEditPageResponse | null

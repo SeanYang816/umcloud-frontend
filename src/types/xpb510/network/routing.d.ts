@@ -1,52 +1,29 @@
 /** 1.8.1 Static Routes */
 
-import { BoolString, StatusMessageType } from 'types'
+import { BoolString, Options, StatusMessageType, Suggest } from 'types'
 
 // 1.8.1.1 Get Static Routes Page
-export type GetStaticRoutesPageRequest = {
-  get_options?: BoolString
-}
+export type GetStaticRoutesPageResult = {
+  route: string[]
+} & Record<
+  | `cbid.network.${string}.master_interface`
+  | `cbid.network.${string}.target`
+  | `cbid.network.${string}.netmask`
+  | `cbid.network.${string}.gateway`
+  | `cbid.network.${string}.metric`,
+  string
+>
 
 export type GetStaticRoutesPageResponse = StatusMessageType & {
-  result: {
-    route: string[]
-  } & Partial<
-    Record<
-      `cbid.network.${string}.master_interface`,
-      'lan' | 'wan' | 'wan2' | string
-    >
-  > &
-    Partial<
-      Record<
-        | `cbid.network.${string}.target`
-        | `cbid.network.${string}.netmask`
-        | `cbid.network.${string}.gateway`
-        | `cbid.network.${string}.metric`,
-        string
-      >
-    >
-  options: Partial<Record<string, unknown>>
+  result: GetStaticRoutesPageResult
+  options: Options
 }
 
 // 1.8.1.2 Set Static Routes Page
 export type SetStaticRoutesPageRequest = {
   'cbi.submit': string
   'cbi.apply'?: 'Apply' | string
-} & Partial<
-  Record<
-    `cbid.network.${string}.master_interface`,
-    'lan' | 'wan' | 'wan2' | string
-  >
-> &
-  Partial<
-    Record<
-      | `cbid.network.${string}.target`
-      | `cbid.network.${string}.netmask`
-      | `cbid.network.${string}.gateway`
-      | `cbid.network.${string}.metric`,
-      string
-    >
-  >
+} & GetStaticRoutesPageResult
 
 export type SetStaticRoutesPageResponse = GetStaticRoutesPageResponse & {
   errors?: Record<string, unknown>
@@ -69,35 +46,34 @@ export type DeleteStaticIPv4RoutesRequest = SetStaticRoutesPageRequest & {
 /** 1.8.2 RIP */
 
 // 1.8.2.1 Get RIP Page
-export type GetRIPPageResponse = StatusMessageType & {
-  result: {
-    'cbid.ripd.config.enable': BoolString
-    'cbid.ripd.config.version': '2' | string
-    'rip-interface': string[]
-  } & Partial<
-    Record<
-      | `cbid.ripd.${string}.name`
-      | `cbid.ripd.${string}.enabled`
-      | `cbid.ripd.${string}.send_version`
-      | `cbid.ripd.${string}.receive_version`
-      | `cbid.ripd.${string}.authentication`
-      | `cbid.ripd.${string}.key_string`
-      | `cbid.ripd.${string}.key_mode`,
-      string
-    >
-  >
-  options: Partial<Record<string, unknown>>
+export type GetRipPageResult = {
+  'cbid.ripd.config.enable': string
+  'cbid.ripd.config.version': string
+  'rip-interface': string[]
+} & Record<
+  | `cbid.ripd.${string}.name`
+  | `cbid.ripd.${string}.enabled`
+  | `cbid.ripd.${string}.send_version`
+  | `cbid.ripd.${string}.receive_version`
+  | `cbid.ripd.${string}.authentication`
+  | `cbid.ripd.${string}.key_string`
+  | `cbid.ripd.${string}.key_mode`,
+  string
+>
+export type GetRipPageResponse = StatusMessageType & {
+  result: GetRipPageResult
+  options: Options
 }
 
 // 1.8.2.2 Set RIP Page
 export type SetRIPPageRequest = {
-  'cbi.submit': '1' | string
-  'cbi.apply'?: 'Apply' | string
-  'cbid.ripd.config.enable': BoolString
-  'cbid.ripd.config.version': '2' | string
+  'cbi.submit': string
+  'cbi.apply'?: string
+  'cbid.ripd.config.enable': string
+  'cbid.ripd.config.version': string
 }
 
-export type SetRIPPageResponse = GetRIPPageResponse & {
+export type SetRIPPageResponse = GetRipPageResponse & {
   errors?: Record<string, unknown>
   apply?: string
 }
@@ -196,21 +172,20 @@ export type SetOSPFEditPageResponse = GetOSPFEditPageResponse & {
 /** 1.8.4 BGP */
 
 // 1.8.4.1 Get BGP Page
+export type GetBgpPageResult = {
+  'cbid.bgpd.config.enable': string
+  'cbid.bgpd.config.router_id': string // ip4addr
+  'cbid.bgpd.config.asn': string
+  'bgp-interface': string[]
+  neighbor: string[]
+} & Record<
+  `cbid.bgpd.${string}.${'name' | 'bgp_enable' | 'neighbor_ip' | 'authentication' | 'key_string' | 'remote_as'}`,
+  string
+>
 export type GetBgpPageResponse = StatusMessageType & {
-  result: {
-    'cbid.bgpd.config.enable': string
-    'cbid.bgpd.config.router_id': string // ip4addr
-    'cbid.bgpd.config.asn': string
-    'bgp-interface': string[]
-    neighbor: string[]
-  } & Partial<Record<`cbid.bgpd.${string}.${'name' | 'bgp_enable'}`, string>> &
-    Partial<
-      Record<
-        `cbid.bgpd.${string}.${'neighbor_ip' | 'authentication' | 'key_string' | 'remote_as'}`,
-        string
-      >
-    >
-  options: Record<string, unknown>
+  result: GetBgpPageResult
+  options?: Options
+  suggest: Suggest
 }
 
 // 1.8.4.2 Set BGP Page

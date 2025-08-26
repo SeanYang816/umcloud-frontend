@@ -4,21 +4,19 @@ import { Card, CardActions } from '@mui/material'
 import { formValidationSchema } from './validationSchema'
 import { XPB_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { TextField, Select } from 'components/fields'
 import { optionsConverter } from 'utils/optionsConverter'
-import {
-  handleSelectInputChange,
-  selectProps,
-  textfieldProps,
-} from 'utils/formik'
+import { formikField } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
-import { FormikValuesType, StringStringType, OptionsOrSuggestType } from 'types'
+import { FormikValuesType, StringStringType, Suggest, Options } from 'types'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
+import { SelectWithCustom } from 'components/formik/SelectWithCustom'
+import { Select } from 'components/formik/Select'
+import { TextField } from 'components/formik/TextField'
 
 type FormTypes = {
-  suggest: OptionsOrSuggestType
-  options: OptionsOrSuggestType
+  suggest: Suggest
+  options: Options
   list: StringStringType[]
 }
 export const AddPortForwardForm: React.FC<FormTypes> = ({
@@ -78,32 +76,33 @@ export const AddPortForwardForm: React.FC<FormTypes> = ({
     <Card>
       <CardHeader title='Add New Port Forward Rule' />
       <StyledCardContent>
-        <TextField
-          {...textfieldProps('name', 'Name:', formik)}
-          placeholder='New Port Forward Name'
-        />
-        <Select {...selectProps('proto', 'Protocol:', protoList, formik)} />
+        <TextField label='Name' {...formikField(formik, 'name')} />
+
         <Select
-          {...selectProps(
-            'extiface',
-            'External interface:',
-            extifaceList,
-            formik,
-          )}
+          label='Protocol'
+          options={protoList}
+          {...formikField(formik, 'proto')}
         />
-        <TextField {...textfieldProps('extPort', 'External port:', formik)} />
         <Select
-          {...selectProps(
-            'intaddr',
-            'Internal IP address:',
-            intaddrList,
-            formik,
-          )}
-          onChange={(e) => handleSelectInputChange(e, formik)}
+          label='External interface'
+          options={extifaceList}
+          {...formikField(formik, 'extiface')}
         />
-        <TextField {...textfieldProps('intPort', 'Internal port:', formik)} />
+        <TextField label='External port' {...formikField(formik, 'extPort')} />
+
+        <SelectWithCustom
+          {...formikField(formik, 'intaddr')}
+          label='Internal IP address:'
+          options={intaddrList}
+          triggerValue='-- custom --'
+        />
+
+        <TextField label='Internal port' {...formikField(formik, 'intPort')} />
+
         <Select
-          {...selectProps('schedule', 'Schedule:', scheduleList, formik)}
+          label='Schedule'
+          options={scheduleList}
+          {...formikField(formik, 'schedule')}
         />
       </StyledCardContent>
 

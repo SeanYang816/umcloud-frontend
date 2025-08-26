@@ -1,8 +1,8 @@
 import { isEmpty } from 'lodash'
-import { OptionsOrSuggestType } from 'types'
+import { Options, OptionsOrSuggestType } from 'types'
 
 export const optionsConverter = (
-  options: OptionsOrSuggestType = {},
+  options: OptionsOrSuggestType | Options = {},
   propertyName = '',
 ) => {
   console.info(options, propertyName)

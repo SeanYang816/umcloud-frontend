@@ -2,19 +2,31 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { XPB_EVENT_ACTIONS } from 'constant'
-import { FormikValuesType, RootStateProps } from 'types'
+import { RootStateProps } from 'types'
 import { PageHeader } from 'components/PageHeader'
 import { resetAlg } from 'reducers/xpb510/network/alg'
 import { Card, LinearProgress, Stack } from '@mui/material'
 import { CardHeader } from 'components/extends/CardHeader'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
-import { Select } from 'components/fields'
-import { selectProps } from 'utils/formik'
+import { Select } from 'components/formik'
+import { formikField } from 'utils/formik'
 import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { GetAlgPageResult } from 'types/xpb510/network/alg'
+import { GetAlgPageResult, SetAlgPageRequest } from 'types/xpb510/network/alg'
+
+type FormValues = {
+  ftp: string
+  tftp: string
+  snmp: string
+  sip: string
+  rtsp: string
+  irc: string
+  h323: string
+}
+
+type Name = keyof FormValues // "ftp" | "tftp" | ...
 
 const checkList = [
   { name: 'ftp', label: 'File Transfer Protocol (FTP)' },
@@ -24,7 +36,8 @@ const checkList = [
   { name: 'rtsp', label: 'Real Time Streaming Protocol (RTSP)' },
   { name: 'irc', label: 'Internet Relay Chat (IRC)' },
   { name: 'h323', label: 'H.323 Protocol' },
-]
+] as const satisfies ReadonlyArray<{ name: Name; label: string }>
+
 export const Alg = () => {
   const dispath = useDispatch()
   const data = useSelector((state: RootStateProps) => state.xpb510.network.alg)
@@ -33,20 +46,21 @@ export const Alg = () => {
 
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
 
-  const formik = useFormik<FormikValuesType>({
+  const formik = useFormik<FormValues>({
     initialValues: {
-      ftp: result['cbid.alg.alg.ftp'] ?? '1',
-      tftp: result['cbid.alg.alg.tftp'] ?? '1',
-      snmp: result['cbid.alg.alg.snmp'] ?? '1',
-      sip: result['cbid.alg.alg.sip'] ?? '1',
-      rtsp: result['cbid.alg.alg.rtsp'] ?? '1',
-      irc: result['cbid.alg.alg.irc'] ?? '1',
-      h323: result['cbid.alg.alg.h323'] ?? '1',
+      ftp: result['cbid.alg.alg.ftp'],
+      tftp: result['cbid.alg.alg.tftp'],
+      snmp: result['cbid.alg.alg.snmp'],
+      sip: result['cbid.alg.alg.sip'],
+      rtsp: result['cbid.alg.alg.rtsp'],
+      irc: result['cbid.alg.alg.irc'],
+      h323: result['cbid.alg.alg.h323'],
     },
     enableReinitialize: true,
     validationSchema: Yup.object().shape({}),
     onSubmit: (values) => {
-      const payload: GetAlgPageResult = {
+      const payload: SetAlgPageRequest = {
+        'cbi.submit': '1',
         'cbid.alg.alg.ftp': String(values.ftp),
         'cbid.alg.alg.tftp': String(values.tftp),
         'cbid.alg.alg.snmp': String(values.snmp),
@@ -84,7 +98,9 @@ export const Alg = () => {
               {checkList.map((item, index) => (
                 <Select
                   key={index}
-                  {...selectProps(item.name, item.label, booleanList, formik)}
+                  label={item.label}
+                  options={booleanList}
+                  {...formikField(formik, item.name)}
                 />
               ))}
             </StyledCardContent>

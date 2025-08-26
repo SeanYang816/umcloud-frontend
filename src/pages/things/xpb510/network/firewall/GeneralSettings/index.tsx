@@ -4,19 +4,24 @@ import { Card, LinearProgress, Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { CardHeader } from 'components/extends/CardHeader'
-import { RootStateProps, FormikValuesType } from 'types'
+import { RootStateProps } from 'types'
 import { XPB_EVENT_ACTIONS } from 'constant'
-import { selectProps } from 'utils/formik'
 import { PageHeader } from 'components/PageHeader'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
-import { Select } from 'components/fields'
 import { resetFirewallState } from 'reducers/xpb510/network/firewall'
+import { GetGeneralSettingsPageResult } from 'types/xpb510/network/firewall'
+import { Select } from 'components/formik/Select'
+import { formikField } from 'utils/formik'
 
-type PayloadType = {
-  'cbid.firewall.wan_ping.enabled': string
+const FIELD_KEYS = {
+  wanPingEnabled: 'cbid.firewall.wan_ping.enabled',
+} as const
+
+type FormValues = {
+  wanPingEnabled: string
 }
 
 export const GeneralSettings = () => {
@@ -36,18 +41,19 @@ export const GeneralSettings = () => {
     }
   }, [dispatch, sendWsGetMessage])
 
-  const formik = useFormik<FormikValuesType>({
+  const formik = useFormik<FormValues>({
     initialValues: {
-      enableWanPing: data?.result['cbid.firewall.wan_ping.enabled'] ?? '0',
+      wanPingEnabled: data?.result?.[FIELD_KEYS.wanPingEnabled] ?? '0',
     },
     enableReinitialize: true,
-    validationSchema: Yup.object().shape({
-      enableWanPing: Yup.boolean(),
+    validationSchema: Yup.object({
+      wanPingEnabled: Yup.string().required(),
     }),
-    onSubmit: () => {
-      const payload: PayloadType = {
-        'cbid.firewall.wan_ping.enabled': formik.values.enableWanPing,
-      } as PayloadType
+    onSubmit: (values) => {
+      const payload: GetGeneralSettingsPageResult = {
+        [FIELD_KEYS.wanPingEnabled]: values.wanPingEnabled,
+      }
+
       sendWsSetMessage(
         XPB_EVENT_ACTIONS.XPB_510_FIREWALL_SET_GENERAL_SETTINGS_PAGE,
         payload,
@@ -66,14 +72,21 @@ export const GeneralSettings = () => {
           <CardHeader title='WAN Ping Respond' />
           <StyledCardContent>
             <Select
-              {...selectProps('enableWanPing', 'Enable', booleanList, formik)}
+              label='Enable'
+              options={booleanList}
+              {...formikField(formik, 'wanPingEnabled')}
             />
           </StyledCardContent>
         </Card>
       )}
 
       <Stack direction='row' ml='auto'>
-        <Button icon='save' text='save' onClick={() => formik.handleSubmit()} />
+        <Button
+          icon='save'
+          text='save'
+          disabled={formik.isSubmitting || !formik.dirty}
+          onClick={() => formik.submitForm()}
+        />
       </Stack>
     </>
   )

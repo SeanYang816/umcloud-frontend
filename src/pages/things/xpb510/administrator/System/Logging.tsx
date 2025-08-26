@@ -1,10 +1,10 @@
 import { Card, InputAdornment } from '@mui/material'
-import { TextField as TextField, Select as Select } from 'components/fields'
-import { selectProps, textfieldProps } from 'utils/formik'
+import { formikField } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
 import { FormikValuesType, SelectOptionProps } from 'types'
 import { FormikProps } from 'formik'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
+import { Select, TextField } from 'components/formik'
 
 type LoggingType = {
   title: string
@@ -25,42 +25,37 @@ export const Logging = ({
       <StyledCardContent>
         {/* Log Buffer Size */}
         <TextField
-          {...textfieldProps('log_size', 'System log buffer size', formik)}
-          InputProps={{
-            endAdornment: <InputAdornment position='end'>kiB</InputAdornment>,
+          label='System log buffer size'
+          {...formikField(formik, 'log_size')}
+          slotProps={{
+            input: {
+              endAdornment: <InputAdornment position='end'>kiB</InputAdornment>,
+            },
           }}
         />
         {/* External System Log Server */}
         <TextField
-          {...textfieldProps('log_ip', 'External system log server', formik)}
+          label='External system log server'
+          {...formikField(formik, 'log_ip')}
           placeholder='0.0.0.0'
         />
         {/* External System Log Server Port */}
         <TextField
-          {...textfieldProps(
-            'log_port',
-            'External system log server port',
-            formik,
-          )}
+          label='External system log server port'
+          {...formikField(formik, 'log_port')}
           placeholder='514'
         />
         {/* Log Output Level */}
         <Select
-          {...selectProps(
-            'conloglevel',
-            'Log output level',
-            conloglevelOptions,
-            formik,
-          )}
+          label='Log output level'
+          options={conloglevelOptions}
+          {...formikField(formik, 'conloglevel')}
         />
         {/* Cron Log Level */}
         <Select
-          {...selectProps(
-            'cronloglevel',
-            'Cron Log Level',
-            cronloglevelOptions,
-            formik,
-          )}
+          label='Cron Log Level'
+          options={cronloglevelOptions}
+          {...formikField(formik, 'cronloglevel')}
         />
       </StyledCardContent>
     </Card>

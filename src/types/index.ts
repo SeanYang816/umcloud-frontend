@@ -175,3 +175,6 @@ export type Assoc = {
   inactive: number
   signal: number
 }
+
+export type Suggest = Record<string, unknown>
+export type Options = Record<string, unknown>

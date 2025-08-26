@@ -10,25 +10,17 @@ import { dosPreventionValidationSchema } from './validationSchema'
 import { Card, Stack } from '@mui/material'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { BGW_EVENT_ACTIONS } from 'constant'
-import { TextField, Select } from 'components/fields'
+import { TextField, Select } from 'components/formik'
 import { CardHeader } from 'components/extends/CardHeader'
-import { selectProps } from 'utils/formik'
+import { formikField } from 'utils/formik'
 import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
-import { DosPreventionPageResult } from 'types/xpb510/network/firewall'
+import {
+  DosPreventionPageResult,
+  SetDoSPreventionEditPageRequest,
+} from 'types/xpb510/network/firewall'
 
-type PayloadType = {
-  'cbid.firewall.dos.tcp_enabled': string
-  'cbid.firewall.dos.tcp_burst': string
-  'cbid.firewall.dos.tcp_rate': string
-  'cbid.firewall.dos.udp_enabled': string
-  'cbid.firewall.dos.udp_burst': string
-  'cbid.firewall.dos.udp_rate': string
-  'cbid.firewall.dos.icmp_enabled': string
-  'cbid.firewall.dos.icmp_burst': string
-  'cbid.firewall.dos.icmp_rate': string
-}
 export const DosPrevention = () => {
   const dispatch = useDispatch()
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
@@ -39,38 +31,21 @@ export const DosPrevention = () => {
 
   const formik = useFormik<FormikValuesType>({
     initialValues: {
-      tcp_enabled: result[`cbid.firewall.dos.tcp_enabled`] ?? '0',
-      tcp_rate:
-        result[`cbid.firewall.dos.tcp_rate`] != null
-          ? Number(result[`cbid.firewall.dos.tcp_rate`])
-          : 25,
-      tcp_burst:
-        result[`cbid.firewall.dos.tcp_burst`] != null
-          ? Number(result[`cbid.firewall.dos.tcp_burst`])
-          : 50,
-      udp_enabled: result[`cbid.firewall.dos.udp_enabled`] ?? '0',
-      udp_rate:
-        result[`cbid.firewall.dos.udp_rate`] != null
-          ? Number(result[`cbid.firewall.dos.udp_rate`])
-          : 25,
-      udp_burst:
-        result[`cbid.firewall.dos.udp_burst`] != null
-          ? Number(result[`cbid.firewall.dos.udp_burst`])
-          : 50,
-      icmp_enabled: result[`cbid.firewall.dos.icmp_enabled`] ?? '0',
-      icmp_rate:
-        result[`cbid.firewall.dos.icmp_rate`] != null
-          ? Number(result[`cbid.firewall.dos.icmp_rate`])
-          : 25,
-      icmp_burst:
-        result[`cbid.firewall.dos.icmp_burst`] != null
-          ? Number(result[`cbid.firewall.dos.icmp_burst`])
-          : 50,
+      tcp_enabled: result[`cbid.firewall.dos.tcp_enabled`],
+      tcp_rate: Number(result[`cbid.firewall.dos.tcp_rate`]),
+      tcp_burst: Number(result[`cbid.firewall.dos.tcp_burst`]),
+      udp_enabled: result[`cbid.firewall.dos.udp_enabled`],
+      udp_rate: Number(result[`cbid.firewall.dos.udp_rate`]),
+      udp_burst: Number(result[`cbid.firewall.dos.udp_burst`]),
+      icmp_enabled: result[`cbid.firewall.dos.icmp_enabled`],
+      icmp_rate: Number(result[`cbid.firewall.dos.icmp_rate`]),
+      icmp_burst: Number(result[`cbid.firewall.dos.icmp_burst`]),
     },
     enableReinitialize: true,
     validationSchema: dosPreventionValidationSchema,
     onSubmit: (values) => {
-      const payload: PayloadType = {
+      const payload: SetDoSPreventionEditPageRequest = {
+        [`cbi.submit`]: '1',
         [`cbid.firewall.dos.tcp_enabled`]: String(values.tcp_enabled),
         [`cbid.firewall.dos.tcp_burst`]: String(values.tcp_burst),
         [`cbid.firewall.dos.tcp_rate`]: String(values.tcp_rate),
@@ -111,19 +86,21 @@ export const DosPrevention = () => {
             <CardHeader title='TCP SYN Flood Prevention' />
             <StyledCardContent>
               <Select
-                {...selectProps('tcp_enabled', 'Enable', booleanList, formik)}
+                label='Enable'
+                options={booleanList}
+                {...formikField(formik, 'tcp_enabled')}
               />
               {formik.values.tcp_enabled === '1' && (
                 <>
                   <TextField
-                    {...formik.getFieldProps('tcp_rate')}
-                    label='Rate (times per second):'
                     type='number'
+                    label='Rate (times per second)'
+                    {...formikField(formik, 'tcp_rate')}
                   />
                   <TextField
-                    {...formik.getFieldProps('tcp_burst')}
-                    label='Burst:'
                     type='number'
+                    label='Burst'
+                    {...formikField(formik, 'tcp_burst')}
                   />
                 </>
               )}
@@ -133,7 +110,9 @@ export const DosPrevention = () => {
             <CardHeader title='UDP Flood Prevention' />
             <StyledCardContent>
               <Select
-                {...selectProps('udp_enabled', 'Enable', booleanList, formik)}
+                label='Enable'
+                options={booleanList}
+                {...formikField(formik, 'udp_enabled')}
               />
               {formik.values.udp_enabled === '1' && (
                 <>
@@ -143,9 +122,9 @@ export const DosPrevention = () => {
                     type='number'
                   />
                   <TextField
-                    {...formik.getFieldProps('udp_burst')}
-                    label='Burst:'
                     type='number'
+                    label='Burst'
+                    {...formikField(formik, 'udp_burst')}
                   />
                 </>
               )}
@@ -155,19 +134,21 @@ export const DosPrevention = () => {
             <CardHeader title='ICMP Flood Prevention' />
             <StyledCardContent>
               <Select
-                {...selectProps('icmp_enabled', 'Enable', booleanList, formik)}
+                label='Enable'
+                options={booleanList}
+                {...formikField(formik, 'icmp_enabled')}
               />
               {formik.values.icmp_enabled === '1' && (
                 <>
                   <TextField
-                    {...formik.getFieldProps('icmp_rate')}
-                    label='Rate (times per second):'
                     type='number'
+                    label='Rate (times per second)'
+                    {...formikField(formik, 'icmp_rate')}
                   />
                   <TextField
-                    {...formik.getFieldProps('icmp_burst')}
-                    label='Burst:'
                     type='number'
+                    label='Burst'
+                    {...formikField(formik, 'icmp_burst')}
                   />
                 </>
               )}

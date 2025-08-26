@@ -1,18 +1,27 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { RootStateProps, FormikValuesType } from 'types'
+import { RootStateProps } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { XPB_EVENT_ACTIONS } from 'constant'
-import { TextField, Select, Checkbox } from 'components/fields'
+import { TextField, Select, Checkbox } from 'components/formik'
 import { useFormik } from 'formik'
-import { Dialog, DialogActions, DialogContent } from '@mui/material'
-import { textfieldProps, selectProps, checkboxProps } from 'utils/formik'
+import {
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+} from '@mui/material'
+import { formikField } from 'utils/formik'
 import { modalValidationSchema } from './validationSchema'
 import { DialogProps } from 'types'
 import sleep from 'utils/sleep'
 import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
+import {
+  GetOneToOneNatField,
+  SetOneToOneNatEditPageRequest,
+} from 'types/xpb510/network/firewall'
 
 export const AddOneToOneNatEditDialog: React.FC<DialogProps> = ({
   id,
@@ -36,7 +45,9 @@ export const AddOneToOneNatEditDialog: React.FC<DialogProps> = ({
     `cbid.firewall.${id}.time_schedule`,
   )
 
-  const formik = useFormik<FormikValuesType>({
+  type OneToOneNatValues = Record<GetOneToOneNatField, string>
+
+  const formik = useFormik<OneToOneNatValues>({
     initialValues: {
       __enabled: result[`cbid.firewall.${id}.__enabled`] ?? '1',
       name: result[`cbid.firewall.${id}.name`] ?? '',
@@ -53,7 +64,8 @@ export const AddOneToOneNatEditDialog: React.FC<DialogProps> = ({
     enableReinitialize: true,
     validationSchema: modalValidationSchema,
     onSubmit: async (values) => {
-      const payload = {
+      const payload: SetOneToOneNatEditPageRequest = {
+        'cbi.submit': '1',
         [`cbid.firewall.${id}.__enabled`]: values.__enabled,
         [`cbid.firewall.${id}.name`]: values.name,
         [`cbid.firewall.${id}.dest_ip`]: values.dest_ip,
@@ -84,41 +96,66 @@ export const AddOneToOneNatEditDialog: React.FC<DialogProps> = ({
 
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
-      <DialogContent>
-        <Select
-          {...selectProps('__enabled', 'Rule is enabled:', booleanList, formik)}
-        />
-        <TextField {...textfieldProps('name', 'Name:', formik)} />
-        <Select
-          {...selectProps('dest_ip', 'Private IP:', destIpList, formik)}
-        />
-        <TextField {...textfieldProps('src_ip', 'Public IP:', formik)} />
-        <Select {...selectProps('iface', 'Interface:', ifaceList, formik)} />
-        <Select
-          {...selectProps('fwdmode', 'Forwarding Mode:', fwdmodeList, formik)}
-        />
-        {isfwdmodePortForward && (
-          <>
-            <Select {...selectProps('proto', 'Protocol:', protoList, formik)} />
-            <TextField
-              {...textfieldProps('src_port', 'External Port:', formik)}
-            />
-            <TextField
-              {...textfieldProps('dest_port', 'Internal Port:', formik)}
-            />
-            <Checkbox
-              {...checkboxProps('reflection', 'Enable NAT Loopback:', formik)}
-            />
-          </>
-        )}
-        <Select
-          {...selectProps('time_schedule', 'Schedule:', scheduleList, formik)}
-        />
-      </DialogContent>
+      {!data ? (
+        <CircularProgress />
+      ) : (
+        <DialogContent>
+          <Select
+            label='Rule is enabled'
+            options={booleanList}
+            {...formikField(formik, '__enabled')}
+          />
+          <TextField label='Name' {...formikField(formik, 'name')} />
+          <Select
+            label='Private IP'
+            options={destIpList}
+            {...formikField(formik, 'dest_ip')}
+          />
+          <TextField label='Public IP' {...formikField(formik, 'src_ip')} />
+          <Select
+            label='Interface'
+            options={ifaceList}
+            {...formikField(formik, 'iface')}
+          />
+          <Select
+            label='Forwarding Mode'
+            options={fwdmodeList}
+            {...formikField(formik, 'fwdmode')}
+          />
+          {isfwdmodePortForward && (
+            <>
+              <Select
+                label='Protocol'
+                options={protoList}
+                {...formikField(formik, 'proto')}
+              />
+              <TextField
+                label='External Port'
+                {...formikField(formik, 'src_port')}
+              />
+              <TextField
+                label='Internal Port'
+                {...formikField(formik, 'dest_port')}
+              />
+              <Checkbox
+                label='Enable NAT Loopback'
+                {...formikField(formik, 'reflection')}
+              />
+            </>
+          )}
+          <Select
+            label='Schedule'
+            options={scheduleList}
+            {...formikField(formik, 'time_schedule')}
+          />
+        </DialogContent>
+      )}
+
       <DialogActions>
         <Button
           icon='confirm'
           text='confirm'
+          disabled={!data || !formik.dirty || !formik.isValid}
           onClick={() => formik.handleSubmit()}
         />
         <Button icon='cancel' text='cancel' color='error' onClick={onClose} />

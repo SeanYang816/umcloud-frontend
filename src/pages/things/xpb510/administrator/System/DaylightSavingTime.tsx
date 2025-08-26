@@ -1,10 +1,10 @@
 import { Card, Grid, InputLabel } from '@mui/material'
-import { Select as Select } from 'components/fields'
-import { selectProps } from 'utils/formik'
+import { formikField } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
 import { FormikProps } from 'formik'
 import { FormikValuesType, SelectOptionProps } from 'types'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
+import { Select } from 'components/formik'
 
 type DaylightSavingTimeType = {
   title: string
@@ -42,94 +42,68 @@ export const DaylightSavingTime = ({
       <CardHeader title={title} />
       <StyledCardContent>
         <Select
-          {...selectProps(
-            'daylight_saving_enable',
-            'Daylight Saving Enable',
-            daylightSavingEnableOptions,
-            formik,
-          )}
+          label='Daylight Saving Enable'
+          options={daylightSavingEnableOptions}
+          {...formikField(formik, 'daylight_saving_enable')}
         />
         {isModeEnable && (
           <>
             <Select
-              {...selectProps(
-                'daylight_saving_offset',
-                'Daylight Saving Enable',
-                daylightSavingOffsetOptions,
-                formik,
-              )}
+              label='Daylight Saving Enable'
+              options={daylightSavingOffsetOptions}
+              {...formikField(formik, 'daylight_saving_offset')}
             />
             <Grid container>
               <Grid display='flex' alignItems='center' gap={2}>
-                <InputLabel>Daylight Saving Start</InputLabel>
+                <InputLabel sx={{ overflow: 'visible' }}>
+                  Daylight Saving Start
+                </InputLabel>
                 <Select
-                  {...selectProps(
-                    'daylight_saving_start_month',
-                    'Month',
-                    daylightSavingStartMonthOptions,
-                    formik,
-                  )}
+                  label='Month'
+                  options={daylightSavingStartMonthOptions}
+                  {...formikField(formik, 'daylight_saving_start_month')}
                 />
                 <Select
-                  {...selectProps(
-                    'daylight_saving_start_week',
-                    'Week',
-                    daylightSavingStartWeekOptions,
-                    formik,
-                  )}
+                  label='Week'
+                  options={daylightSavingStartWeekOptions}
+                  {...formikField(formik, 'daylight_saving_start_week')}
                 />
                 <Select
-                  {...selectProps(
-                    'daylight_saving_start_day_of_week',
-                    'Day of Week',
-                    daylightSavingStartDayOfWeekOptions,
-                    formik,
-                  )}
+                  label='Day of Week'
+                  options={daylightSavingStartDayOfWeekOptions}
+                  {...formikField(formik, 'daylight_saving_start_day_of_week')}
                 />
                 <Select
-                  {...selectProps(
-                    'daylight_saving_start_time',
-                    'Hour ',
-                    daylightSavingStartTimeOptions,
-                    formik,
-                  )}
+                  label='Hour'
+                  options={daylightSavingStartTimeOptions}
+                  {...formikField(formik, 'daylight_saving_start_time')}
                 />
               </Grid>
             </Grid>
             <Grid container>
               <Grid display='flex' alignItems='center' gap={2}>
-                <InputLabel>Daylight Saving End</InputLabel>
+                <InputLabel sx={{ overflow: 'visible' }}>
+                  Daylight Saving End
+                </InputLabel>
                 <Select
-                  {...selectProps(
-                    'daylight_saving_end_month',
-                    'Month',
-                    daylightSavingEndMonthOptions,
-                    formik,
-                  )}
+                  label='Month'
+                  options={daylightSavingEndMonthOptions}
+                  {...formikField(formik, 'daylight_saving_end_month')}
                 />
                 <Select
-                  {...selectProps(
-                    'daylight_saving_end_week',
-                    'Week',
-                    daylightSavingEndWeekOptions,
-                    formik,
-                  )}
+                  label='Week'
+                  options={daylightSavingEndWeekOptions}
+                  {...formikField(formik, 'daylight_saving_end_week')}
                 />
                 <Select
-                  {...selectProps(
-                    'daylight_saving_end_day_of_week',
-                    'Day of Week',
-                    daylightSavingEndDayOfWeekOptions,
-                    formik,
-                  )}
+                  label='Day of Week'
+                  options={daylightSavingEndDayOfWeekOptions}
+                  {...formikField(formik, 'daylight_saving_end_day_of_week')}
                 />
                 <Select
-                  {...selectProps(
-                    'daylight_saving_end_time',
-                    'Hour ',
-                    daylightSavingEndTimeOptions,
-                    formik,
-                  )}
+                  label='Hour'
+                  options={daylightSavingEndTimeOptions}
+                  {...formikField(formik, 'daylight_saving_end_time')}
                 />
               </Grid>
             </Grid>

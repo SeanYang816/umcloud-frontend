@@ -1,14 +1,14 @@
 import { Card, Tab, Tabs } from '@mui/material'
 import { TabPanel } from 'components/TabPanel'
-import { Checkbox, Select, TextField } from 'components/fields'
-import { checkboxProps, selectProps, textfieldProps } from 'utils/formik'
-import { GetLanPage } from '../type'
+import { Checkbox, Select, TextField } from 'components/formik'
+import { formikField } from 'utils/formik'
 import { FormikProps } from 'formik'
 import { FormikValuesType } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import React, { useState } from 'react'
 import { CardHeader } from 'components/extends/CardHeader'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
+import { GetLanPageResponse } from 'types/xpb510/network/lan'
 
 export const TabIndex = {
   GENERAL_SETUP: 0,
@@ -26,7 +26,7 @@ export const Ignore = {
 export type IgnoreType = (typeof Ignore)[keyof typeof Ignore]
 
 type DHCPServerRelayProps = {
-  data: GetLanPage
+  data: GetLanPageResponse
   formik: FormikProps<FormikValuesType>
 }
 
@@ -62,42 +62,52 @@ export const DHCPServerRelay = ({ data, formik }: DHCPServerRelayProps) => {
 
         <TabPanel index={TabIndex.GENERAL_SETUP} value={activeTab}>
           <Select
-            {...selectProps('ignore', 'DHCP Mode', dhcpModeOptions, formik)}
+            label='DHCP Mode'
+            options={dhcpModeOptions}
+            {...formikField(formik, 'ignore')}
             helperText='DHCP disable/enable/relay'
           />
           {formik.values.ignore === Ignore.Enable && (
             <>
               <TextField
-                {...textfieldProps('start_addr', 'Start address', formik)}
+                label='Start address'
+                {...formikField(formik, 'start')}
                 helperText=' DHCP start address.'
               />
               <TextField
-                {...textfieldProps('end_addr', 'End address', formik)}
+                label='End address'
+                {...formikField(formik, 'end')}
                 helperText='DHCP end address.'
               />
               <TextField
-                {...textfieldProps('leasetime', 'Lease Time', formik)}
+                label='Lease Time'
+                {...formikField(formik, 'leasetime')}
                 helperText='Expiry time of leased addresses, range 2m ~ 999999h(m = minutes, h = hours)'
               />
               <TextField
-                {...textfieldProps('wins', 'WINS server', formik)}
+                label='WINS server'
+                {...formikField(formik, 'wins')}
                 helperText='WINS(Windows Internet Name Service)server'
               />
               <TextField
-                {...textfieldProps('dns1', 'Primary DNS server', formik)}
+                label='Primary DNS server'
+                {...formikField(formik, 'dns1')}
               />
               <TextField
-                {...textfieldProps('dns2', 'Secondary DNS server', formik)}
+                label='Secondary DNS server'
+                {...formikField(formik, 'dns2')}
               />
               <TextField
-                {...textfieldProps('domain', 'Local domain name', formik)}
+                label='Local domain name'
+                {...formikField(formik, 'domain')}
               />
             </>
           )}
           {formik.values.ignore === Ignore.Relay && (
             <>
               <TextField
-                {...textfieldProps('relay', 'DHCP relay server', formik)}
+                label='DHCP relay server'
+                {...formikField(formik, 'relay')}
               />
             </>
           )}
@@ -105,11 +115,13 @@ export const DHCPServerRelay = ({ data, formik }: DHCPServerRelayProps) => {
 
         <TabPanel index={TabIndex.ADVANCED_SETTINGS} value={activeTab}>
           <Checkbox
-            {...checkboxProps('dynamicdhcp', 'Dynamic DHCP', formik)}
+            label='Dynamic DHCP'
+            {...formikField(formik, 'dynamicdhcp')}
             helperText='Dynamically, allocate DHCP addresses for clients. If disabled, only clients having static leases will be saved'
           />
           <Checkbox
-            {...checkboxProps('logqueries', 'Log queries', formik)}
+            label='Log queries'
+            {...formikField(formik, 'logqueries')}
             helperText='Write received DNS requests to syslog'
           />
         </TabPanel>

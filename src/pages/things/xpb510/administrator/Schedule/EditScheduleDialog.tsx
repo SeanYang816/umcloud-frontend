@@ -12,17 +12,13 @@ import {
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { isUpperCase } from 'utils'
 import { BGW_EVENT_ACTIONS } from 'constant'
-import {
-  CustomHHmmSelect,
-  Radios,
-  TextField,
-  Checkbox,
-} from 'components/fields'
-import { checkboxProps, radiosProps, textfieldProps } from 'utils/formik'
+import { CustomHHmmSelect } from 'components/fields'
+import { formikField } from 'utils/formik'
 import { modalValidationSchema } from './validationSchema'
 import { RootStateProps, FormikValuesType } from 'types'
 import { useSelector } from 'react-redux'
 import { Button } from 'components/extends/Button'
+import { Checkbox, Radios, TextField } from 'components/formik'
 
 type EditScheduleDialogProps = {
   id: string
@@ -136,70 +132,72 @@ export const EditScheduleDialog: React.FC<EditScheduleDialogProps> = ({
       {!data ? (
         <CircularProgress />
       ) : (
-        <>
-          <DialogContent>
-            <TextField {...textfieldProps('name', 'Name', formik)} />
-            <Radios {...radiosProps('isDaily', 'Days:', isDailyList, formik)} />
-            <Box
-              mt={-1}
-              mb={2}
-              sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}
-            >
-              {daysList.map(({ label }, index) => {
-                const currentDays = formik.values.days as string
-                const checked = isUpperCase(currentDays[index]) || false
+        <DialogContent>
+          <TextField label='Name' {...formikField(formik, 'name')} />
+          <Radios
+            label='Days'
+            options={isDailyList}
+            {...formikField(formik, 'isDaily')}
+          />
+          <Box
+            mt={-1}
+            mb={2}
+            sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}
+          >
+            {daysList.map(({ label }, index) => {
+              const currentDays = formik.values.days as string
+              const checked = isUpperCase(currentDays[index]) || false
 
-                return (
-                  <Stack key={index} mr={2} alignItems='center' direction='row'>
-                    <Box>
-                      <MuiCheckbox
-                        disabled={formik.values.isDaily === '1'}
-                        checked={checked}
-                        size='small'
-                        onChange={(e) =>
-                          handleDayClick(e.target.checked, index)
-                        }
-                      />
-                    </Box>
-                    {label}
-                  </Stack>
-                )
-              })}
-            </Box>
-            <Checkbox
-              {...checkboxProps('isAllDay', 'All Day - 24 Hrs', formik)}
-            />
-            <CustomHHmmSelect
-              disabled={formik.values.isAllDay === true}
-              name='start_time'
-              label='Start Time'
-              value={`${formik.values.start_time}`}
-              onChange={formik.setFieldValue}
-            />
-            <CustomHHmmSelect
-              isEnd
-              disabled={formik.values.isAllDay === true}
-              name='end_time'
-              label='End Time'
-              value={`${formik.values.end_time}`}
-              onChange={formik.setFieldValue}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button
-              icon='confirm'
-              text='confirm'
-              onClick={() => formik.handleSubmit()}
-            />
-            <Button
-              icon='cancel'
-              text='cancel'
-              color='error'
-              onClick={() => onClose(id)}
-            />
-          </DialogActions>
-        </>
+              return (
+                <Stack key={index} mr={2} alignItems='center' direction='row'>
+                  <Box>
+                    <MuiCheckbox
+                      disabled={formik.values.isDaily === '1'}
+                      checked={checked}
+                      size='small'
+                      onChange={(e) => handleDayClick(e.target.checked, index)}
+                    />
+                  </Box>
+                  {label}
+                </Stack>
+              )
+            })}
+          </Box>
+          <Checkbox
+            label='All Day - 24 Hrs'
+            {...formikField(formik, 'isAllDay')}
+          />
+          <CustomHHmmSelect
+            disabled={formik.values.isAllDay === true}
+            name='start_time'
+            label='Start Time'
+            value={`${formik.values.start_time}`}
+            onChange={formik.setFieldValue}
+          />
+          <CustomHHmmSelect
+            isEnd
+            disabled={formik.values.isAllDay === true}
+            name='end_time'
+            label='End Time'
+            value={`${formik.values.end_time}`}
+            onChange={formik.setFieldValue}
+          />
+        </DialogContent>
       )}
+      <DialogActions>
+        <Button
+          disabled={!formik.dirty || !formik.isValid || formik.isSubmitting}
+          icon='confirm'
+          text='confirm'
+          onClick={() => formik.handleSubmit()}
+        />
+        <Button
+          icon='cancel'
+          text='cancel'
+          color='error'
+          onClick={() => onClose(id)}
+        />
+      </DialogActions>
     </Dialog>
   )
 }

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
-import { Card, CardContent } from '@mui/material'
+import { Typography } from '@mui/material'
 
 type DataPoint = {
   timestamp: string | number | Date
@@ -13,6 +13,7 @@ type Variant = 'line' | 'bar' | 'scatter'
 type Props = {
   data: DataPoint[]
   height?: number | string
+  width?: number | string
 }
 
 const formatHHmm = (ts: string | number | Date) =>
@@ -40,7 +41,7 @@ function generateMockData(count = 30): DataPoint[] {
   })
 }
 
-export const SampleGraph = ({ height = 420 }: Props) => {
+export const SampleGraph = ({ height = 600 }: Props) => {
   const data = generateMockData()
   const [variant, setVariant] = useState<Variant>('line')
   const [smooth, setSmooth] = useState(true)
@@ -84,58 +85,52 @@ export const SampleGraph = ({ height = 420 }: Props) => {
   }, [isBar, isLine, isScatter, showSymbols, smooth, temperatures, timestamps])
 
   return (
-    <Card>
-      <CardContent>
-        <div>
-          <div
-            style={{
-              display: 'flex',
-              gap: 12,
-              alignItems: 'center',
-              marginBottom: 8,
-            }}
+    <div>
+      <Typography variant='h6' mb={2} sx={{ fontWeight: 700, height: 24 }}>
+        Hisnchu Router 01
+      </Typography>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          marginBottom: 8,
+        }}
+      >
+        <label>
+          Chart type:&nbsp;
+          <select
+            value={variant}
+            onChange={(e) => setVariant(e.target.value as Variant)}
           >
-            <label>
-              Chart type:&nbsp;
-              <select
-                value={variant}
-                onChange={(e) => setVariant(e.target.value as Variant)}
-              >
-                <option value='line'>Line</option>
-                <option value='bar'>Bar</option>
-                <option value='scatter'>Scatter</option>
-              </select>
+            <option value='line'>Line</option>
+            <option value='bar'>Bar</option>
+            <option value='scatter'>Scatter</option>
+          </select>
+        </label>
+
+        {isLine && (
+          <>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <input
+                type='checkbox'
+                checked={smooth}
+                onChange={(e) => setSmooth(e.target.checked)}
+              />
+              Smooth lines
             </label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <input
+                type='checkbox'
+                checked={showSymbols}
+                onChange={(e) => setShowSymbols(e.target.checked)}
+              />
+              Show points
+            </label>
+          </>
+        )}
+      </div>
 
-            {isLine && (
-              <>
-                <label
-                  style={{ display: 'flex', alignItems: 'center', gap: 6 }}
-                >
-                  <input
-                    type='checkbox'
-                    checked={smooth}
-                    onChange={(e) => setSmooth(e.target.checked)}
-                  />
-                  Smooth lines
-                </label>
-                <label
-                  style={{ display: 'flex', alignItems: 'center', gap: 6 }}
-                >
-                  <input
-                    type='checkbox'
-                    checked={showSymbols}
-                    onChange={(e) => setShowSymbols(e.target.checked)}
-                  />
-                  Show points
-                </label>
-              </>
-            )}
-          </div>
-
-          <ReactECharts option={option} style={{ height }} />
-        </div>
-      </CardContent>
-    </Card>
+      <ReactECharts option={option} style={{ height }} />
+    </div>
   )
 }

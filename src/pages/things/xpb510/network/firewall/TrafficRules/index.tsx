@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootStateProps, StringStringType } from 'types'
 import { XPB_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { clearProperty } from 'reducers/bgw5105/firewall'
 import { PortForm } from './PortForm'
 import { AddTrafficRulesEditDialog } from './AddTrafficRulesEditDialog'
 import { ForwardForm } from './ForwardForm'
@@ -18,6 +17,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useApiResultObjectToArrayByCommonId } from 'hooks/useApiResultObjectToArrayByCommonId'
 import { DialogController } from 'components/DialogController'
 import { Button } from 'components/extends/Button'
+import { resetFirewallState } from 'reducers/xpb510/network/firewall'
 
 export const TrafficRules = () => {
   const dispatch = useDispatch()
@@ -43,7 +43,7 @@ export const TrafficRules = () => {
   const handleDialogClose = () => {
     setEditKey('')
     setIsFetch(false)
-    dispatch(clearProperty('trafficRulesEdit'))
+    dispatch(resetFirewallState())
   }
 
   const handleEnabledChange = (key: string) => {

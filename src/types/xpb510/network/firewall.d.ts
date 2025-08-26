@@ -1,8 +1,10 @@
 import {
   BoolString,
+  Options,
   ProtocolOption,
   SourceInterfaceOption,
   StatusMessageType,
+  Suggest,
   WanInterfaceOption,
 } from 'types'
 
@@ -11,10 +13,12 @@ import {
 /** 1.6.1 General Settings */
 
 // 1.6.1.1 Get General Settings Page
+
+export type GetGeneralSettingsPageResult = {
+  'cbid.firewall.wan_ping.enabled': string
+}
 export type GetGeneralSettingsPageResponse = StatusMessageType & {
-  result: {
-    'cbid.firewall.wan_ping.enabled': string
-  }
+  result: GetGeneralSettingsPageResult
 }
 
 // 1.6.1.2 Set General Settings Page
@@ -46,7 +50,8 @@ export type GetPortForwardResult = {
 
 export type GetPortForwardPageResponse = StatusMessageType & {
   result: GetPortForwardResult
-  options: Partial<Record<string, unknown>>
+  options?: Options
+  suggest?: Suggest
 }
 
 // 1.6.2.2 Set Port Forward Page
@@ -108,9 +113,9 @@ export type PortForwardEditPageResult = Record<
 >
 
 export type GetPortForwardEditPageResponse = StatusMessageType & {
-  result: PortForwardEditPageResult & {
-    options: Partial<Record<string, unknown>>
-  }
+  result: PortForwardEditPageResult
+  options?: Options
+  suggest?: Suggest
 }
 
 // 1.6.2.6 Set Port Forward Edit Page
@@ -205,31 +210,32 @@ export type GetPortTriggerEditPageRequest = {
   get_options?: BoolString
 }
 
+export type PortTriggerEditField =
+  | '__enabled'
+  | 'name'
+  | 'iface'
+  | 'match_proto'
+  | 'match_port'
+  | 'trigger_proto'
+  | 'trigger_port'
+  | 'time_schedule'
+
+export type PortTriggerEditResult = Record<
+  `cbid.firewall.${string}.${PortTriggerEditField}`,
+  string
+>
+
 export type GetPortTriggerEditPageResponse = StatusMessageType & {
-  result: Record<`cbid.firewall.${string}.__enabled`, BoolString> &
-    Record<`cbid.firewall.${string}.name`, string> &
-    Record<`cbid.firewall.${string}.iface`, WanInterfaceOption | string> &
-    Record<`cbid.firewall.${string}.match_proto`, ProtocolOption | string> &
-    Record<`cbid.firewall.${string}.match_port`, string> &
-    Record<`cbid.firewall.${string}.trigger_proto`, ProtocolOption | string> &
-    Record<`cbid.firewall.${string}.trigger_port`, string> &
-    Record<`cbid.firewall.${string}.time_schedule`, string>
-  options: Partial<Record<string, unknown>>
+  result: PortTriggerEditResult
+  options?: Options
+  suggest?: Suggest
 }
 
 // 1.6.3.6 Set Port Trigger Edit Page
 export type SetPortTriggerEditPageRequest = {
   'cbi.submit': string
   'cbi.apply'?: string
-} & Record<`cbid.firewall.${string}.enabled`, BoolString> &
-  Record<`cbid.firewall.${string}.name`, string> &
-  Record<`cbid.firewall.${string}.iface`, WanInterfaceOption | string> &
-  Record<`cbid.firewall.${string}.match_proto`, ProtocolOption | string> &
-  Record<`cbid.firewall.${string}.match_port`, string> &
-  Record<`cbid.firewall.${string}.trigger_proto`, ProtocolOption | string> &
-  Record<`cbid.firewall.${string}.trigger_port`, string> &
-  Record<`cbid.firewall.${string}.time_schedule`, string>
-
+} & PortTriggerEditResult
 export type SetPortTriggerEditPageResponse = GetPortTriggerEditPageResponse & {
   errors?: Record<string, unknown>
   apply?: string
@@ -303,58 +309,66 @@ export type GetTrafficRulesEditPageRequest = {
   get_options?: BoolString
 }
 
+export type GetTrafficFieldEditMap = {
+  __enabled: string // DOC MISSING
+  name: string
+  family: string
+  proto: string
+  icmp_type: string[]
+  src: string
+  src_mac: string
+  src_ip: string
+  src_port: string
+  dest: string
+  dest_ip: string
+  dest_port: string
+  target: string
+  extra: string
+  time_schedule: string
+}
+
+export type GetTrafficEditResult = {
+  [K in keyof GetTrafficFieldEditMap as `cbid.firewall.${string}.${K & string}`]: GetTrafficFieldEditMap[K]
+}
+
 export type GetTrafficRulesEditPageResponse = StatusMessageType & {
-  result: Record<`cbid.firewall.${string}.family`, string> &
-    Record<`cbid.firewall.${string}.proto`, 'tcpudp' | string> &
-    Record<`cbid.firewall.${string}.icmp_type`, unknown[]> &
-    Record<`cbid.firewall.${string}.src`, 'wan' | string> &
-    Record<`cbid.firewall.${string}.src_mac`, string> &
-    Record<`cbid.firewall.${string}.src_ip`, string> &
-    Record<`cbid.firewall.${string}.src_port`, string> &
-    Record<`cbid.firewall.${string}.dest`, string> &
-    Record<`cbid.firewall.${string}.dest_ip`, string> &
-    Record<`cbid.firewall.${string}.dest_port`, string> &
-    Record<`cbid.firewall.${string}.target`, string> &
-    Record<`cbid.firewall.${string}.extra`, string> &
-    Record<`cbid.firewall.${string}.time_schedule`, string>
-  options: Partial<Record<string, unknown>>
+  result: GetTrafficEditResult
+  options?: Options
+  suggest?: Suggest
 }
 
 // 1.6.4.7 Set Traffic Rules Edit Page
+
+export type SetTrafficFieldMap = GetTrafficFieldEditMap
+
+export type SetTrafficEditCbidKey<
+  TId extends string,
+  K extends keyof SetTrafficFieldMap,
+> = `cbid.firewall.${TId}.${K & string}`
+
+export type SetTrafficEditPayload<TId extends string = string> = {
+  [K in keyof SetTrafficFieldMap as SetTrafficEditCbidKey<
+    TId,
+    K
+  >]: SetTrafficFieldMap[K]
+}
+
 export type SetTrafficRulesEditPageRequest = {
   'cbi.submit': string
   'cbi.apply'?: string
-} & Record<`cbid.firewall.${string}.__enabled`, BoolString> &
-  Record<`cbid.firewall.${string}.name`, string> &
-  Record<`cbid.firewall.${string}.family`, string> & // (empty) : IPv4 and IPv6 | ipv4 : IPv4 only | ipv6 : IPv6 only
-  Record<`cbid.firewall.${string}.proto`, 'tcpudp' | string> &
-  Record<`cbid.firewall.${string}.icmp_type`, unknown[]> &
-  Record<`cbid.firewall.${string}.src`, 'wan' | string> &
-  Record<`cbid.firewall.${string}.src_mac`, string> &
-  Record<`cbid.firewall.${string}.src_ip`, string> &
-  Record<`cbid.firewall.${string}.src_port`, string> &
-  Record<`cbid.firewall.${string}.dest`, string> &
-  Record<`cbid.firewall.${string}.dest_ip`, string> &
-  Record<`cbid.firewall.${string}.dest_port`, string> &
-  Record<`cbid.firewall.${string}.target`, string> &
-  Record<`cbid.firewall.${string}.extra`, string> &
-  Record<`cbid.firewall.${string}.time_schedule`, string>
+} & SetTrafficEditPayload
 
 export type SetTrafficRulesEditPageResponse = SetTrafficRulesEditPageRequest
 
 /** 1.6.5 DoS Prevention */
 
 // 1.6.5.1 Get DoS Prevention Page
-export type DosPreventionPageResult = {
-  'cbid.firewall.dos.tcp_enabled': BoolString
-  'cbid.firewall.dos.tcp_rate': '25' | string
-  'cbid.firewall.dos.tcp_burst': '50' | string
-  'cbid.firewall.dos.udp_enabled': BoolString
-  'cbid.firewall.dos.udp_rate': '25' | string
-  'cbid.firewall.dos.udp_burst': '50' | string
-  'cbid.firewall.dos.icmp_enabled': BoolString
-  'cbid.firewall.dos.icmp_rate': '25' | string
-  'cbid.firewall.dos.icmp_burst': '50' | string
+type DosProto = 'tcp' | 'udp' | 'icmp'
+type DosField = 'enabled' | 'rate' | 'burst'
+type DosPreventionPageResult = {
+  [P in DosProto as `cbid.firewall.dos.${P}_enabled`]: string
+} & { [P in DosProto as `cbid.firewall.dos.${P}_rate`]: string } & {
+  [P in DosProto as `cbid.firewall.dos.${P}_burst`]: string
 }
 
 export type GetDoSPreventionPageResponse = StatusMessageType & {
@@ -362,22 +376,13 @@ export type GetDoSPreventionPageResponse = StatusMessageType & {
 }
 
 // 1.6.5.2 Get DoS Prevention Edit Page
-export type GetDoSPreventionEditPageRequest = {
+export type SetDoSPreventionEditPageRequest = {
   'cbi.submit': string
   'cbi.apply'?: 'Apply' | string
-  'cbid.firewall.dos.tcp_enabled': '0' | BoolString
-  'cbid.firewall.dos.tcp_rate': '25' | string
-  'cbid.firewall.dos.tcp_burst': '50' | string
-  'cbid.firewall.dos.udp_enabled': '0' | BoolString
-  'cbid.firewall.dos.udp_rate': '25' | string
-  'cbid.firewall.dos.udp_burst': '50' | string
-  'cbid.firewall.dos.icmp_enabled': '0' | BoolString
-  'cbid.firewall.dos.icmp_rate': '25' | string
-  'cbid.firewall.dos.icmp_burst': '50' | string
-}
+} & DosPreventionPageResult
 
 export type GetDoSPreventionEditPageResponse =
-  GetDoSPreventionEditPageRequest & {
+  SetDoSPreventionEditPageRequest & {
     errors?: Record<string, unknown>
     apply?: string
   }
@@ -386,7 +391,7 @@ export type GetDoSPreventionEditPageResponse =
 
 // 1.6.6.1 Get DMZ Host Page
 export type DmzHostPageResult = {
-  'cbid.dmz.dmz.enable': '0' | BoolString
+  'cbid.dmz.dmz.enable': string
   'cbid.dmz.dmz.dmz_ip': string
 }
 
@@ -421,19 +426,18 @@ export type GetOneToOneNatPageResponse = StatusMessageType & {
     wan_static_ip: string
     wan2_proto: string
     wan2_static_ip: string
-  } & Partial<
-    Record<
-      | `cbid.firewall.${string}.enabled`
-      | `cbid.firewall.${string}.name`
-      | `cbid.firewall.${string}.dest_ip`
-      | `cbid.firewall.${string}.src_ip`
-      | `cbid.firewall.${string}.iface`
-      | `cbid.firewall.${string}.fwdmode`
-      | `cbid.firewall.${string}.time_schedule`,
-      string
-    >
+  } & Record<
+    | `cbid.firewall.${string}.enabled`
+    | `cbid.firewall.${string}.name`
+    | `cbid.firewall.${string}.dest_ip`
+    | `cbid.firewall.${string}.src_ip`
+    | `cbid.firewall.${string}.iface`
+    | `cbid.firewall.${string}.fwdmode`
+    | `cbid.firewall.${string}.time_schedule`,
+    string
   >
-  options: Partial<Record<string, unknown>>
+  options: Options
+  suggest: Suggest
 }
 
 // 1.6.7.2 Set One-to-One NAT Edit Page
@@ -449,18 +453,31 @@ export type SetOneToOneNATPageResponse = GetOneToOneNatPageResponse & {
 }
 
 // 1.6.7.3 Add One-to-One NAT
+
+export type AddOneToOneNatField = {
+  name: string
+  priaddr: string
+  pubaddr: string
+  iface: string
+  fwdmode: string
+  proto?: string
+  src_port?: string
+  dest_port?: string
+  reflection?: string
+  schedule: string
+}
 export type AddOneToOneNATPageRequest = SetOneToOneNATPageRequest & {
   // Except: cbi.apply
-  'cbi.cts.firewall.staticnat.': 'Add' | string
+  'cbi.cts.firewall.staticnat.': string
   '_newonenat.name': string
   '_newonenat.priaddr': string
   '_newonenat.pubaddr': string
-  '_newonenat.iface': 'wan' | 'wan2' | string
-  '_newonenat.fwdmode': 'dmz' | 'portforward' | string
-  '_newonenat.proto'?: 'tcpudp' | 'tcp' | 'udp' | 'icmp' | string
+  '_newonenat.iface': string
+  '_newonenat.fwdmode': string
+  '_newonenat.proto'?: string
   '_newonenat.src_port'?: string
   '_newonenat.dest_port'?: string
-  '_newonenat.reflection'?: BoolString
+  '_newonenat.reflection'?: string
   '_newonenat.schedule': string
 }
 
@@ -476,39 +493,37 @@ export type GetOneToOneNATEditPageRequest = {
   get_options: BoolString
 }
 
-export type GetOneToOneNATEditPageResponse = StatusMessageType & {
-  result: Record<`cbid.firewall.${string}.__enabled`, '1' | BoolString> &
-    Record<`cbid.firewall.${string}.name`, string> &
-    Record<`cbid.firewall.${string}.dest_ip`, string> &
-    Record<`cbid.firewall.${string}.src_ip`, string> &
-    Record<`cbid.firewall.${string}.iface`, 'wan' | string> &
-    Record<`cbid.firewall.${string}.fwdmode`, 'dmz' | string> &
-    Partial<Record<`cbid.firewall.${string}.proto`, 'tcpudp' | string>> &
-    Partial<Record<`cbid.firewall.${string}.src_port`, string>> &
-    Partial<Record<`cbid.firewall.${string}.dest_port`, string>> &
-    Record<`cbid.firewall.${string}.reflection`, '1' | BoolString> &
-    Record<`cbid.firewall.${string}.time_schedule`, string>
-  options: Partial<Record<string, unknown>>
+export type GetOneToOneNatField =
+  | '__enabled'
+  | 'name'
+  | 'dest_ip'
+  | 'src_ip'
+  | 'iface'
+  | 'fwdmode'
+  | 'proto'
+  | 'src_port'
+  | 'dest_port'
+  | 'reflection'
+  | 'time_schedule'
+
+export type GetOneToOneNatEditResult = Record<
+  `cbid.firewall.${string}.${GetOneToOneNatField}`,
+  string
+>
+export type GetOneToOneNatEditPageResponse = StatusMessageType & {
+  result: GetOneToOneNatEditResult
+  options?: Options
+  suggest?: Suggest
 }
 
 // 1.6.7.6 Set One-to-One NAT Edit Page
-export type SetOneToOneNATEditPageRequest = {
+export type SetOneToOneNatEditPageRequest = {
   'cbi.apply'?: 'Apply' | string
   'cbi.submit': '1' | string
-} & Record<`'cbid.firewall.${string}.__enabled`, '1' | BoolString> &
-  Record<`cbid.firewall.${string}.name`, string> &
-  Record<`cbid.firewall.${string}.dest_ip`, string> &
-  Record<`cbid.firewall.${string}.src_ip`, string> &
-  Record<`cbid.firewall.${string}.iface`, 'wwan' | 'wwan2' | string> &
-  Record<`cbid.firewall.${string}.fwdmode`, 'dmz' | 'portforward' | string> &
-  Partial<Record<`cbid.firewall.${string}.proto`, string>> &
-  Partial<Record<`cbid.firewall.${string}.src_port`, string>> &
-  Partial<Record<`cbid.firewall.${string}.dest_port`, string>> &
-  Record<`cbid.firewall.${string}.reflection`, BoolString> &
-  Record<`cbid.firewall.${string}.time_schedule`, string>
+} & GetOneToOneNatEditResult
 
 // ???
-export type SetOneToOneNATEditPageResponse = GetOneToOneNATEditPageResponse & {
+export type SetOneToOneNATEditPageResponse = GetOneToOneNatEditPageResponse & {
   errors?: Record<string, unknown>
   apply?: string
 }

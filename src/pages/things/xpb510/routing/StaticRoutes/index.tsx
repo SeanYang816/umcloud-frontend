@@ -10,13 +10,15 @@ import { DeleteButton } from 'components/DeleteButton'
 import { StyledMuiReactTable } from 'components/StyledMuiReactTable'
 import { optionsConverter } from 'utils/optionsConverter'
 import { Box, LinearProgress, Stack, Tooltip } from '@mui/material'
-import { TextField, Select } from 'components/fields'
+import { TextField, Select } from 'components/formik'
 import { validation } from 'config'
 import { isEmpty } from 'lodash'
 import { useApiResultObjectToArrayByCommonId } from 'hooks/useApiResultObjectToArrayByCommonId'
 import { Button } from 'components/extends/Button'
 import { useFormik } from 'formik'
 import { resetRouting } from 'reducers/xpb510/network/routing'
+import { GetStaticRoutesPageResult } from 'types/xpb510/network/routing'
+import { formikField } from 'utils/formik'
 
 type ValidationObjProps = {
   [key: string]: Yup.StringSchema<string>
@@ -30,7 +32,7 @@ export const StaticRoutes = () => {
     (state: RootStateProps) => state.xpb510.network.routing.staticRoutes,
   )
 
-  const result = data?.result ?? {}
+  const result = data?.result ?? ({} as GetStaticRoutesPageResult)
   const options = data?.options ?? {}
 
   const [list] = useApiResultObjectToArrayByCommonId(result, 'route')
@@ -38,14 +40,17 @@ export const StaticRoutes = () => {
   const formikInitList = list.reduce(
     (result, { key, target, gateway, master_interface, netmask, metric }) => ({
       ...result,
-      [`${key}_target`]: target ?? '',
-      [`${key}_gateway`]: gateway ?? '',
-      [`${key}_master_interface`]: master_interface ?? '',
-      [`${key}_netmask`]: netmask ?? '',
-      [`${key}_metric`]: metric ?? '',
+      [`${key}_master_interface`]: master_interface,
+      [`${key}_target`]: target,
+      [`${key}_netmask`]: netmask,
+      [`${key}_gateway`]: gateway,
+      [`${key}_metric`]: metric,
     }),
     {},
   )
+
+  console.log(result)
+  console.log(formikInitList)
 
   const validationObj: ValidationObjProps = {}
   list.forEach((item) => {
@@ -112,7 +117,7 @@ export const StaticRoutes = () => {
 
         return (
           <Select
-            {...formik.getFieldProps(`${key}_master_interface`)}
+            {...formikField(formik, `${key}_master_interface`)}
             options={optionsConverter(
               options,
               `cbid.network.${key}.master_interface`,
@@ -131,8 +136,8 @@ export const StaticRoutes = () => {
 
         return (
           <TextField
-            {...formik.getFieldProps(`${key}_target`)}
-            errorMessage={
+            {...formikField(formik, `${key}_target`)}
+            helperText={
               formik.touched[`${key}_target`] &&
               !validation.ip4addr.reg.test(value)
                 ? validation.ip4addr.error
@@ -173,8 +178,8 @@ export const StaticRoutes = () => {
         return (
           <TextField
             placeholder='255.255.255.255'
-            {...formik.getFieldProps(`${key}_netmask`)}
-            errorMessage={
+            {...formikField(formik, `${key}_netmask`)}
+            helperText={
               formik.touched[`${key}_netmask`] &&
               !isEmpty(value) &&
               !validation.ip4addr.reg.test(value)
@@ -212,8 +217,8 @@ export const StaticRoutes = () => {
 
         return (
           <TextField
-            {...formik.getFieldProps(`${key}_gateway`)}
-            errorMessage={
+            {...formikField(formik, `${key}_gateway`)}
+            helperText={
               !isEmpty(value) && !validation.ip4addr.reg.test(value)
                 ? validation.ip4addr.error
                 : false
@@ -250,8 +255,8 @@ export const StaticRoutes = () => {
         return (
           <TextField
             placeholder='0'
-            {...formik.getFieldProps(`${key}_metric`)}
-            errorMessage={
+            {...formikField(formik, `${key}_metric`)}
+            helperText={
               !isEmpty(value) && !validation.limitTo255.reg.test(value)
                 ? validation.limitTo255.error
                 : false

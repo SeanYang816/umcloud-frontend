@@ -5,19 +5,24 @@ import {
   DialogContent,
 } from '@mui/material'
 import { useSelector } from 'react-redux'
-import { RootStateProps, FormikValuesType } from 'types'
+import { RootStateProps } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { BGW_EVENT_ACTIONS } from 'constant'
-import { TextField, Select } from 'components/fields'
 import { useFormik } from 'formik'
 import { modalValidationSchema } from './validationSchema'
-import { selectProps, textfieldProps } from 'utils/formik'
+import { formikField } from 'utils/formik'
 import { DialogProps } from 'types'
 import sleep from 'utils/sleep'
 import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
+import {
+  PortTriggerEditField,
+  PortTriggerEditResult,
+} from 'types/xpb510/network/firewall'
+import { Select, TextField } from 'components/formik'
 
+type FormnValues = { [_K in PortTriggerEditField]: string }
 export const PortTriggerEditDialog = ({ id, open, onClose }: DialogProps) => {
   const data = useSelector(
     (state: RootStateProps) => state.xpb510.network.firewall.portTriggerEdit,
@@ -39,7 +44,7 @@ export const PortTriggerEditDialog = ({ id, open, onClose }: DialogProps) => {
     options,
     `cbid.firewall.${id}.time_schedule`,
   )
-  const formik = useFormik<FormikValuesType>({
+  const formik = useFormik<FormnValues>({
     initialValues: {
       __enabled: result[`cbid.firewall.${id}.__enabled`] ?? '1',
       name: result[`cbid.firewall.${id}.name`] ?? '',
@@ -53,7 +58,7 @@ export const PortTriggerEditDialog = ({ id, open, onClose }: DialogProps) => {
     enableReinitialize: true,
     validationSchema: modalValidationSchema,
     onSubmit: async (values) => {
-      const payload = {
+      const payload: PortTriggerEditResult = {
         [`cbid.firewall.${id}.__enabled`]: values.__enabled,
         [`cbid.firewall.${id}.name`]: values.name,
         [`cbid.firewall.${id}.iface`]: values.iface,
@@ -81,47 +86,39 @@ export const PortTriggerEditDialog = ({ id, open, onClose }: DialogProps) => {
         <>
           <DialogContent>
             <Select
-              {...selectProps(
-                '__enabled',
-                'Rule is enabled:',
-                booleanList,
-                formik,
-              )}
+              label='Rule is enabled'
+              options={booleanList}
+              {...formikField(formik, '__enabled')}
             />
-            <TextField {...textfieldProps('name', 'Name:', formik)} />
+            <TextField label='Name' {...formikField(formik, 'name')} />
             <Select
-              {...selectProps('iface', 'Interface:', ifaceList, formik)}
+              label='Interface'
+              options={ifaceList}
+              {...formikField(formik, 'iface')}
             />
             <Select
-              {...selectProps(
-                'match_proto',
-                'Match protocol:',
-                matchProtoList,
-                formik,
-              )}
+              label='Match protocol'
+              options={matchProtoList}
+              {...formikField(formik, 'match_proto')}
             />
             <TextField
-              {...textfieldProps('match_port', 'Match port:', formik)}
+              label='Match port'
+              {...formikField(formik, 'match_port')}
               helperText='Match incoming traffic directed at the given destination port or port range on this host'
             />
             <Select
-              {...selectProps(
-                'trigger_proto',
-                'Trigger protocol:',
-                triggerProtoList,
-                formik,
-              )}
+              label='Trigger protocol'
+              options={triggerProtoList}
+              {...formikField(formik, 'trigger_proto')}
             />
             <TextField
-              {...textfieldProps('trigger_port', 'Trigger port:', formik)}
+              label='Trigger port'
+              {...formikField(formik, 'trigger_port')}
             />
             <Select
-              {...selectProps(
-                'time_schedule',
-                'Schedule:',
-                scheduleList,
-                formik,
-              )}
+              label='Schedule'
+              options={scheduleList}
+              {...formikField(formik, 'time_schedule')}
             />
           </DialogContent>
           <DialogActions>

@@ -1,26 +1,34 @@
 import { Card, CardActions } from '@mui/material'
-import { TextField, Select } from 'components/fields'
+import { TextField, Select } from 'components/formik'
 import { formValidationSchema } from './validationSchema'
 import { useFormik } from 'formik'
 import { optionsConverter } from 'utils/optionsConverter'
 import { XPB_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { selectProps, textfieldProps } from 'utils/formik'
+import { formikField } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
-import { FormikValuesType, OptionsOrSuggestType, StringStringType } from 'types'
+import { Options, StringStringType } from 'types'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
+import { AddOpenPortsTrafficRulesRequest } from 'types/xpb510/network/firewall'
 
 type FormTypes = {
-  options: OptionsOrSuggestType
+  options: Options
   list: StringStringType[]
+}
+
+type FormValues = {
+  name: string
+  proto: string
+  extport: string
+  schedule: string
 }
 
 export const PortForm = ({ options, list }: FormTypes) => {
   const { sendWsSetMessage } = useSendWsMessage()
   const protoList = optionsConverter(options, '_newopen.proto')
   const scheduleList = optionsConverter(options, '_newopen.schedule')
-  const formik = useFormik<FormikValuesType>({
+  const formik = useFormik<FormValues>({
     initialValues: {
       name: '',
       proto: 'tcp udp',
@@ -37,16 +45,20 @@ export const PortForm = ({ options, list }: FormTypes) => {
         {},
       )
 
+      const payload: AddOpenPortsTrafficRulesRequest = {
+        'cbi.submit': '1',
+        'cbi.sts.firewall.rule': '', // WARNING
+        '_newopen.submit': 'Add',
+        '_newopen.name': values.name,
+        '_newopen.proto': values.proto,
+        '_newopen.extport': values.extport,
+        '_newopen.schedule': values.schedule,
+        ...enabledItems,
+      }
+
       sendWsSetMessage(
         XPB_EVENT_ACTIONS.XPB_510_FIREWALL_ADD_OPEN_PORTS_TRAFFIC_RULES,
-        {
-          '_newopen.name': values.name,
-          '_newopen.proto': values.proto,
-          '_newopen.extport': values.extport,
-          '_newopen.schedule': values.schedule,
-          '_newopen.submit': 'Add',
-          ...enabledItems,
-        },
+        payload,
       )
       resetForm()
     },
@@ -56,11 +68,17 @@ export const PortForm = ({ options, list }: FormTypes) => {
     <Card>
       <CardHeader title='Open ports on router' />
       <StyledCardContent>
-        <TextField {...textfieldProps('name', 'Name:', formik)} />
-        <Select {...selectProps('proto', 'Protocol:', protoList, formik)} />
-        <TextField {...textfieldProps('extport', 'External port:', formik)} />
+        <TextField label='Name' {...formikField(formik, 'name')} />
         <Select
-          {...selectProps('schedule', 'Schedule:', scheduleList, formik)}
+          label='Protocol'
+          options={protoList}
+          {...formikField(formik, 'proto')}
+        />
+        <TextField label='External port' {...formikField(formik, 'extport')} />
+        <Select
+          label='Schedule'
+          options={scheduleList}
+          {...formikField(formik, 'schedule')}
         />
       </StyledCardContent>
       <CardActions>

@@ -1,11 +1,12 @@
 import { StyledMuiReactTable } from 'components/StyledMuiReactTable'
 import { Button } from 'components/extends/Button'
-import { TextField } from 'components/fields'
+import { TextField } from 'components/formik'
 import { validation } from 'config'
 import { MRT_ColumnDef } from 'material-react-table'
-import { DeleteStaticARPProps } from '../type'
 import { FormikProps } from 'formik'
 import { FormikValuesType } from 'types'
+import { DeleteStaticARPProps } from 'pages/things/bgw5105/network/Lan/type'
+import { formikField } from 'utils/formik'
 
 type StaticArpProps = {
   formik: FormikProps<FormikValuesType>
@@ -31,8 +32,8 @@ export const StaticArp = ({
 
         return (
           <TextField
-            {...formik.getFieldProps(`staticArp_${key}_macaddr`)}
-            errorMessage={
+            {...formikField(formik, `staticArp_${key}_macaddr`)}
+            helperText={
               formik.touched[`hostEntires_${key}_macaddr`] &&
               !validation.macaddr.reg.test(value)
                 ? validation.macaddr.error
@@ -52,8 +53,8 @@ export const StaticArp = ({
 
         return (
           <TextField
-            {...formik.getFieldProps(`staticArp_${key}_ipaddr`)}
-            errorMessage={
+            {...formikField(formik, `staticArp_${key}_ipaddr`)}
+            helperText={
               formik.touched[`hostEntires_${key}_ipaddr`] &&
               !validation.ip4addr.reg.test(value)
                 ? validation.ip4addr.error

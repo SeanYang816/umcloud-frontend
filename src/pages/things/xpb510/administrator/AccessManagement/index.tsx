@@ -2,38 +2,42 @@ import { useEffect } from 'react'
 import { PageHeader } from 'components/PageHeader'
 import { CardHeader } from 'components/extends/CardHeader'
 import { Box, Card, InputLabel, LinearProgress, Stack } from '@mui/material'
-import { Checkbox, TextField, MultiCheckbox } from 'components/fields'
-import { checkboxProps, textfieldProps } from 'utils/formik'
+import { formikArrayField, formikField } from 'utils/formik'
 import { useFormik } from 'formik'
-import { boolToStrNum, strNumToBool } from 'utils'
 import { XPB_EVENT_ACTIONS } from 'constant'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { RootStateProps, FormikValuesType } from 'types'
+import { RootStateProps } from 'types'
 import { optionsConverter } from 'utils/optionsConverter'
 import { validationSchema } from './validationSchema'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
 import { resetAccessManagement } from 'reducers/xpb510/administrator/accessManagement'
+import {
+  GetAccessManagementPageResponse,
+  SetAccessManagementPageRequest,
+} from 'types/xpb510/administrator/accessManagement'
+import { Checkbox, TextField } from 'components/formik'
+import { MultiCheckbox } from 'components/formik/MultiCheckbox'
 
-type PayloadType = {
-  'cbid.uhttpd.main.lo_iface_en': string
-  'cbid.uhttpd.main.lo_iface'?: object[]
-  'cbid.uhttpd.main.lo_http_en': string
-  'cbid.uhttpd.main.lo_http_port': string
-  'cbid.uhttpd.main.lo_https_en': string
-  'cbid.uhttpd.main.lo_https_port': string
-  'cbid.uhttpd.main.lo_telnet_en': string
-  'cbid.uhttpd.main.lo_telnet_port': string
-  'cbid.uhttpd.main.lo_ssh_en': string
-  'cbid.uhttpd.main.lo_ssh_port': string
-  'cbid.uhttpd.main.lo_ssh_pa': string
-  'cbid.uhttpd.main.re_iface_en': string
-  'cbid.uhttpd.main.re_iface': object[]
-  'cbid.uhttpd.main.re_http_en': string
-  'cbid.uhttpd.main.re_http_port': string
-  'cbid.uhttpd.main.re_https_en': string
-  'cbid.uhttpd.main.re_https_port': string
+type FormValues = {
+  lo_iface_en: string
+  lo_iface?: string[]
+  lo_http_en: string
+  lo_http_port: string
+  lo_https_en: string
+  lo_https_port: string
+  lo_telnet_en: string
+  lo_telnet_port: string
+  lo_ssh_en: string
+  lo_ssh_port: string
+  lo_ssh_pa: string
+  re_iface_en: string
+  re_iface: string[]
+  re_http_en: string
+  re_http_port: string
+  re_https_en: string
+  re_https_port: string
 }
 
 export const AccessManagement = () => {
@@ -43,7 +47,8 @@ export const AccessManagement = () => {
   const data = useSelector(
     (state: RootStateProps) => state.xpb510.administrator.accessManagement,
   )
-  const result = data?.result ?? {}
+  const result =
+    data?.result ?? ({} as GetAccessManagementPageResponse['result'])
   const options = data?.options ?? {}
 
   const remoteAllowedInterfacesOptions = optionsConverter(
@@ -51,28 +56,26 @@ export const AccessManagement = () => {
     `cbid.uhttpd.main.re_iface`,
   )
 
-  const formik = useFormik<FormikValuesType>({
+  const formik = useFormik<FormValues>({
     initialValues: {
-      lo_iface_en: strNumToBool(result[`cbid.uhttpd.main.lo_iface_en`] ?? '1'),
-      lo_iface: result[`cbid.uhttpd.main.lo_iface`] ?? [],
-      lo_http_en: strNumToBool(result[`cbid.uhttpd.main.lo_http_en`] ?? '1'),
-      lo_http_port: Number(result[`cbid.uhttpd.main.lo_http_port`] ?? '80'),
-      lo_https_en: strNumToBool(result[`cbid.uhttpd.main.lo_https_en`] ?? '1'),
-      lo_https_port: Number(result[`cbid.uhttpd.main.lo_https_port`] ?? '443'),
-      lo_telnet_en: strNumToBool(
-        result[`cbid.uhttpd.main.lo_telnet_en`] ?? '0',
-      ),
-      lo_telnet_port: Number(result[`cbid.uhttpd.main.lo_telnet_port`] ?? '23'),
-      lo_ssh_en: strNumToBool(result[`cbid.uhttpd.main.lo_ssh_en`] ?? '0'),
-      lo_ssh_port: Number(result[`cbid.uhttpd.main.lo_ssh_port`] ?? '22'),
-      lo_ssh_pa: strNumToBool(result[`cbid.uhttpd.main.lo_ssh_pa`] ?? '1'),
+      lo_iface_en: result[`cbid.uhttpd.main.lo_iface_en`],
+      lo_iface: result[`cbid.uhttpd.main.lo_iface`],
+      lo_http_en: result[`cbid.uhttpd.main.lo_http_en`],
+      lo_http_port: result[`cbid.uhttpd.main.lo_http_port`],
+      lo_https_en: result[`cbid.uhttpd.main.lo_https_en`],
+      lo_https_port: result[`cbid.uhttpd.main.lo_https_port`],
+      lo_telnet_en: result[`cbid.uhttpd.main.lo_telnet_en`],
+      lo_telnet_port: result[`cbid.uhttpd.main.lo_telnet_port`],
+      lo_ssh_en: result[`cbid.uhttpd.main.lo_ssh_en`],
+      lo_ssh_port: result[`cbid.uhttpd.main.lo_ssh_port`],
+      lo_ssh_pa: result[`cbid.uhttpd.main.lo_ssh_pa`],
 
-      re_iface_en: strNumToBool(result[`cbid.uhttpd.main.re_iface_en`] ?? '0'),
-      re_iface: result[`cbid.uhttpd.main.re_iface`] ?? [],
-      re_http_en: strNumToBool(result[`cbid.uhttpd.main.re_http_en`] ?? '0'),
-      re_http_port: Number(result[`cbid.uhttpd.main.re_http_port`] ?? '8080'),
-      re_https_en: strNumToBool(result[`cbid.uhttpd.main.re_https_en`] ?? '0'),
-      re_https_port: Number(result[`cbid.uhttpd.main.re_https_port`] ?? '8443'),
+      re_iface_en: result[`cbid.uhttpd.main.re_iface_en`],
+      re_iface: result[`cbid.uhttpd.main.re_iface`],
+      re_http_en: result[`cbid.uhttpd.main.re_http_en`],
+      re_http_port: result[`cbid.uhttpd.main.re_http_port`],
+      re_https_en: result[`cbid.uhttpd.main.re_https_en`],
+      re_https_port: result[`cbid.uhttpd.main.re_https_port`],
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
@@ -84,25 +87,24 @@ export const AccessManagement = () => {
     },
   })
 
-  const payload: PayloadType = {
-    [`cbid.uhttpd.main.lo_iface_en`]: boolToStrNum(!!formik.values.lo_iface_en),
+  const payload: SetAccessManagementPageRequest = {
+    [`cbi.submit`]: 'Submit',
+    [`cbid.uhttpd.main.lo_iface_en`]: formik.values.lo_iface_en,
     [`cbid.uhttpd.main.lo_iface`]: [],
-    [`cbid.uhttpd.main.lo_http_en`]: boolToStrNum(!!formik.values.lo_http_en),
+    [`cbid.uhttpd.main.lo_http_en`]: formik.values.lo_http_en,
     [`cbid.uhttpd.main.lo_http_port`]: String(formik.values.lo_http_port),
-    [`cbid.uhttpd.main.lo_https_en`]: boolToStrNum(!!formik.values.lo_https_en),
+    [`cbid.uhttpd.main.lo_https_en`]: formik.values.lo_https_en,
     [`cbid.uhttpd.main.lo_https_port`]: String(formik.values.lo_https_port),
-    [`cbid.uhttpd.main.lo_telnet_en`]: boolToStrNum(
-      !!formik.values.lo_telnet_en,
-    ),
+    [`cbid.uhttpd.main.lo_telnet_en`]: formik.values.lo_telnet_en,
     [`cbid.uhttpd.main.lo_telnet_port`]: String(formik.values.lo_telnet_port),
-    [`cbid.uhttpd.main.lo_ssh_en`]: boolToStrNum(!!formik.values.lo_ssh_en),
+    [`cbid.uhttpd.main.lo_ssh_en`]: formik.values.lo_ssh_en,
     [`cbid.uhttpd.main.lo_ssh_port`]: String(formik.values.lo_ssh_port),
-    [`cbid.uhttpd.main.lo_ssh_pa`]: boolToStrNum(!!formik.values.lo_ssh_pa),
-    [`cbid.uhttpd.main.re_iface_en`]: boolToStrNum(!!formik.values.re_iface_en),
-    [`cbid.uhttpd.main.re_iface`]: formik.values.re_iface as object[],
-    [`cbid.uhttpd.main.re_http_en`]: boolToStrNum(!!formik.values.re_http_en),
+    [`cbid.uhttpd.main.lo_ssh_pa`]: formik.values.lo_ssh_pa,
+    [`cbid.uhttpd.main.re_iface_en`]: formik.values.re_iface_en,
+    [`cbid.uhttpd.main.re_iface`]: formik.values.re_iface,
+    [`cbid.uhttpd.main.re_http_en`]: formik.values.re_http_en,
     [`cbid.uhttpd.main.re_http_port`]: String(formik.values.re_http_port),
-    [`cbid.uhttpd.main.re_https_en`]: boolToStrNum(!!formik.values.re_https_en),
+    [`cbid.uhttpd.main.re_https_en`]: formik.values.re_https_en,
     [`cbid.uhttpd.main.re_https_port`]: String(formik.values.re_https_port),
   }
 
@@ -120,10 +122,6 @@ export const AccessManagement = () => {
     sendWsGetMessage(
       XPB_EVENT_ACTIONS.XPB_510_ACCESS_MANAGEMENT_REGENERATE_SSH_KEYS,
     )
-  }
-
-  const handleRemoteIfaceClick = (value: string[]) => {
-    formik.setFieldValue('re_iface', value)
   }
 
   useEffect(() => {
@@ -152,63 +150,64 @@ export const AccessManagement = () => {
               <CardHeader title='Local Access Management' />
               <StyledCardContent>
                 <Checkbox
-                  {...checkboxProps(
-                    'lo_iface_en',
-                    'Limit access by interface',
-                    formik,
-                  )}
+                  label='Limit access by interface'
+                  {...formikField(formik, 'lo_iface_en')}
                 />
                 {formik.values.lo_iface_en && ( // this field is not fixed
                   <MultiCheckbox
                     disabled
                     label='Allowed interfaces'
-                    value={[]}
-                    onClick={() => {}}
-                    options={[{ label: 'LAN', value: 'wann', checked: true }]}
+                    options={[{ label: 'LAN', value: 'lan' }]}
+                    {...formikArrayField(formik, 'lo_iface')}
                   />
                 )}
                 <Checkbox
-                  {...checkboxProps('lo_http_en', 'Enable HTTP', formik)}
+                  label='Enable HTTP'
+                  {...formikField(formik, 'lo_http_en')}
                 />
                 {formik.values.lo_http_en && (
                   <TextField
                     type='number'
-                    {...textfieldProps('lo_http_port', 'Port', formik)}
+                    label='Port'
+                    {...formikField(formik, 'lo_http_port')}
                   />
                 )}
                 <Checkbox
-                  {...checkboxProps('lo_https_en', 'Enable HTTPS', formik)}
+                  label='Enable HTTPS'
+                  {...formikField(formik, 'lo_https_en')}
                 />
                 {formik.values.lo_https_en && (
                   <TextField
                     type='number'
-                    {...textfieldProps('lo_https_port', 'Port', formik)}
+                    label='Port'
+                    {...formikField(formik, 'lo_https_port')}
                   />
                 )}
                 <Checkbox
-                  {...checkboxProps('lo_telnet_en', 'Enable Telnet', formik)}
+                  label='Enable Telnet'
+                  {...formikField(formik, 'lo_telnet_en')}
                 />
                 {formik.values.lo_telnet_en && (
                   <TextField
                     type='number'
-                    {...textfieldProps('lo_telnet_port', 'Port', formik)}
+                    label='Port'
+                    {...formikField(formik, 'lo_telnet_port')}
                   />
                 )}
                 <Checkbox
-                  {...checkboxProps('lo_ssh_en', 'Enable SSH', formik)}
+                  label='Enable SSH'
+                  {...formikField(formik, 'lo_ssh_en')}
                 />
                 {formik.values.lo_ssh_en && (
                   <>
                     <TextField
                       type='number'
-                      {...textfieldProps('lo_ssh_port', 'Port', formik)}
+                      label='Port'
+                      {...formikField(formik, 'lo_ssh_port')}
                     />
                     <Checkbox
-                      {...checkboxProps(
-                        'lo_ssh_pa',
-                        'Password authentication',
-                        formik,
-                      )}
+                      label='Password authentication'
+                      {...formikField(formik, 'lo_ssh_pa')}
                     />
                     <Stack spacing={1}>
                       <Box>
@@ -238,36 +237,36 @@ export const AccessManagement = () => {
               <CardHeader title='Remote Access Management' />
               <StyledCardContent>
                 <Checkbox
-                  {...checkboxProps(
-                    're_iface_en',
-                    'Limit access by interface',
-                    formik,
-                  )}
+                  label='Limit access by interface'
+                  {...formikField(formik, 're_iface_en')}
                 />
                 {formik.values.re_iface_en && (
                   <MultiCheckbox
                     label='Allowed interfaces'
-                    value={formik.values.re_iface as string[]}
-                    onClick={handleRemoteIfaceClick}
                     options={remoteAllowedInterfacesOptions}
+                    {...formikArrayField(formik, 're_iface')}
                   />
                 )}
                 <Checkbox
-                  {...checkboxProps('re_http_en', 'Enable HTTP', formik)}
+                  label='Enable HTTP'
+                  {...formikField(formik, 're_http_en')}
                 />
                 {formik.values.re_http_en && (
                   <TextField
                     type='number'
-                    {...textfieldProps('re_http_port', 'Port', formik)}
+                    label='Port'
+                    {...formikField(formik, 're_http_port')}
                   />
                 )}
                 <Checkbox
-                  {...checkboxProps('re_https_en', 'Enable HTTPS', formik)}
+                  label='Enable HTTPS'
+                  {...formikField(formik, 're_https_en')}
                 />
                 {formik.values.re_https_en && (
                   <TextField
                     type='number'
-                    {...textfieldProps('re_https_port', 'Port', formik)}
+                    label='Port'
+                    {...formikField(formik, 're_https_port')}
                   />
                 )}
               </StyledCardContent>

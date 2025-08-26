@@ -4,10 +4,10 @@ import { useFormik } from 'formik'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootStateProps, FormikValuesType, StringStringType } from 'types'
+import { RootStateProps, StringStringType } from 'types'
 import { CardHeader } from 'components/extends/CardHeader'
-import { Select } from 'components/fields'
-import { selectProps } from 'utils/formik'
+import { Select } from 'components/formik'
+import { formikField } from 'utils/formik'
 import { clearProperty } from 'reducers/bgw5105/routing'
 import { RipEditDialog } from './RipEditDialog'
 import { PageHeader } from 'components/PageHeader'
@@ -20,6 +20,10 @@ import { booleanList } from 'config'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
 import { resetRouting } from 'reducers/xpb510/network/routing'
+import {
+  GetRipPageResult,
+  SetRIPPageRequest,
+} from 'types/xpb510/network/routing'
 
 export interface RipItem {
   key: string
@@ -32,6 +36,11 @@ export interface RipItem {
   key_mode: string
 }
 
+type FormValues = {
+  enable: string
+  version: string
+}
+
 export const Rip = () => {
   const dispatch = useDispatch()
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
@@ -39,24 +48,26 @@ export const Rip = () => {
   const data = useSelector(
     (state: RootStateProps) => state.xpb510.network.routing.rip,
   )
-  const result = data?.result ?? {}
+  const result = data?.result ?? ({} as GetRipPageResult)
 
   const [list] = useApiResultObjectToArrayByCommonId(result, 'rip-interface')
   const [isFetch, setIsFetch] = useState(false)
 
   const editKey = useRef('')
 
-  const formik = useFormik<FormikValuesType>({
+  const formik = useFormik<FormValues>({
     initialValues: {
-      enable: result['cbid.ripd.config.enable'] ?? '0',
-      version: result['cbid.ripd.config.version'] ?? '2',
+      enable: result['cbid.ripd.config.enable'],
+      version: result['cbid.ripd.config.version'],
     },
     enableReinitialize: true,
     onSubmit: (values) => {
-      sendWsSetMessage(XPB_EVENT_ACTIONS.XPB_510_ROUTING_SET_RIP_PAGE, {
-        'cbid.ripd.config.enable': values.enable,
-        'cbid.ripd.config.version': values.version,
-      })
+      const payload: SetRIPPageRequest = {
+        'cbi.submit': '1',
+        'cbid.ripd.config.enable': String(values.enable),
+        'cbid.ripd.config.version': String(values.version),
+      }
+      sendWsSetMessage(XPB_EVENT_ACTIONS.XPB_510_ROUTING_SET_RIP_PAGE, payload)
     },
   })
 
@@ -172,7 +183,9 @@ export const Rip = () => {
               <CardHeader title='RIP Configuration' />
               <StyledCardContent>
                 <Select
-                  {...selectProps('enable', 'RIP enable:', booleanList, formik)}
+                  label='RIP Enable'
+                  options={booleanList}
+                  {...formikField(formik, 'enable')}
                 />
               </StyledCardContent>
             </Card>

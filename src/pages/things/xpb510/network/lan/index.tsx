@@ -16,6 +16,7 @@ import { Button } from 'components/extends/Button'
 import { validationSchema } from './validationSchema'
 import { PageHeader } from 'components/PageHeader'
 import { resetLan } from 'reducers/xpb510/network/lan'
+import { GetLanPageResult, SetLanPageRequest } from 'types/xpb510/network/lan'
 
 type ValidationObjProps = {
   [key: string]: Yup.StringSchema<string>
@@ -34,7 +35,7 @@ export const Lan = () => {
     (state: RootStateProps) => state.bgw5105.config.refetchData,
   )
 
-  const result = data?.result
+  const result = data?.result ?? ({} as GetLanPageResult)
   const [staticLeasesList] = useApiResultObjectToArrayByCommonId(result, 'host')
   const [hostEntiresList] = useApiResultObjectToArrayByCommonId(
     result,
@@ -86,37 +87,34 @@ export const Lan = () => {
 
   const formik = useFormik<FormikValuesType>({
     initialValues: {
-      __natmode: result?.['cbid.network.lan.__natmode'] ?? '0',
-      proto: result?.['cbid.network.lan.proto'] ?? ' static',
-      ipaddr: result?.['cbid.network.lan.ipaddr'] ?? ' 192.168.1.1',
-      netmask: result?.['cbid.network.lan.netmask'] ?? ' 255.255.255.0',
-      gateway: result?.['cbid.network.lan.gateway'] ?? '',
-      dns: result?.['cbid.network.lan.dns'] ?? [],
-      macaddr: result?.['cbid.network.lan.macaddr'] ?? '',
-      mtu: result?.['cbid.network.lan.mtu'] ?? '',
-      metric: result?.['cbid.network.lan.metric'] ?? '',
-      delegate: result?.['cbid.network.lan.delegate'] ?? '1',
-      auto: result?.['cbid.network.lan.auto'] ?? '1',
-      broadcast: result?.['cbid.network.lan.broadcast'] ?? '',
-      ip6addr: result?.['cbid.network.lan.ip6addr'] ?? '',
-      ip6assign: result?.['cbid.network.lan.ip6assign'] ?? '64',
-      ip6gw: result?.['cbid.network.lan.ip6gw'] ?? '',
-      ip6hint: result?.['cbid.network.lan.ip6hint'] ?? '',
-      ip6prefix: result?.['cbid.network.lan.ip6prefix'] ?? '',
-      ignore: result?.['cbid.dhcp.lan.ignore'] ?? '0',
-      relay: result?.['cbid.dhcp.lan.relay'] ?? '192.0.2.10',
-      start_addr: result?.['cbid.dhcp.lan.start_addr'] ?? '192.168.1.101',
-      end_addr: result?.['cbid.dhcp.lan.end_addr'] ?? '192.168.1.199',
-      leasetime: result?.['cbid.dhcp.lan.leasetime'] ?? '12h',
-      wins: result?.['cbid.dhcp.lan.wins'] ?? '',
-      dns1: result?.['cbid.dhcp.lan.dns1'] ?? '',
-      dns2: result?.['cbid.dhcp.lan.dns2'] ?? '',
-      domain: result?.['cbid.dhcp.lan.domain'] ?? '',
-      dynamicdhcp: result?.['cbid.dhcp.lan.dynamicdhcp'] ?? '',
-      logqueries: result?.['cbid.dhcp.lan.logqueries'] ?? '0',
-      staticLeases: result?.['host'] ?? [],
-      hostDomain: result?.['domain'] ?? [],
-      staticArp: result?.['arpbind'] ?? [],
+      __natmode: result['cbid.network.lan.__natmode'],
+      proto: result['cbid.network.lan.proto'],
+      ipaddr: result['cbid.network.lan.ipaddr'],
+      netmask: result['cbid.network.lan.netmask'],
+      gateway: result['cbid.network.lan.gateway'],
+      dns: result['cbid.network.lan.dns'],
+      macaddr: result['cbid.network.lan.macaddr'],
+      mtu: result['cbid.network.lan.mtu'],
+      metric: result['cbid.network.lan.metric'],
+      delegate: result['cbid.network.lan.delegate'],
+      auto: result['cbid.network.lan.auto'],
+      broadcast: result['cbid.network.lan.broadcast'],
+      ip6addr: result['cbid.network.lan.ip6addr'],
+      ip6assign: result['cbid.network.lan.ip6assign'],
+      ip6gw: result['cbid.network.lan.ip6gw'],
+      ip6hint: result['cbid.network.lan.ip6hint'],
+      ip6prefix: result['cbid.network.lan.ip6prefix'],
+      ignore: result['cbid.dhcp.lan.ignore'],
+      relay: result['cbid.dhcp.lan.relay'],
+      start: result['cbid.dhcp.lan.start'],
+      end: result['cbid.dhcp.lan.end'],
+      leasetime: result['cbid.dhcp.lan.leasetime'],
+      wins: result['cbid.dhcp.lan.wins'],
+      dns1: result['cbid.dhcp.lan.dns1'],
+      dns2: result['cbid.dhcp.lan.dns2'],
+      domain: result['cbid.dhcp.lan.domain'],
+      dynamicdhcp: result['cbid.dhcp.lan.dynamicdhcp'],
+      logqueries: result['cbid.dhcp.lan.logqueries'],
 
       ...formikInitStaticLeasesList,
       ...formikInitHostEntiresList,
@@ -172,7 +170,8 @@ export const Lan = () => {
     {},
   )
 
-  const payload = {
+  const payload: SetLanPageRequest = {
+    'cbi.submit': '1',
     'cbid.network.lan.__natmode': formik.values.__natmode,
     'cbid.network.lan.proto': formik.values.proto,
     'cbid.network.lan.ipaddr': formik.values.ipaddr,
@@ -192,8 +191,8 @@ export const Lan = () => {
     'cbid.network.lan.ip6prefix': formik.values.ip6prefix,
     'cbid.dhcp.lan.ignore': formik.values.ignore,
     'cbid.dhcp.lan.relay': formik.values.relay,
-    'cbid.dhcp.lan.start_addr': formik.values.start_addr,
-    'cbid.dhcp.lan.end_addr': formik.values.end_addr,
+    'cbid.dhcp.lan.start': formik.values.start,
+    'cbid.dhcp.lan.end': formik.values.end,
     'cbid.dhcp.lan.leasetime': formik.values.leasetime,
     'cbid.dhcp.lan.wins': formik.values.wins,
     'cbid.dhcp.lan.dns1': formik.values.dns1,

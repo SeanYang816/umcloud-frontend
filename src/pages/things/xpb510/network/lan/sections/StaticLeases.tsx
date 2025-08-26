@@ -1,11 +1,12 @@
 import { StyledMuiReactTable } from 'components/StyledMuiReactTable'
 import { Button } from 'components/extends/Button'
-import { TextField } from 'components/fields'
+import { TextField } from 'components/formik'
 import { validation } from 'config'
 import { MRT_ColumnDef } from 'material-react-table'
-import { DeleteStaticLeasesProps } from '../type'
 import { FormikProps } from 'formik'
 import { FormikValuesType } from 'types'
+import { DeleteStaticLeasesProps } from 'pages/things/bgw5105/network/Lan/type'
+import { formikField } from 'utils/formik'
 
 type StaticLeasesProps = {
   formik: FormikProps<FormikValuesType>
@@ -31,8 +32,8 @@ export const StaticLeases = ({
 
         return (
           <TextField
-            {...formik.getFieldProps(`staticLeases_${key}_name`)}
-            errorMessage={
+            {...formikField(formik, `staticLeases_${key}_name`)}
+            helperText={
               formik.touched[`hostEntires_${key}_name`] &&
               !validation.hostname.reg.test(value)
                 ? validation.hostname.error
@@ -52,8 +53,8 @@ export const StaticLeases = ({
 
         return (
           <TextField
-            {...formik.getFieldProps(`staticLeases_${key}_ip`)}
-            errorMessage={
+            {...formikField(formik, `staticLeases_${key}_ip`)}
+            helperText={
               formik.touched[`hostEntires_${key}_ip`] &&
               !validation.ip4addrOrIgnore.reg.test(value)
                 ? validation.ip4addrOrIgnore.error
@@ -73,8 +74,8 @@ export const StaticLeases = ({
 
         return (
           <TextField
-            {...formik.getFieldProps(`staticLeases_${key}_mac`)}
-            errorMessage={
+            {...formikField(formik, `staticLeases_${key}_mac`)}
+            helperText={
               formik.touched[`hostEntires_${key}_mac`] &&
               !validation.macaddr.reg.test(value)
                 ? validation.macaddr.error

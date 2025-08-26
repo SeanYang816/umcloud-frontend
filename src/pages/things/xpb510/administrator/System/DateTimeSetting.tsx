@@ -1,6 +1,6 @@
 import { Card, Grid, InputLabel } from '@mui/material'
-import { Select as Select, MultiSelect } from 'components/fields'
-import { multiSelectProps, selectProps } from 'utils/formik'
+import { Select, MultiSelect } from 'components/formik'
+import { formikArrayField, formikField } from 'utils/formik'
 import { CardHeader } from 'components/extends/CardHeader'
 import { FormikValuesType, SelectOptionProps } from 'types'
 import { FormikProps } from 'formik'
@@ -37,7 +37,9 @@ export const DateTimeSetting = ({
       <CardHeader title={title} />
       <StyledCardContent>
         <Select
-          {...selectProps('clock_mode', 'Clock Mode', clockModeOptions, formik)}
+          label='Clock Mode'
+          options={clockModeOptions}
+          {...formikField(formik, 'clock_mode')}
         />
         {isClockMode && (
           <>
@@ -45,28 +47,19 @@ export const DateTimeSetting = ({
               <Grid display='flex' alignItems='center' gap={2}>
                 <InputLabel>Date Settings</InputLabel>
                 <Select
-                  {...selectProps(
-                    'localtime_year',
-                    'Year',
-                    localTimeYearOptions,
-                    formik,
-                  )}
+                  label='Year'
+                  options={localTimeYearOptions}
+                  {...formikField(formik, 'localtime_year')}
                 />
                 <Select
-                  {...selectProps(
-                    'localtime_month',
-                    'Month',
-                    localTimeMonthOptions,
-                    formik,
-                  )}
+                  label='Month'
+                  options={localTimeMonthOptions}
+                  {...formikField(formik, 'localtime_month')}
                 />
                 <Select
-                  {...selectProps(
-                    'localtime_day',
-                    'Day',
-                    localTimeDayOptions,
-                    formik,
-                  )}
+                  label='Day'
+                  options={localTimeDayOptions}
+                  {...formikField(formik, 'localtime_day')}
                 />
               </Grid>
             </Grid>
@@ -74,28 +67,19 @@ export const DateTimeSetting = ({
               <Grid display='flex' alignItems='center' gap={2}>
                 <InputLabel>Time Settings</InputLabel>
                 <Select
-                  {...selectProps(
-                    'localtime_hour',
-                    'Hour',
-                    localTimeHourOptions,
-                    formik,
-                  )}
+                  label='Hour'
+                  options={localTimeHourOptions}
+                  {...formikField(formik, 'localtime_hour')}
                 />
                 <Select
-                  {...selectProps(
-                    'localtime_minute',
-                    'Minute',
-                    localTimeMinuteOptions,
-                    formik,
-                  )}
+                  label='Minute'
+                  options={localTimeMinuteOptions}
+                  {...formikField(formik, 'localtime_minute')}
                 />
                 <Select
-                  {...selectProps(
-                    'localtime_second',
-                    'Second',
-                    localTimeSecondOptions,
-                    formik,
-                  )}
+                  label='Second'
+                  options={localTimeSecondOptions}
+                  {...formikField(formik, 'localtime_second')}
                 />
               </Grid>
             </Grid>
@@ -104,12 +88,9 @@ export const DateTimeSetting = ({
         {isNTP && (
           <>
             <MultiSelect
-              {...multiSelectProps(
-                'ntpserver',
-                'NTP server candidates',
-                [],
-                formik,
-              )}
+              label='NTP server candidates'
+              options={[]}
+              {...formikArrayField(formik, 'ntpserver')}
               freeSolo
             />
           </>

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootStateProps, StringStringType } from 'types'
 import { XPB_EVENT_ACTIONS } from 'constant'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { clearProperty } from 'reducers/bgw5105/firewall'
 import { AddOneToOneNatForm } from './AddOneToOneNatForm'
 import { AddOneToOneNatEditDialog } from './AddOneToOneNatEditDialog'
 import { PageHeader } from 'components/PageHeader'
@@ -24,6 +23,7 @@ import { StyledMuiReactTable } from 'components/StyledMuiReactTable'
 import { useApiResultObjectToArrayByCommonId } from 'hooks/useApiResultObjectToArrayByCommonId'
 import { DialogController } from 'components/DialogController'
 import { Button } from 'components/extends/Button'
+import { resetFirewallState } from 'reducers/xpb510/network/firewall'
 
 export const OneToOneNat = () => {
   const dispatch = useDispatch()
@@ -54,7 +54,7 @@ export const OneToOneNat = () => {
   const handleDialogClose = () => {
     setEditKey('')
     setIsFetch(false)
-    dispatch(clearProperty('oneToOneNatEdit'))
+    dispatch(resetFirewallState())
   }
 
   const handleEnabledChange = (key: string) => {

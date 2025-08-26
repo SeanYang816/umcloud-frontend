@@ -1,17 +1,17 @@
-import { BoolString, StatusMessageType } from 'types'
+import { StatusMessageType } from 'types'
 
 /** 1.7 Alg */
 
 // 1.7.1 Get Alg Page
 
 export type GetAlgPageResult = {
-  'cbid.alg.alg.ftp': '1' | BoolString
-  'cbid.alg.alg.tftp': '1' | BoolString
-  'cbid.alg.alg.snmp': '1' | BoolString
-  'cbid.alg.alg.sip': '1' | BoolString
-  'cbid.alg.alg.rtsp': '1' | BoolString
-  'cbid.alg.alg.irc': '1' | BoolString
-  'cbid.alg.alg.h323': '1' | BoolString
+  'cbid.alg.alg.ftp': string
+  'cbid.alg.alg.tftp': string
+  'cbid.alg.alg.snmp': string
+  'cbid.alg.alg.sip': string
+  'cbid.alg.alg.rtsp': string
+  'cbid.alg.alg.irc': string
+  'cbid.alg.alg.h323': string
 }
 export type GetAlgPageResponse = StatusMessageType & {
   result: GetAlgPageResult
@@ -21,13 +21,13 @@ export type GetAlgPageResponse = StatusMessageType & {
 export type SetAlgPageRequest = {
   'cbi.submit': string
   'cbi.apply'?: 'Apply' | string
-  'cbid.alg.alg.ftp': '1' | BoolString
-  'cbid.alg.alg.tftp': '1' | BoolString
-  'cbid.alg.alg.snmp': '1' | BoolString
-  'cbid.alg.alg.sip': '1' | BoolString
-  'cbid.alg.alg.rtsp': '1' | BoolString
-  'cbid.alg.alg.irc': '1' | BoolString
-  'cbid.alg.alg.h323': '1' | BoolString
+  'cbid.alg.alg.ftp': string
+  'cbid.alg.alg.tftp': string
+  'cbid.alg.alg.snmp': string
+  'cbid.alg.alg.sip': string
+  'cbid.alg.alg.rtsp': string
+  'cbid.alg.alg.irc': string
+  'cbid.alg.alg.h323': string
 }
 
 export type SetAlgPageResponse = GetAlgPageResponse

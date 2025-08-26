@@ -5,7 +5,7 @@ import {
 } from 'utils/validations'
 import * as Yup from 'yup'
 
-const { string, bool, array } = Yup
+const { string, bool } = Yup
 
 export const formValidationSchema = Yup.object().shape({
   name: string()
@@ -53,9 +53,7 @@ export const modalValidationSchema = Yup.object().shape({
     .min(1)
     .max(32),
   proto: string(),
-  src_mac: array().of(
-    string().matches(validation.macaddr.reg, validation.macaddr.error),
-  ),
+  src_mac: string().required(),
 
   src_ip: string().matches(validation.ip4addr.reg, validation.ip4addr.error),
 

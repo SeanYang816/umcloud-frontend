@@ -14,12 +14,10 @@ import { selectProps } from 'utils/formik'
 import { Button } from 'components/extends/Button'
 import { StyledCardContent } from 'components/extends/StyledCardContent'
 import { resetFirewallState } from 'reducers/xpb510/network/firewall'
-import { DmzHostPageResult } from 'types/xpb510/network/firewall'
-
-type PayloadType = {
-  'cbid.dmz.dmz.enable': string
-  'cbid.dmz.dmz.dmz_ip': string
-}
+import {
+  DmzHostPageResult,
+  SetDmzHostPageRequest,
+} from 'types/xpb510/network/firewall'
 
 export const DmzHost = () => {
   const dispatch = useDispatch()
@@ -32,8 +30,8 @@ export const DmzHost = () => {
 
   const formik = useFormik<FormikValuesType>({
     initialValues: {
-      enable: result['cbid.dmz.dmz.enable'] ?? '0',
-      dmz_ip: result['cbid.dmz.dmz.dmz_ip'] ?? '',
+      enable: result['cbid.dmz.dmz.enable'],
+      dmz_ip: result['cbid.dmz.dmz.dmz_ip'],
     },
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
@@ -41,7 +39,8 @@ export const DmzHost = () => {
       dmz_ip: Yup.string(),
     }),
     onSubmit: (values) => {
-      const payload: PayloadType = {
+      const payload: SetDmzHostPageRequest = {
+        'cbi.submit': '1',
         'cbid.dmz.dmz.enable': String(values.enable),
         'cbid.dmz.dmz.dmz_ip': String(values.dmz_ip),
       }
@@ -69,22 +68,30 @@ export const DmzHost = () => {
       {!data ? (
         <LinearProgress />
       ) : (
-        <Card>
-          <CardHeader title='DMZ Host' />
+        <>
+          <Card>
+            <CardHeader title='DMZ Host' />
 
-          <StyledCardContent>
-            <Select {...selectProps('enable', 'Enable', booleanList, formik)} />
-            <TextField
-              {...formik.getFieldProps('dmz_ip')}
-              label='DMZ Host IP Address:'
-              placeholder='0.0.0.0'
+            <StyledCardContent>
+              <Select
+                {...selectProps('enable', 'Enable', booleanList, formik)}
+              />
+              <TextField
+                {...formik.getFieldProps('dmz_ip')}
+                label='DMZ Host IP Address:'
+                placeholder='0.0.0.0'
+              />
+            </StyledCardContent>
+          </Card>
+          <Stack direction='row' ml='auto'>
+            <Button
+              icon='save'
+              text='save'
+              onClick={() => formik.handleSubmit()}
             />
-          </StyledCardContent>
-        </Card>
+          </Stack>
+        </>
       )}
-      <Stack direction='row' ml='auto'>
-        <Button icon='save' text='save' onClick={() => formik.handleSubmit()} />
-      </Stack>
     </>
   )
 }

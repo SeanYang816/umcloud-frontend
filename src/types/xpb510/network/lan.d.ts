@@ -3,49 +3,54 @@ import { EmptyProps, StatusMessageType, OptionsOrSuggestType } from 'types'
 export type GetLanPageRequest = {
   get_options?: '1' | '0'
 }
+
 export type GetLanPageResult = {
   // Static keys
-  'cbid.network.lan.__natmode': '0' | string
-  'cbid.network.lan.proto': 'static' | string
-  'cbid.network.lan.ipaddr': '192.168.1.1' | string
-  'cbid.network.lan.netmask': '255.255.255.0' | string
+  'cbid.network.lan.__natmode': string
+  'cbid.network.lan.proto': string
+  'cbid.network.lan.ipaddr': string
+  'cbid.network.lan.netmask': string
   'cbid.network.lan.gateway': string
   'cbid.network.lan.dns': string[]
   'cbid.network.lan.macaddr': string
   'cbid.network.lan.mtu': string
   'cbid.network.lan.metric': string
-  'cbid.network.lan.delegate': '1' | '0' | string
-  'cbid.network.lan.auto': '1' | '0' | string
+  'cbid.network.lan.delegate': string
+  'cbid.network.lan.auto': string
   'cbid.network.lan.broadcast': string
   'cbid.network.lan.ip6addr': string
-  'cbid.network.lan.ip6assign': '64' | string
+  'cbid.network.lan.ip6assign': string
   'cbid.network.lan.ip6gw': string
   'cbid.network.lan.ip6hint': string
   'cbid.network.lan.ip6prefix': string
 
-  'cbid.dhcp.lan.ignore': '0' | string
-  'cbid.dhcp.lan.relay': '192.0.2.10' | string
-  'cbid.dhcp.lan.start': '101' | string
-  'cbid.dhcp.lan.end': '199' | string
-  'cbid.dhcp.lan.leasetime': '12h' | string
+  'cbid.dhcp.lan.ignore': string
+  'cbid.dhcp.lan.relay': string
+  'cbid.dhcp.lan.start': string
+  'cbid.dhcp.lan.end': string
+  'cbid.dhcp.lan.leasetime': string
   'cbid.dhcp.lan.wins': string
   'cbid.dhcp.lan.dns1': string
   'cbid.dhcp.lan.dns2': string
   'cbid.dhcp.lan.domain': string
-  'cbid.dhcp.lan.dynamicdhcp': '1' | string
-  'cbid.dhcp.lan.logqueries': '0' | string
+  'cbid.dhcp.lan.dynamicdhcp': string
+  'cbid.dhcp.lan.logqueries': string
 
   host: string[]
   domain: string[]
   arpbind: string[]
 
   // Dynamic keys (Record version — no eslint issues)
-} & Record<`cbid.dhcp.${string}.name`, string> & // host, domain
-  Record<`cbid.dhcp.${string}.mac`, string> & // host
-  Record<`cbid.dhcp.${string}.ip`, string> & // host, domain
-  Record<`cbid.dhcp.${string}.isvlan`, '0' | string> & // host
-  Record<`cbid.arpbind.${string}.macaddr`, string> & // arpbind
-  Record<`cbid.arpbind.${string}.ipaddr`, string> //arpbind
+} & Record<
+  | `cbid.dhcp.${string}.name`
+  | `cbid.dhcp.${string}.mac`
+  | `cbid.dhcp.${string}.ip`
+  | `cbid.dhcp.${string}.isvlan`
+  | `cbid.arpbind.${string}.macaddr`
+  | `cbid.arpbind.${string}.ipaddr`,
+  string
+>
+
 export type GetLanPageResponse =
   | (StatusMessageType & {
       result: GetLanPageResult
@@ -55,43 +60,46 @@ export type GetLanPageResponse =
   | EmptyProps
 
 export type SetLanPageRequest = {
-  'cbi.submit': '1' | string
-  'cbi.apply'?: 'Apply' | string
-  'cbid.network.lan.__natmode': '0' | string
-  'cbid.network.lan.proto'?: 'static' | string
-  'cbid.network.lan.ipaddr': '192.168.1.1' | string
-  'cbid.network.lan.netmask': '255.255.255.0' | string
+  'cbi.submit': string
+  'cbi.apply'?: string
+  'cbid.network.lan.__natmode': string
+  'cbid.network.lan.proto'?: string
+  'cbid.network.lan.ipaddr': string
+  'cbid.network.lan.netmask': string
   'cbid.network.lan.gateway': string
   'cbid.network.lan.dns': string[]
   'cbid.network.lan.macaddr': string
   'cbid.network.lan.mtu': string
   'cbid.network.lan.metric': string
-  'cbid.network.lan.delegate': '1' | '0' | string
-  'cbid.network.lan.auto': '1' | '0' | string
+  'cbid.network.lan.delegate': string
+  'cbid.network.lan.auto': string
   'cbid.network.lan.broadcast': string
   'cbid.network.lan.ip6addr': string
   'cbid.network.lan.ip6assign': string
   'cbid.network.lan.ip6gw': string
   'cbid.network.lan.ip6hint': string
   'cbid.network.lan.ip6prefix': string
-  'cbid.dhcp.lan.ignore': '0' | string
-  'cbid.dhcp.lan.relay': '192.0.2.10' | string
+  'cbid.dhcp.lan.ignore': string
+  'cbid.dhcp.lan.relay': string
 
-  'cbid.dhcp.lan.start_addr': '192.168.1.101' | string
-  'cbid.dhcp.lan.end_addr': '192.168.1.199' | string
-  'cbid.dhcp.lan.leasetime': '24h' | string
+  'cbid.dhcp.lan.start_addr': string
+  'cbid.dhcp.lan.end_addr': string
+  'cbid.dhcp.lan.leasetime': string
   'cbid.dhcp.lan.wins': string
   'cbid.dhcp.lan.dns1': string
   'cbid.dhcp.lan.dns2': string
   'cbid.dhcp.lan.domain': string
-  'cbid.dhcp.lan.dynamicdhcp': '1' | '0' | string
-  'cbid.dhcp.lan.logqueries': '0' | '1' | string
-} & Record<`cbid.dhcp.${string}.name`, string> & // host, domain
-  Record<`cbid.dhcp.${string}.mac`, string> & // host
-  Record<`cbid.dhcp.${string}.ip`, string> & // host, domain
-  Record<`cbid.dhcp.${string}.isvlan`, '0' | string> & // host
-  Record<`cbid.arpbind.${string}.macaddr`, string> & // arpbind
-  Record<`cbid.arpbind.${string}.ipaddr`, string> // arpbind
+  'cbid.dhcp.lan.dynamicdhcp': string
+  'cbid.dhcp.lan.logqueries': string
+} & Record<
+  | `cbid.dhcp.${string}.name`
+  | `cbid.dhcp.${string}.mac`
+  | `cbid.dhcp.${string}.ip`
+  | `cbid.dhcp.${string}.isvlan`
+  | `cbid.arpbind.${string}.macaddr`
+  | `cbid.arpbind.${string}.ipaddr`,
+  string
+>
 
 export type SetLanPageResponse = GetLanPageRequest & {
   errors?: Record<string, string>

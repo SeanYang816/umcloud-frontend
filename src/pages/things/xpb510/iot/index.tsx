@@ -3,7 +3,8 @@ import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { XPB_EVENT_ACTIONS } from 'constant'
 import { useDispatch } from 'react-redux'
 import { resetIot } from 'reducers/xpb510/iot/climateControl'
-import { SampleInfo2 } from './SampleInfo2'
+import { SampleInfo } from './SampleInfo'
+import { Grid } from '@mui/material'
 
 export const Iot = () => {
   const dispatch = useDispatch()
@@ -21,8 +22,13 @@ export const Iot = () => {
   }, [dispatch, sendWsGetMessage])
 
   return (
-    <div>
-      <SampleInfo2 />
-    </div>
+    <Grid container spacing={2}>
+      <Grid size={{ xs: 12, md: 6 }}>
+        <SampleInfo />
+      </Grid>
+      <Grid size={{ xs: 12, md: 6 }}>
+        <SampleInfo />
+      </Grid>
+    </Grid>
   )
 }

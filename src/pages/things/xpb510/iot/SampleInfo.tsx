@@ -9,11 +9,16 @@ import {
   Typography,
   Box,
   Tooltip,
-  Grid,
+  IconButton,
+  Dialog,
+  DialogContent,
 } from '@mui/material'
 import SignalCellularAltRoundedIcon from '@mui/icons-material/SignalCellularAltRounded'
 import ThermostatRoundedIcon from '@mui/icons-material/ThermostatRounded'
 import WaterDropRoundedIcon from '@mui/icons-material/WaterDropRounded'
+import { Edit } from '@mui/icons-material'
+import { DialogController } from 'components/DialogController'
+import { SampleGraph } from './graphs/SampleGraph'
 
 // --- Mock Data ---
 const mockRouter = {
@@ -66,7 +71,7 @@ export function SampleInfo() {
   const router = mockRouter
 
   return (
-    <Card variant='outlined' sx={{ maxWidth: 980, mx: 'auto' }}>
+    <Card variant='outlined'>
       <CardContent sx={{ p: { xs: 2, md: 3 } }}>
         {/* Header */}
         <Stack
@@ -77,9 +82,14 @@ export function SampleInfo() {
           sx={{ mb: 2 }}
         >
           <Stack spacing={0.25}>
-            <Typography variant='h6' sx={{ fontWeight: 700 }}>
-              {router.siteName}
-            </Typography>
+            <Stack direction='row' alignItems='center' gap={0.5}>
+              <Typography variant='h6' sx={{ fontWeight: 700, height: 24 }}>
+                {router.siteName}
+              </Typography>
+              <IconButton size='small'>
+                <Edit fontSize='small' />
+              </IconButton>
+            </Stack>
             <Typography variant='body2' color='text.secondary'>
               Group: {router.groupName}
             </Typography>
@@ -118,28 +128,32 @@ export function SampleInfo() {
                 LTE · APN: <b>{router.apInfo.apn}</b>
               </Typography>
             </Stack>
-
-            {/* <Stack direction='row' alignItems='center' gap={1.25}>
-              <Avatar
-                variant='rounded'
-                sx={{ bgcolor: 'secondary.main', color: 'common.white' }}
-              >
-                <SettingsRoundedIcon />
-              </Avatar>
-              <Typography variant='body2' color='text.secondary'>
-                Fan: <b>{router.fanMode}</b> ·{' '}
-                <b>{router.isFanEnabled ? 'Enabled' : 'Disabled'}</b>
-              </Typography>
-            </Stack> */}
-
-            <Stack direction='row' alignItems='center' gap={1.25}>
-              <Avatar variant='rounded' sx={{ bgcolor: tempColor }}>
-                <ThermostatRoundedIcon sx={{ color: 'grey.100' }} />
-              </Avatar>
-              <Typography variant='h6' sx={{ color: tempColor, lineHeight: 1 }}>
-                {temp}
-              </Typography>
-            </Stack>
+            <DialogController>
+              {({ open, onOpen, onClose }) => (
+                <>
+                  <Stack direction='row' alignItems='center' gap={1.25}>
+                    <Avatar
+                      variant='rounded'
+                      sx={{ bgcolor: tempColor, cursor: 'pointer' }}
+                      onClick={onOpen}
+                    >
+                      <ThermostatRoundedIcon sx={{ color: 'grey.100' }} />
+                    </Avatar>
+                    <Typography
+                      variant='h6'
+                      sx={{ color: tempColor, lineHeight: 1 }}
+                    >
+                      {temp}
+                    </Typography>
+                  </Stack>
+                  <Dialog open={open} onClose={onClose}>
+                    <DialogContent sx={{ '.MuiPaper-root': { maxWidth: 800 } }}>
+                      <SampleGraph data={[]} />
+                    </DialogContent>
+                  </Dialog>
+                </>
+              )}
+            </DialogController>
 
             <Stack direction='row' alignItems='center' gap={1.25}>
               <Avatar variant='rounded' sx={{ bgcolor: 'info.main' }}>
@@ -160,7 +174,7 @@ export function SampleInfo() {
         </Paper>
 
         {/* Three columns with comfy spacing */}
-        <Grid container spacing={2.25}>
+        {/* <Grid container spacing={2.25}>
           <Grid size={{ xs: 12, md: 4 }}>
             <Section title='Connection'>
               <KVP label='Module'>
@@ -205,7 +219,7 @@ export function SampleInfo() {
               <KVP label='Group'>{router.groupName}</KVP>
             </Section>
           </Grid>
-        </Grid>
+        </Grid> */}
       </CardContent>
     </Card>
   )
