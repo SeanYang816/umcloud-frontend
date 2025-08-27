@@ -1,58 +1,37 @@
-import { useMemo, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
-import { Typography } from '@mui/material'
-
-type DataPoint = {
-  timestamp: string | number | Date
-  temperature: number
-  humidity: number
-}
+import { Box, Typography } from '@mui/material'
+import { useSendWsMessage } from 'hooks/useSendWsMessage'
+import { XPB_EVENT_ACTIONS } from 'constant'
+import { ExternalDataType } from 'enums'
+import { useSelector } from 'react-redux'
+import { RootStateProps } from 'types'
 
 type Variant = 'line' | 'bar' | 'scatter'
-
-type Props = {
-  data: DataPoint[]
-  height?: number | string
-  width?: number | string
-}
 
 const formatHHmm = (ts: string | number | Date) =>
   new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
 // 👇 paste this near your App or in a utils file
-function generateMockData(count = 30): DataPoint[] {
-  const now = Date.now()
-  let temp = 24
-  let hum = 55
 
-  return Array.from({ length: count }, (_, i) => {
-    // each point 1 minute apart
-    const timestamp = now - (count - i) * 60_000
-
-    // small random variation
-    temp += (Math.random() - 0.5) * 0.5
-    hum += (Math.random() - 0.5) * 1.0
-
-    return {
-      timestamp,
-      temperature: Math.round(temp * 10) / 10, // 1 decimal place
-      humidity: Math.round(hum),
-    }
-  })
+type SampleGraphProps = {
+  type: ExternalDataType
 }
-
-export const SampleGraph = ({ height = 600 }: Props) => {
-  const data = generateMockData()
+export const SampleGraph: FC<SampleGraphProps> = ({ type }) => {
+  const { sendWsGetMessage } = useSendWsMessage()
   const [variant, setVariant] = useState<Variant>('line')
   const [smooth, setSmooth] = useState(true)
   const [showSymbols, setShowSymbols] = useState(false)
+  const data = useSelector(
+    (state: RootStateProps) => state.xpb510.iot.externalData.data?.data,
+  )
 
   // x-axis labels (HH:mm) + series data
   const timestamps = useMemo(
-    () => data.map((d) => formatHHmm(d.timestamp)),
+    () => data?.map((d) => formatHHmm(d.timestamp)),
     [data],
   )
-  const temperatures = useMemo(() => data.map((d) => d.temperature), [data])
+  const temperatures = useMemo(() => data?.map((d) => d.value), [data])
 
   const isLine = variant === 'line'
   const isBar = variant === 'bar'
@@ -84,8 +63,14 @@ export const SampleGraph = ({ height = 600 }: Props) => {
     }
   }, [isBar, isLine, isScatter, showSymbols, smooth, temperatures, timestamps])
 
+  useEffect(() => {
+    sendWsGetMessage(XPB_EVENT_ACTIONS.XPB_510_EXTERNAL_DATA_GET_DATA, '', '', {
+      dataType: type,
+    })
+  }, [sendWsGetMessage, type])
+
   return (
-    <div>
+    <Box>
       <Typography variant='h6' mb={2} sx={{ fontWeight: 700, height: 24 }}>
         Hisnchu Router 01
       </Typography>
@@ -130,7 +115,7 @@ export const SampleGraph = ({ height = 600 }: Props) => {
         )}
       </div>
 
-      <ReactECharts option={option} style={{ height }} />
-    </div>
+      <ReactECharts option={option} />
+    </Box>
   )
 }

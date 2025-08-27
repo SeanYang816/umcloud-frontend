@@ -21,6 +21,11 @@ import {
   getFanStatus,
   setFanStatus,
 } from 'reducers/xpb510/iot/climateControl'
+import {
+  getExternalData,
+  getExternalDataSource,
+  updateExternalDataSourceAlias,
+} from 'reducers/xpb510/iot/externalData'
 import { getAlg, updateAlg } from 'reducers/xpb510/network/alg'
 import {
   getDmzHost,
@@ -72,6 +77,8 @@ import { getRoutes } from 'reducers/xpb510/status/routes'
 
 export const xpbActionSetters = {
   // Climate Control
+  [XPB_EVENT_ACTIONS.XPB_510_EXTERNAL_DATA_SET_SOURCE_ALIAS]:
+    updateExternalDataSourceAlias,
   [XPB_EVENT_ACTIONS.XPB_510_CLIMATE_CONTROL_SET_FAN_STATUS]: setFanStatus,
 
   // LAN
@@ -196,6 +203,9 @@ export const xpbActionGetters = {
     'xpb-510:overviewPage:get-mwan-overview-page',
 
   // Climate Control
+  [XPB_EVENT_ACTIONS.XPB_510_EXTERNAL_DATA_GET_DATA_SOURCE]:
+    getExternalDataSource,
+  [XPB_EVENT_ACTIONS.XPB_510_EXTERNAL_DATA_GET_DATA]: getExternalData,
   [XPB_EVENT_ACTIONS.XPB_510_CLIMATE_CONTROL_GET_FAN_STATUS]: getFanStatus,
   [XPB_EVENT_ACTIONS.XPB_510_CLIMATE_CONTROL_GET_CLIMATE_STATUS]:
     'xpb-510:climate-control:get-climate-status',

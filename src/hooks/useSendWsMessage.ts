@@ -19,7 +19,12 @@ export const useSendWsMessage = () => {
     const { sendJsonMessage } = context
 
     const sendWsGetMessage = useCallback(
-      (event: string, key?: string, customRequestId?: string) => {
+      (
+        event: string,
+        key?: string,
+        customRequestId?: string,
+        params?: object,
+      ) => {
         sendJsonMessage({
           event,
           data: {
@@ -31,6 +36,7 @@ export const useSendWsMessage = () => {
               serialNumber: sn,
               index: key,
             },
+            ...params,
           },
         })
       },
@@ -97,7 +103,23 @@ export const useSendWsMessage = () => {
       await sendWsGetMessage(BGW_EVENT_ACTIONS.CONFIG_GET_CHANGES)
     }, [mac, sendJsonMessage, sendWsGetMessage, sn])
 
+    const sendWsMessage = useCallback(
+      async (event: string, params?: object) => {
+        sendJsonMessage({
+          event,
+          data: {
+            requestId: genRequestId(),
+            mac,
+            serialNumber: sn,
+            ...params,
+          },
+        })
+      },
+      [mac, sendJsonMessage, sn],
+    )
+
     return {
+      sendWsMessage,
       sendJsonMessage,
       sendWsGetMessage,
       sendWsSetMessage,

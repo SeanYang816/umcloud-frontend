@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { Grid } from '@mui/material'
-import { genChannelId, genRequestId } from 'utils/reg'
+import { genChannelId, genRequestId } from 'utils'
 import { RootStateProps } from 'types'
 import { TotalClientDevice } from './chartView/TotalClientDevice'
 import { RecentActivities } from './chartView/RecentActivities'

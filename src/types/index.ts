@@ -29,6 +29,7 @@ import { RebootState } from 'reducers/xpb510/administrator/reboot'
 import { SystemLogState } from 'reducers/xpb510/status/systemLog'
 import { RoutesState } from 'reducers/xpb510/status/routes'
 import { RealTimeGraphsState } from 'reducers/xpb510/status/realtimeGraphs'
+import { ExternalDataState } from 'reducers/xpb510/iot/externalData'
 
 export type Bgw5105StateProps = {
   authentication: AuthenticationProps
@@ -54,6 +55,7 @@ export type Xpb510StateProps = {
     realtimeGraphs: RealTimeGraphsState
   }
   iot: {
+    externalData: ExternalDataState
     climateControl: {
       climate: GetClimateHistoryResponse | null
       fan: GetFanStatusResponse | null

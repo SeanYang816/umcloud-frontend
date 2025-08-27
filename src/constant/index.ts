@@ -2,6 +2,11 @@ export const CUSTOM_OPTION = '-- custom --'
 export const ERROR_MAC = '00:00:00:00:00:00'
 
 export const XPB_EVENT_ACTIONS = {
+  XPB_510_EXTERNAL_DATA_SET_SOURCE_ALIAS:
+    'xpb-510:external-data:set-source-alias',
+  XPB_510_EXTERNAL_DATA_GET_DATA_SOURCE:
+    'xpb-510:external-data:get-data-source',
+  XPB_510_EXTERNAL_DATA_GET_DATA: 'xpb-510:external-data:get-data',
   XPB_510_OVERVIEW_GET_STATUS_OVERVIEW_PAGE:
     'xpb-510:overviewPage:get-status-overview-page',
   XPB_510_OVERVIEW_GET_DDNS_OVERVIEW_PAGE:

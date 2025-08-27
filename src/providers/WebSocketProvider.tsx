@@ -63,8 +63,9 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
               break
             default:
               if (action) {
-                const { result: data, requestId: requestId } = json
-                const dataAndRequestId = { ...data, requestId }
+                const { result: data, requestId: requestId, ...rest } = json
+                console.log(json)
+                const dataAndRequestId = { ...data, requestId, ...rest }
                 if (typeof action === 'function') {
                   dispatch(action?.(dataAndRequestId))
                 }

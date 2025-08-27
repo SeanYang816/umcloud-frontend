@@ -37,3 +37,8 @@ export const MacfilterOption = {
 
 export type MacfilterOptionTypes =
   (typeof MacfilterOption)[keyof typeof MacfilterOption]
+
+export enum ExternalDataType {
+  TEMPERATURE = 1,
+  HUMIDITY = 2,
+}

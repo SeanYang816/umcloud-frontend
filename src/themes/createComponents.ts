@@ -43,7 +43,7 @@ export const createComponents = (theme: Theme) => ({
       },
       paper: {
         minHeight: '300px',
-        maxWidth: '550px',
+        minWidth: '550px',
         borderRadius: '10px',
         border: `1px ${theme.palette.grey[700]} solid`,
         boxShadow: theme.shadows[0],
