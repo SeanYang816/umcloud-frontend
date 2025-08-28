@@ -70,7 +70,7 @@ export const Iot = () => {
           // hideAutoToggle
           // hideIntervalSelect
           // hideManualButton
-          // hideLastUpdated
+          hideLastUpdated
           intervals={[5_000, 10_000, 30_000, 60_000]}
           size='small'
         />
