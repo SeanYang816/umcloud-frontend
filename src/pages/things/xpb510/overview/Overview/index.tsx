@@ -104,34 +104,6 @@ export const Overview: React.FC = () => {
       ) : (
         <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', p: 3 }}>
           <Container maxWidth='xl'>
-            {/* Header */}
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                mb: 3,
-              }}
-            >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <RouterIcon sx={{ fontSize: 32, color: 'primary.main' }} />
-                <Box>
-                  <Typography variant='h4' fontWeight='bold'>
-                    {result.hostname}
-                  </Typography>
-                  <Typography variant='body2' color='text.secondary'>
-                    IoT Router Management Dashboard
-                  </Typography>
-                </Box>
-              </Box>
-              <Chip
-                icon={result.wan?.is_up ? <CheckCircle /> : <Cancel />}
-                label={result.wan?.is_up ? 'Online' : 'Offline'}
-                color={result.wan?.is_up ? 'success' : 'error'}
-                variant='filled'
-              />
-            </Box>
-
             {/* Unified Grid2 with matched heights */}
             <Grid
               container
@@ -179,7 +151,6 @@ export const Overview: React.FC = () => {
               </Grid>
             </Grid>
           </Container>
-          )
         </Box>
       )}
     </>

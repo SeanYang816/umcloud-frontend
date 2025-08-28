@@ -40,10 +40,10 @@ export const basicConfigItems: TabMenuProps[] = [
     label: 'Overview',
     component: <Overview />,
   },
-  {
-    label: 'Log',
-    component: <Log />,
-  },
+  // {
+  //   label: 'Log',
+  //   component: <Log />,
+  // },
 ]
 
 export const networkItems: TabMenuProps[] = [

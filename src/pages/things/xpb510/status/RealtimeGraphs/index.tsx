@@ -63,7 +63,8 @@ export const RealtimeGraphs = () => {
           <TabContext value={tabValue}>
             <TabList onChange={handleTabChange}>
               <Tab label='Load' value={TabsIndex.Load} />
-              <Tab label='Traffic' value={TabsIndex.Traffic} />
+              {/** TODO */}
+              {/* <Tab label='Traffic' value={TabsIndex.Traffic} /> */}
               <Tab label='Connections' value={TabsIndex.Connections} />
             </TabList>
 
