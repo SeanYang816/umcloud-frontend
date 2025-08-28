@@ -8,6 +8,7 @@ import { Button } from 'components/extends/Button'
 import { TextField } from 'components/formik'
 import { useFormik } from 'formik'
 import {
+  GetThingsDocument,
   Thing,
   useGetThingLazyQuery,
   useUpdateThingAliasMutation,
@@ -48,7 +49,6 @@ export const UpdateThingAliasDialog: FC<DialogProps> = ({ open, onClose }) => {
         },
       })
       dispatch(updateDevice(response.data?.thing as Thing))
-      console.log(response)
     },
   })
 

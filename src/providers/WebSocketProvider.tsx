@@ -52,9 +52,6 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
           const action = isUpdater
             ? allActionUpdaters[json.event]
             : allActionsGetters[json.event]
-          console.log(isUpdater)
-          console.log(json)
-          console.log(action)
           const status = json?.result?.status || json?.status
 
           switch (event) {

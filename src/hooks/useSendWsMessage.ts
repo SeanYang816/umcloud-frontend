@@ -11,8 +11,8 @@ import sleep from 'utils/sleep'
 
 export const useSendWsMessage = () => {
   const context = useContext(WebsocketContext as Context<WebSocketContextProps>)
-  const { mac, sn } = useSelector(
-    (state: RootStateProps) => state.bgw5105.device.info,
+  const { mac, serialNumber } = useSelector(
+    (state: RootStateProps) => state.device,
   )
 
   if (context) {
@@ -33,14 +33,14 @@ export const useSendWsMessage = () => {
               : genRequestId(),
             target: {
               mac,
-              serialNumber: sn,
+              serialNumber: serialNumber,
               index: key,
             },
             ...params,
           },
         })
       },
-      [mac, sendJsonMessage, sn],
+      [mac, sendJsonMessage, serialNumber],
     )
 
     const sendWsSetMessage = useCallback(
@@ -52,7 +52,7 @@ export const useSendWsMessage = () => {
             requestId,
             target: {
               mac: mac,
-              serialNumber: sn,
+              serialNumber: serialNumber,
               index: key,
             },
             payload: {
@@ -64,7 +64,7 @@ export const useSendWsMessage = () => {
         await sleep(500)
         await sendWsGetMessage(BGW_EVENT_ACTIONS.CONFIG_GET_CHANGES)
       },
-      [mac, sendJsonMessage, sendWsGetMessage, sn],
+      [mac, sendJsonMessage, sendWsGetMessage, serialNumber],
     )
 
     const sendWsApplyChanges = useCallback(() => {
@@ -75,14 +75,14 @@ export const useSendWsMessage = () => {
           requestId,
           target: {
             mac: mac,
-            serialNumber: sn,
+            serialNumber: serialNumber,
           },
           payload: {
             redir: '/cgi-bin/luci',
           },
         },
       })
-    }, [mac, sendJsonMessage, sn])
+    }, [mac, sendJsonMessage, serialNumber])
 
     const sendWsRevertChanges = useCallback(async () => {
       const requestId = genRequestId()
@@ -92,7 +92,7 @@ export const useSendWsMessage = () => {
           requestId,
           target: {
             mac: mac,
-            serialNumber: sn,
+            serialNumber: serialNumber,
           },
           payload: {
             redir: '/cgi-bin/luci',
@@ -101,7 +101,7 @@ export const useSendWsMessage = () => {
       })
       await sleep(500)
       await sendWsGetMessage(BGW_EVENT_ACTIONS.CONFIG_GET_CHANGES)
-    }, [mac, sendJsonMessage, sendWsGetMessage, sn])
+    }, [mac, sendJsonMessage, sendWsGetMessage, serialNumber])
 
     const sendWsMessage = useCallback(
       async (event: string, params?: object) => {
@@ -110,12 +110,12 @@ export const useSendWsMessage = () => {
           data: {
             requestId: genRequestId(),
             mac,
-            serialNumber: sn,
+            serialNumber: serialNumber,
             ...params,
           },
         })
       },
-      [mac, sendJsonMessage, sn],
+      [mac, sendJsonMessage, serialNumber],
     )
 
     return {

@@ -293,7 +293,7 @@ export default function Things() {
                       variables: { id },
                       refetchQueries: ['getThings'],
                     })
-                    toast.success('Successfully Deleted')
+                    toast.success('Successfully Unregistered')
                   }
                 } catch (error: unknown) {
                   console.info(error)
