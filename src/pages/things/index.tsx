@@ -317,7 +317,7 @@ export default function Things() {
     enableTopToolbar: false,
     enableBottomToolbar: false,
     enableColumnActions: false,
-    enableSorting: true,
+    enableSorting: false,
     enableStickyHeader: true,
 
     manualSorting: true,
