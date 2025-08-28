@@ -293,6 +293,7 @@ export default function Things() {
                       variables: { id },
                       refetchQueries: ['getThings'],
                     })
+                    await getThings(payload)
                     toast.success('Successfully Unregistered')
                   }
                 } catch (error: unknown) {
