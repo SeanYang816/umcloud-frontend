@@ -8,6 +8,7 @@ import { XPB_EVENT_ACTIONS } from 'constant'
 import { ExternalDataType } from 'enums'
 import { useSelector } from 'react-redux'
 import { RootStateProps } from 'types'
+import { cToF } from 'utils'
 
 type Variant = 'line' | 'bar' | 'scatter'
 const formatHHmm = (ts: string | number | Date) =>
@@ -16,7 +17,7 @@ const fToC = (f: number) => ((f - 32) * 5) / 9
 
 type SampleGraphProps = {
   alias: string
-  unit: 'F' | 'C'
+  unit: 'C' | 'F'
   type: ExternalDataType
 }
 
@@ -38,7 +39,7 @@ export const SampleGraph: FC<SampleGraphProps> = ({ alias, unit, type }) => {
   const values = useMemo(() => {
     if (!data) return []
     if (type === ExternalDataType.TEMPERATURE) {
-      return data.map((d) => (unit === 'F' ? d.value : fToC(d.value)))
+      return data.map((d) => (unit === 'C' ? d.value : cToF(d.value)))
     }
 
     return data.map((d) => d.value)

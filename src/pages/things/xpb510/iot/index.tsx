@@ -19,7 +19,7 @@ export const Iot = () => {
   const { sendWsMessage } = useSendWsMessage()
 
   // Temperature unit toggle (kept local)
-  const [unit, setUnit] = useState<'F' | 'C'>('F')
+  const [unit, setUnit] = useState<'C' | 'F'>('C')
 
   // Redux data (used as doneSignal so the control knows when refresh completes)
   const sourceData = useSelector(
@@ -46,11 +46,11 @@ export const Iot = () => {
         <ToggleButtonGroup
           value={unit}
           exclusive
-          onChange={(_, val: 'F' | 'C' | null) => val && setUnit(val)}
+          onChange={(_, val: 'C' | 'F' | null) => val && setUnit(val)}
           size='small'
         >
-          <ToggleButton value='F'>°F</ToggleButton>
           <ToggleButton value='C'>°C</ToggleButton>
+          <ToggleButton value='F'>°F</ToggleButton>
         </ToggleButtonGroup>
 
         {/* Reusable refresh UI (auto toggle, interval select, manual button, last updated) */}

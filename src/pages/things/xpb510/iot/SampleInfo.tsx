@@ -20,6 +20,7 @@ import { formatDate } from 'date-fns'
 import { ExternalDataSource } from 'types/xpb510/iot/iot'
 import { ExternalDataType } from 'enums'
 import { EditAliasDialog } from './EditAliasDialog'
+import { cToF } from 'utils'
 
 const tempColor = 'warning.main'
 
@@ -34,11 +35,11 @@ const isRecent = (date: Date | string) => {
 }
 
 // Convert Fahrenheit (source) -> selected unit
-const toDisplayTemp = (tempF: number, unit: 'F' | 'C') =>
-  unit === 'F' ? tempF : ((tempF - 32) * 5) / 9
+const toDisplayTemp = (tempC: number, unit: 'C' | 'F') =>
+  unit === 'C' ? tempC : cToF(tempC)
 
 type SampleInfoProps = {
-  unit: 'F' | 'C'
+  unit: 'C' | 'F'
   data: ExternalDataSource
 }
 
