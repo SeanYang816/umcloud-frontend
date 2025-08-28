@@ -12,26 +12,39 @@ type Variant = 'line' | 'bar' | 'scatter'
 const formatHHmm = (ts: string | number | Date) =>
   new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
-// 👇 paste this near your App or in a utils file
+// Fahrenheit → Celsius
+const fToC = (f: number) => ((f - 32) * 5) / 9
 
 type SampleGraphProps = {
+  alias: string
+  unit: 'F' | 'C'
   type: ExternalDataType
 }
-export const SampleGraph: FC<SampleGraphProps> = ({ type }) => {
-  const { sendWsGetMessage } = useSendWsMessage()
+
+export const SampleGraph: FC<SampleGraphProps> = ({ alias, unit, type }) => {
+  const { sendWsMessage } = useSendWsMessage()
   const [variant, setVariant] = useState<Variant>('line')
   const [smooth, setSmooth] = useState(true)
   const [showSymbols, setShowSymbols] = useState(false)
+
   const data = useSelector(
     (state: RootStateProps) => state.xpb510.iot.externalData.data?.data,
   )
 
-  // x-axis labels (HH:mm) + series data
   const timestamps = useMemo(
-    () => data?.map((d) => formatHHmm(d.timestamp)),
+    () => data?.map((d) => formatHHmm(d.timestamp)) ?? [],
     [data],
   )
-  const temperatures = useMemo(() => data?.map((d) => d.value), [data])
+
+  // Apply conversion depending on type + unit
+  const values = useMemo(() => {
+    if (!data) return []
+    if (type === ExternalDataType.TEMPERATURE) {
+      return data.map((d) => (unit === 'F' ? d.value : fToC(d.value)))
+    }
+
+    return data.map((d) => d.value) // humidity or others
+  }, [data, type, unit])
 
   const isLine = variant === 'line'
   const isBar = variant === 'bar'
@@ -40,47 +53,57 @@ export const SampleGraph: FC<SampleGraphProps> = ({ type }) => {
   const option = useMemo(() => {
     const baseType = isLine ? 'line' : isScatter ? 'scatter' : 'bar'
 
+    const yAxisName =
+      type === ExternalDataType.TEMPERATURE
+        ? `Temperature (°${unit})`
+        : 'Humidity (%)'
+
     return {
       tooltip: { trigger: isScatter ? 'item' : 'axis' },
-      legend: { data: ['Temperature', 'Humidity'] },
+      legend: { data: [yAxisName] },
       grid: { left: 48, right: 56, top: 36, bottom: 32 },
       xAxis: {
         type: 'category',
-        boundaryGap: isBar, // bars prefer gap; line/scatter don't
+        boundaryGap: isBar,
         data: timestamps,
       },
-      yAxis: [{ type: 'value', name: 'Value', position: 'right' }],
+      yAxis: [{ type: 'value', name: yAxisName, position: 'right' }],
       series: [
         {
-          name: 'Value',
+          name: yAxisName,
           type: baseType,
           yAxisIndex: 0,
-          data: temperatures,
+          data: values,
           smooth: isLine ? smooth : undefined,
           showSymbol: isLine ? showSymbols : undefined,
         },
       ],
     }
-  }, [isBar, isLine, isScatter, showSymbols, smooth, temperatures, timestamps])
+  }, [
+    isBar,
+    isLine,
+    isScatter,
+    showSymbols,
+    smooth,
+    values,
+    timestamps,
+    type,
+    unit,
+  ])
 
   useEffect(() => {
-    sendWsGetMessage(XPB_EVENT_ACTIONS.XPB_510_EXTERNAL_DATA_GET_DATA, '', '', {
+    sendWsMessage(XPB_EVENT_ACTIONS.XPB_510_EXTERNAL_DATA_GET_DATA, {
       dataType: type,
     })
-  }, [sendWsGetMessage, type])
+  }, [sendWsMessage, type])
 
   return (
     <Box>
       <Typography variant='h6' mb={2} sx={{ fontWeight: 700, height: 24 }}>
-        Hisnchu Router 01
+        {alias}
       </Typography>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          marginBottom: 8,
-        }}
-      >
+
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
         <label>
           Chart type:&nbsp;
           <select

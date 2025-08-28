@@ -37,9 +37,10 @@ import {
 import { format } from 'date-fns'
 import { isNil } from 'lodash'
 import { useDispatch } from 'react-redux'
-import { updateDevice } from 'reducers/bgw5105/device'
 import { useTableState } from 'hooks/useTableState'
 import { boardType } from 'constant/things'
+import { updateDevice } from 'reducers/device'
+import { updateDevice as updateDevice_bgw } from 'reducers/bgw5105/device'
 
 export default function Things() {
   const dispatch = useDispatch()
@@ -69,9 +70,8 @@ export default function Things() {
 
   const handleEditWsClick = async (row: Thing) => {
     const channel = genChannelId()
-    const { mac, serialNumber } = row
-    const payload = { mac, sn: serialNumber, channel, row }
-    dispatch(updateDevice(payload))
+    dispatch(updateDevice(row))
+    dispatch(updateDevice_bgw({ channel, sn: row.serialNumber, ...row }))
     dispatch(clearConfigProperty())
     dispatch(clearFirewallProperty())
     dispatch(clearAlgProperty())

@@ -16,11 +16,7 @@ import {
   updateLocalTime,
   updateSystem,
 } from 'reducers/xpb510/administrator/system'
-import {
-  getClimateHistory,
-  getFanStatus,
-  setFanStatus,
-} from 'reducers/xpb510/iot/climateControl'
+import { getClimateHistory } from 'reducers/xpb510/iot/climateControl'
 import {
   getExternalData,
   getExternalDataSource,
@@ -206,7 +202,7 @@ export const xpbActionGetters = {
   [XPB_EVENT_ACTIONS.XPB_510_EXTERNAL_DATA_GET_DATA_SOURCE]:
     getExternalDataSource,
   [XPB_EVENT_ACTIONS.XPB_510_EXTERNAL_DATA_GET_DATA]: getExternalData,
-  [XPB_EVENT_ACTIONS.XPB_510_CLIMATE_CONTROL_GET_FAN_STATUS]: getFanStatus,
+  // [XPB_EVENT_ACTIONS.XPB_510_CLIMATE_CONTROL_GET_FAN_STATUS]: getFanStatus,
   [XPB_EVENT_ACTIONS.XPB_510_CLIMATE_CONTROL_GET_CLIMATE_STATUS]:
     'xpb-510:climate-control:get-climate-status',
   [XPB_EVENT_ACTIONS.XPB_510_CLIMATE_CONTROL_GET_CLIMATE_HISTORY]:

@@ -19,6 +19,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  IconButton,
   LinearProgress,
   Paper,
   Stack,
@@ -40,6 +41,8 @@ import {
 import { Button } from 'components/extends/Button'
 import { DialogController } from 'components/DialogController'
 import { toast } from 'react-toastify'
+import { Edit } from '@mui/icons-material'
+import { UpdateThingAliasDialog } from './UpdateThingAliasDialog'
 
 type DropdownProps = {
   index: number
@@ -60,9 +63,7 @@ export const XPB510: React.FC = () => {
   const result = useSelector(
     (state: RootStateProps) => state.bgw5105.config.dataChanges?.result,
   )
-  const { sn, mac } = useSelector(
-    (state: RootStateProps) => state.bgw5105.device.info,
-  )
+  const deviceData = useSelector((state: RootStateProps) => state.device)
   const { status, setting } = useSelector(
     (state: RootStateProps) => state.bgw5105.config.apply,
   )
@@ -258,7 +259,23 @@ export const XPB510: React.FC = () => {
             ))}
           </Popover>
         </Paper>
-
+        <DialogController>
+          {({ open, onOpen, onClose }) => (
+            <>
+              <Stack spacing={0.25}>
+                <Stack direction='row' alignItems='center' gap={0.5}>
+                  <Typography variant='h6' sx={{ fontWeight: 700, height: 24 }}>
+                    {deviceData?.alias}
+                  </Typography>
+                  <IconButton size='small' onClick={onOpen}>
+                    <Edit fontSize='small' />
+                  </IconButton>
+                </Stack>
+              </Stack>
+              {open && <UpdateThingAliasDialog open={open} onClose={onClose} />}
+            </>
+          )}
+        </DialogController>
         <Stack direction='row' gap={1.5}>
           <Button
             icon='apply'
@@ -320,13 +337,12 @@ export const XPB510: React.FC = () => {
             onClick={handleShouldRefetchData}
           />
         </Stack>
-
         {isReverting ? (
           <Box>
             <Typography>Reverting ...</Typography>
             <LinearProgress />
           </Box>
-        ) : sn && mac ? (
+        ) : deviceData?.serialNumber && deviceData?.mac ? (
           currentPage
         ) : null}
       </Stack>

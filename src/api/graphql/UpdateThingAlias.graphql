@@ -1,0 +1,11 @@
+mutation updateThingAlias(
+  $mac: String!
+  $serialNumber: String!
+  $alias: String!
+) {
+  updateThingAlias(mac: $mac, serialNumber: $serialNumber, alias: $alias) {
+    id
+    alias
+    # add other fields you want returned here
+  }
+}

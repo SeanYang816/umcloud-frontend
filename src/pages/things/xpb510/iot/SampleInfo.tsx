@@ -23,25 +23,34 @@ import { EditAliasDialog } from './EditAliasDialog'
 
 const tempColor = 'warning.main'
 
-const isRecent = (date: string) =>
-  Date.now() - new Date(date).getTime() < 1.5 * 60 * 1000 // 5 mins
+// Accept Date | string and treat "recent" as within 5 minutes
+const isRecent = (date: Date | string) => {
+  const t =
+    typeof date === 'string'
+      ? new Date(date).getTime()
+      : new Date(date).getTime()
 
-const Dot = ({ ok }: { ok: boolean }) => (
-  <Box
-    sx={{
-      width: 10,
-      height: 10,
-      borderRadius: '50%',
-      bgcolor: ok ? 'success.main' : 'error.main',
-    }}
-  />
-)
+  return Date.now() - t < 5 * 60 * 1000
+}
+
+// Convert Fahrenheit (source) -> selected unit
+const toDisplayTemp = (tempF: number, unit: 'F' | 'C') =>
+  unit === 'F' ? tempF : ((tempF - 32) * 5) / 9
 
 type SampleInfoProps = {
+  unit: 'F' | 'C'
   data: ExternalDataSource
 }
 
-export const SampleInfo: FC<SampleInfoProps> = ({ data }) => {
+export const SampleInfo: FC<SampleInfoProps> = ({ unit, data }) => {
+  const displayTemp = toDisplayTemp(data.latestTemperature, unit)
+  const unitSymbol = `°${unit}`
+
+  const updatedAtLabel = formatDate(
+    new Date(data.updatedAt),
+    'yyyy-MM-dd HH:mm:ss',
+  )
+
   return (
     <Card variant='outlined'>
       <CardContent sx={{ p: { xs: 2, md: 3 } }}>
@@ -78,12 +87,20 @@ export const SampleInfo: FC<SampleInfoProps> = ({ data }) => {
               </>
             )}
           </DialogController>
+
           <Stack direction='row' alignItems='center' gap={1.25}>
-            <Dot
-              ok={isRecent(formatDate(data.updatedAt, 'yyyy-MM-dd HH:mm:ss'))}
+            <Box
+              sx={{
+                width: 10,
+                height: 10,
+                borderRadius: '50%',
+                bgcolor: isRecent(data.updatedAt)
+                  ? 'success.main'
+                  : 'error.main',
+              }}
             />
             <Typography variant='body2' color='text.secondary'>
-              Report Time: {formatDate(data.updatedAt, 'yyyy-MM-dd HH:mm:ss')}
+              Report Time: {updatedAtLabel}
             </Typography>
           </Stack>
         </Stack>
@@ -114,16 +131,21 @@ export const SampleInfo: FC<SampleInfoProps> = ({ data }) => {
                       variant='h6'
                       sx={{ color: tempColor, lineHeight: 1 }}
                     >
-                      {data.latestTemperature}
+                      {displayTemp.toFixed(1)} {unitSymbol}
                     </Typography>
                   </Stack>
+
                   <Dialog
                     open={open}
                     onClose={onClose}
                     sx={{ '.MuiPaper-root': { minWidth: 800 } }}
                   >
                     <DialogContent>
-                      <SampleGraph type={ExternalDataType.TEMPERATURE} />
+                      <SampleGraph
+                        alias={data.alias}
+                        unit={unit}
+                        type={ExternalDataType.TEMPERATURE}
+                      />
                     </DialogContent>
                   </Dialog>
                 </>
@@ -147,16 +169,21 @@ export const SampleInfo: FC<SampleInfoProps> = ({ data }) => {
                         color='info.main'
                         sx={{ lineHeight: 1 }}
                       >
-                        {data.latestHumidity}
+                        {data.latestHumidity}%
                       </Typography>
                     </Stack>
+
                     <Dialog
                       open={open}
                       onClose={onClose}
                       sx={{ '.MuiPaper-root': { minWidth: 800 } }}
                     >
                       <DialogContent>
-                        <SampleGraph type={ExternalDataType.HUMIDITY} />
+                        <SampleGraph
+                          alias={data.alias}
+                          unit={unit}
+                          type={ExternalDataType.HUMIDITY}
+                        />
                       </DialogContent>
                     </Dialog>
                   </>
@@ -165,8 +192,6 @@ export const SampleInfo: FC<SampleInfoProps> = ({ data }) => {
             </Stack>
           </Stack>
         </Paper>
-
-        {/* Three columns with comfy spacing */}
       </CardContent>
     </Card>
   )

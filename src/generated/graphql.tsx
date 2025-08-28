@@ -275,6 +275,7 @@ export type Mutation = {
   updateProject?: Maybe<Project>
   updateProjectFlow?: Maybe<ProjectFlow>
   updateRole?: Maybe<Role>
+  updateThingAlias?: Maybe<Thing>
   updateThingCategory?: Maybe<ThingCategory>
   updateUser?: Maybe<User>
 }
@@ -443,6 +444,12 @@ export type MutationUpdateProjectFlowArgs = {
 export type MutationUpdateRoleArgs = {
   id: Scalars['ID']['input']
   role: UpdateRoleDto
+}
+
+export type MutationUpdateThingAliasArgs = {
+  alias: Scalars['String']['input']
+  mac: Scalars['String']['input']
+  serialNumber: Scalars['String']['input']
 }
 
 export type MutationUpdateThingCategoryArgs = {
@@ -879,6 +886,21 @@ export type ChangePasswordMutation = {
   changePassword?: number | null
 }
 
+export type UpdateThingAliasMutationVariables = Exact<{
+  mac: Scalars['String']['input']
+  serialNumber: Scalars['String']['input']
+  alias: Scalars['String']['input']
+}>
+
+export type UpdateThingAliasMutation = {
+  __typename?: 'Mutation'
+  updateThingAlias?: {
+    __typename?: 'Thing'
+    id: string
+    alias?: string | null
+  } | null
+}
+
 export type ArchiveThingMutationVariables = Exact<{
   id: Scalars['ID']['input']
   reason?: InputMaybe<Scalars['String']['input']>
@@ -1214,6 +1236,63 @@ export type ChangePasswordMutationResult =
 export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<
   ChangePasswordMutation,
   ChangePasswordMutationVariables
+>
+export const UpdateThingAliasDocument = gql`
+  mutation updateThingAlias(
+    $mac: String!
+    $serialNumber: String!
+    $alias: String!
+  ) {
+    updateThingAlias(mac: $mac, serialNumber: $serialNumber, alias: $alias) {
+      id
+      alias
+    }
+  }
+`
+export type UpdateThingAliasMutationFn = Apollo.MutationFunction<
+  UpdateThingAliasMutation,
+  UpdateThingAliasMutationVariables
+>
+
+/**
+ * __useUpdateThingAliasMutation__
+ *
+ * To run a mutation, you first call `useUpdateThingAliasMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateThingAliasMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateThingAliasMutation, { data, loading, error }] = useUpdateThingAliasMutation({
+ *   variables: {
+ *      mac: // value for 'mac'
+ *      serialNumber: // value for 'serialNumber'
+ *      alias: // value for 'alias'
+ *   },
+ * });
+ */
+export function useUpdateThingAliasMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateThingAliasMutation,
+    UpdateThingAliasMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    UpdateThingAliasMutation,
+    UpdateThingAliasMutationVariables
+  >(UpdateThingAliasDocument, options)
+}
+export type UpdateThingAliasMutationHookResult = ReturnType<
+  typeof useUpdateThingAliasMutation
+>
+export type UpdateThingAliasMutationResult =
+  Apollo.MutationResult<UpdateThingAliasMutation>
+export type UpdateThingAliasMutationOptions = Apollo.BaseMutationOptions<
+  UpdateThingAliasMutation,
+  UpdateThingAliasMutationVariables
 >
 export const ArchiveThingDocument = gql`
   mutation archiveThing($id: ID!, $reason: String, $title: String) {

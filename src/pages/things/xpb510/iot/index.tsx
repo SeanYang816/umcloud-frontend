@@ -1,15 +1,16 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
 import { XPB_EVENT_ACTIONS } from 'constant'
 import { useDispatch, useSelector } from 'react-redux'
 import { resetIot } from 'reducers/xpb510/iot/climateControl'
 import { SampleInfo } from './SampleInfo'
-import { Grid } from '@mui/material'
+import { Grid, ToggleButtonGroup, ToggleButton, Box } from '@mui/material'
 import { RootStateProps } from 'types'
 
 export const Iot = () => {
   const dispatch = useDispatch()
   const { sendWsMessage } = useSendWsMessage()
+  const [unit, setUnit] = useState<'F' | 'C'>('F') // default F
 
   const sourceData = useSelector(
     (state: RootStateProps) => state.xpb510.iot.externalData.source,
@@ -24,12 +25,26 @@ export const Iot = () => {
   }, [dispatch, sendWsMessage])
 
   return (
-    <Grid container spacing={2}>
-      {sourceData?.sources.map((data) => (
-        <Grid key={data.portNumber} size={{ xs: 12, md: 6 }}>
-          <SampleInfo data={data} />
-        </Grid>
-      ))}
-    </Grid>
+    <Box>
+      {/* Toggle */}
+      <ToggleButtonGroup
+        value={unit}
+        exclusive
+        onChange={(_, val) => val && setUnit(val)}
+        size='small'
+        sx={{ mb: 2 }}
+      >
+        <ToggleButton value='F'>°F</ToggleButton>
+        <ToggleButton value='C'>°C</ToggleButton>
+      </ToggleButtonGroup>
+
+      <Grid container spacing={2}>
+        {sourceData?.sources.map((data) => (
+          <Grid size={{ xs: 12, md: 6 }} key={data.portNumber}>
+            <SampleInfo data={data} unit={unit} />
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   )
 }

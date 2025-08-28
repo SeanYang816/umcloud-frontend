@@ -13,10 +13,7 @@ import {
 import { ConfigStateProps } from 'reducers/bgw5105/config'
 import { GlobalProps } from 'reducers/bgw5105/global'
 import { GetOverviewPageResponse } from './xpb510/status/overview'
-import {
-  GetClimateHistoryResponse,
-  GetFanStatusResponse,
-} from './xpb510/iot/iot'
+import { GetClimateHistoryResponse } from './xpb510/iot/iot'
 import { FirewallState } from 'reducers/xpb510/network/firewall'
 import { LanPageState } from 'reducers/xpb510/network/lan'
 import { AlgPageState } from 'reducers/xpb510/network/alg'
@@ -30,6 +27,7 @@ import { SystemLogState } from 'reducers/xpb510/status/systemLog'
 import { RoutesState } from 'reducers/xpb510/status/routes'
 import { RealTimeGraphsState } from 'reducers/xpb510/status/realtimeGraphs'
 import { ExternalDataState } from 'reducers/xpb510/iot/externalData'
+import { DeviceState } from 'reducers/device'
 
 export type Bgw5105StateProps = {
   authentication: AuthenticationProps
@@ -58,7 +56,6 @@ export type Xpb510StateProps = {
     externalData: ExternalDataState
     climateControl: {
       climate: GetClimateHistoryResponse | null
-      fan: GetFanStatusResponse | null
     }
   }
   network: {
@@ -79,6 +76,7 @@ export type Xpb510StateProps = {
 export type RootStateProps = {
   bgw5105: Bgw5105StateProps
   xpb510: Xpb510StateProps
+  device: DeviceState
 }
 
 export type DeviceStateProps = {

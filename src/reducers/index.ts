@@ -4,6 +4,7 @@ import { reducers as status } from './xpb510/status'
 import { reducers as iot } from './xpb510/iot'
 import { reducers as network } from './xpb510/network'
 import { reducers as administrator } from './xpb510/administrator'
+import { device } from './device'
 
 export const reducers = combineReducers({
   bgw5105: bgw5105Reducers,
@@ -13,4 +14,5 @@ export const reducers = combineReducers({
     status,
     iot,
   }),
+  device,
 })
