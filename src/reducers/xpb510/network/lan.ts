@@ -15,7 +15,7 @@ const slice = createSlice({
   name: 'lan',
   initialState,
   reducers: {
-    resetLan: () => initialState,
+    resetLan: () => ({ ...initialState }),
     getLan: (state, { payload }: PayloadAction<GetLanPageResponse | null>) => {
       state.lan = payload
     },

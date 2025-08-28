@@ -9,7 +9,7 @@ import { StaticLeases } from './sections/StaticLeases'
 import { HostEntries } from './sections/HostEntries'
 import { StaticArp } from './sections/StaticArp'
 import { useSendWsMessage } from 'hooks/useSendWsMessage'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react' // ⬅️ added
 import { XPB_EVENT_ACTIONS } from 'constant'
 import { useApiResultObjectToArrayByCommonId } from 'hooks/useApiResultObjectToArrayByCommonId'
 import { Button } from 'components/extends/Button'
@@ -25,6 +25,7 @@ type ValidationObjProps = {
 export const Lan = () => {
   const dispatch = useDispatch()
   const { sendWsGetMessage, sendWsSetMessage } = useSendWsMessage()
+
   const data = useSelector(
     (state: RootStateProps) => state.xpb510.network.lan.lan,
   )
@@ -35,6 +36,13 @@ export const Lan = () => {
     (state: RootStateProps) => state.bgw5105.config.refetchData,
   )
 
+  // Keep stale data visible during background refresh; only show loader before first data arrives
+  const hasDataOnce = useRef(false)
+  useEffect(() => {
+    if (data) hasDataOnce.current = true
+  }, [data])
+  const showInitialLoading = !hasDataOnce.current && !data
+
   const result = data?.result ?? ({} as GetLanPageResult)
   const [staticLeasesList] = useApiResultObjectToArrayByCommonId(result, 'host')
   const [hostEntiresList] = useApiResultObjectToArrayByCommonId(
@@ -44,8 +52,8 @@ export const Lan = () => {
   const [staticArpList] = useApiResultObjectToArrayByCommonId(result, 'arpbind')
 
   const formikInitStaticLeasesList = staticLeasesList.reduce(
-    (result, { key, name, mac, ip, isvlan }) => ({
-      ...result,
+    (acc, { key, name, mac, ip, isvlan }) => ({
+      ...acc,
       [`staticLeases_${key}_name`]: name ?? '',
       [`staticLeases_${key}_mac`]: mac ?? '',
       [`staticLeases_${key}_ip`]: ip ?? '',
@@ -55,8 +63,8 @@ export const Lan = () => {
   )
 
   const formikInitHostEntiresList = hostEntiresList.reduce(
-    (result, { key, name, ip }) => ({
-      ...result,
+    (acc, { key, name, ip }) => ({
+      ...acc,
       [`hostEntires_${key}_name`]: name ?? '',
       [`hostEntires_${key}_ip`]: ip ?? '',
     }),
@@ -64,8 +72,8 @@ export const Lan = () => {
   )
 
   const formikInitStaticArpList = staticArpList.reduce(
-    (result, { key, macaddr, ipaddr }) => ({
-      ...result,
+    (acc, { key, macaddr, ipaddr }) => ({
+      ...acc,
       [`staticArp_${key}_macaddr`]: macaddr ?? '',
       [`staticArp_${key}_ipaddr`]: ipaddr ?? '',
     }),
@@ -115,12 +123,11 @@ export const Lan = () => {
       domain: result['cbid.dhcp.lan.domain'],
       dynamicdhcp: result['cbid.dhcp.lan.dynamicdhcp'],
       logqueries: result['cbid.dhcp.lan.logqueries'],
-
       ...formikInitStaticLeasesList,
       ...formikInitHostEntiresList,
       ...formikInitStaticArpList,
     },
-    enableReinitialize: true,
+    enableReinitialize: true, // keep this to populate when data first arrives
     validationSchema: Yup.object().shape(validationObj),
     onSubmit: () => {
       sendWsSetMessage(XPB_EVENT_ACTIONS.XPB_510_LAN_SET_LAN_PAGE, payload)
@@ -128,8 +135,8 @@ export const Lan = () => {
   })
 
   const newStaticLeasesList = staticLeasesList.reduce(
-    (result, { key }) => ({
-      ...result,
+    (acc, { key }) => ({
+      ...acc,
       [`cbid.dhcp.${key}.name`]: formik.values[
         `staticLeases_${key}_name`
       ] as string,
@@ -147,8 +154,8 @@ export const Lan = () => {
   )
 
   const newHostEntiresList = hostEntiresList.reduce(
-    (result, { key }) => ({
-      ...result,
+    (acc, { key }) => ({
+      ...acc,
       [`cbid.dhcp.${key}.name`]: formik.values[
         `hostEntires_${key}_name`
       ] as string,
@@ -158,8 +165,8 @@ export const Lan = () => {
   )
 
   const newStaticArpList = staticArpList.reduce(
-    (result, { key }) => ({
-      ...result,
+    (acc, { key }) => ({
+      ...acc,
       [`cbid.arpbind.${key}.macaddr`]: formik.values[
         `staticArp_${key}_macaddr`
       ] as string,
@@ -200,12 +207,12 @@ export const Lan = () => {
     'cbid.dhcp.lan.domain': formik.values.domain,
     'cbid.dhcp.lan.dynamicdhcp': formik.values.dynamicdhcp,
     'cbid.dhcp.lan.logqueries': formik.values.logqueries,
-
     ...newStaticLeasesList,
     ...newHostEntiresList,
     ...newStaticArpList,
   }
 
+  // ---------- handlers (unchanged) ----------
   const handleStaticLeasesAdd = () => {
     sendWsSetMessage(XPB_EVENT_ACTIONS.XPB_510_LAN_ADD_STATIC_LEASES, {
       ...payload,
@@ -247,22 +254,26 @@ export const Lan = () => {
       [`cbi.rts.arpbind.${key}`]: 'Delete',
     })
   }
+  // -----------------------------------------
 
+  // ---------- effects (fixed) ----------
+  // Initial fetch on mount; reset only on unmount (prevents nulling data on every refetch)
   useEffect(() => {
     sendWsGetMessage(XPB_EVENT_ACTIONS.XPB_510_LAN_GET_LAN_PAGE)
-
-    return () => {
-      dispatch(resetLan())
-    }
-  }, [dispatch, sendWsGetMessage])
-
-  useEffect(() => {
     sendWsGetMessage(XPB_EVENT_ACTIONS.XPB_510_LAN_GET_LAN_STATUS)
 
     return () => {
       dispatch(resetLan())
     }
-  }, [sendWsGetMessage, dataRefresher, dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Background refetch when dataRefresher changes — no cleanup here
+  useEffect(() => {
+    sendWsGetMessage(XPB_EVENT_ACTIONS.XPB_510_LAN_GET_LAN_PAGE)
+    sendWsGetMessage(XPB_EVENT_ACTIONS.XPB_510_LAN_GET_LAN_STATUS)
+  }, [sendWsGetMessage, dataRefresher])
+  // -------------------------------------
 
   return (
     <>
@@ -271,17 +282,17 @@ export const Lan = () => {
         subtitle="This section allows you to modify the router's LAN IP address interface settings. Typically, the router LAN IP address settings do not need to be changed. In addition, this page allows you to configure the router's LAN DHCP server/relay settings or DHCP reservations/static leases which automatically assigns IP addresses to the wired and wireless devices that connect to your router. The router can also function as a name server and allows you to manually enter customized host names to resolve to the IP addresses of devices on your local network."
       />
 
-      {!data ? (
+      {showInitialLoading ? (
         <LinearProgress />
       ) : (
         <Stack gap={2}>
           <CommonConfiguration
-            data={data}
+            data={data!}
             statusData={statusData}
             formik={formik}
           />
 
-          <DHCPServerRelay data={data} formik={formik} />
+          <DHCPServerRelay data={data!} formik={formik} />
 
           <StaticLeases
             formik={formik}
@@ -292,7 +303,7 @@ export const Lan = () => {
 
           <HostEntries
             formik={formik}
-            data={data}
+            data={data!}
             list={hostEntiresList}
             onAdd={handleHostAdd}
             onDelete={handleHostDelete}

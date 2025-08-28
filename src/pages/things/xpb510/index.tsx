@@ -76,6 +76,9 @@ export const XPB510: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<React.ReactNode>(
     basicConfigItems[0].component,
   )
+  const [currentPageLabel, setCurrentPageLabel] = useState<React.ReactNode>(
+    basicConfigItems[0].label,
+  )
   const [isReverting, setIsReverting] = useState(false)
   const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const intervalRefreshRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -97,6 +100,7 @@ export const XPB510: React.FC = () => {
 
   const handleMenuItemClick = (item: menuItemProps) => {
     setCurrentPage(item.component)
+    setCurrentPageLabel(item.label)
     handlePopoverClose()
   }
 
@@ -208,6 +212,9 @@ export const XPB510: React.FC = () => {
   const revertStatus = useSelector(
     (state: RootStateProps) => state.bgw5105.config.revertStatus,
   )
+
+  const isButtons = currentPageLabel === 'IOT'
+
   useEffect(() => {
     // Revert
     if (isReverting && !isNull(revertStatus)) {
@@ -276,67 +283,69 @@ export const XPB510: React.FC = () => {
             </>
           )}
         </DialogController>
-        <Stack direction='row' gap={1.5}>
-          <Button
-            icon='apply'
-            text='apply'
-            disabled={!isChange}
-            color='info'
-            onClick={handleApply}
-          />
-          <DialogController>
-            {({ open, onOpen, onClose }) => (
-              <>
-                <Button
-                  text={unappliedChangesButtonText}
-                  disabled={!isChange}
-                  color='warning'
-                  onClick={onOpen}
-                />
-                <Dialog fullWidth open={open} onClose={onClose}>
-                  <DialogContent>
-                    {unappliedChangesData.map((e) => (
-                      <Box key={e}>{e}</Box>
-                    ))}
-                  </DialogContent>
-                  <DialogActions>
-                    <Button
-                      icon='cancel'
-                      text='back'
-                      color='error'
-                      onClick={onClose}
-                    />
-                    <Button
-                      icon='apply'
-                      text='apply'
-                      disabled={!isChange}
-                      color='info'
-                      onClick={() => {
-                        handleApply()
-                        onClose()
-                      }}
-                    />
-                    <Button
-                      icon='revert'
-                      text='revert'
-                      disabled={!isChange}
-                      color='warning'
-                      onClick={() => {
-                        handleRevert()
-                        onClose()
-                      }}
-                    />
-                  </DialogActions>
-                </Dialog>
-              </>
-            )}
-          </DialogController>
-          <Button
-            text={`Auto Refresh ${shouldRefetchData ? 'on' : 'off'}`}
-            color={shouldRefetchData ? 'success' : 'secondary'}
-            onClick={handleShouldRefetchData}
-          />
-        </Stack>
+        {!isButtons && (
+          <Stack direction='row' gap={1.5}>
+            <Button
+              icon='apply'
+              text='apply'
+              disabled={!isChange}
+              color='info'
+              onClick={handleApply}
+            />
+            <DialogController>
+              {({ open, onOpen, onClose }) => (
+                <>
+                  <Button
+                    text={unappliedChangesButtonText}
+                    disabled={!isChange}
+                    color='warning'
+                    onClick={onOpen}
+                  />
+                  <Dialog fullWidth open={open} onClose={onClose}>
+                    <DialogContent>
+                      {unappliedChangesData.map((e) => (
+                        <Box key={e}>{e}</Box>
+                      ))}
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        icon='cancel'
+                        text='back'
+                        color='error'
+                        onClick={onClose}
+                      />
+                      <Button
+                        icon='apply'
+                        text='apply'
+                        disabled={!isChange}
+                        color='info'
+                        onClick={() => {
+                          handleApply()
+                          onClose()
+                        }}
+                      />
+                      <Button
+                        icon='revert'
+                        text='revert'
+                        disabled={!isChange}
+                        color='warning'
+                        onClick={() => {
+                          handleRevert()
+                          onClose()
+                        }}
+                      />
+                    </DialogActions>
+                  </Dialog>
+                </>
+              )}
+            </DialogController>
+            <Button
+              text={`Auto Refresh ${shouldRefetchData ? 'on' : 'off'}`}
+              color={shouldRefetchData ? 'success' : 'secondary'}
+              onClick={handleShouldRefetchData}
+            />
+          </Stack>
+        )}
         {isReverting ? (
           <Box>
             <Typography>Reverting ...</Typography>
