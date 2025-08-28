@@ -105,8 +105,6 @@ export const SampleGraph: FC<SampleGraphProps> = ({ alias, unit, type }) => {
           }
           doneSignal={data} // marks refresh complete when redux data changes
           auto // start auto-refresh
-          intervalMs={30_000} // default interval for this graph
-          minIntervalMs={5_000}
           pauseOnHidden
           initialFetch
           // Customize UI bits if you like:
@@ -114,7 +112,6 @@ export const SampleGraph: FC<SampleGraphProps> = ({ alias, unit, type }) => {
           // hideIntervalSelect
           // hideManualButton
           hideLastUpdated
-          intervals={[5_000, 10_000, 30_000, 60_000]}
           size='small'
         />
       </Stack>

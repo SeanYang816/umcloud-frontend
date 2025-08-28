@@ -14,6 +14,15 @@ import {
 import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded'
 import { useAutoRefresh, AUTO_REFRESH_DEFAULTS } from 'hooks/useAutoRefresh'
 
+// ⬇️ helper: 59s -> "59s", 60_000 -> "1m", 90_000 -> "1.5m"
+const formatInterval = (ms: number) => {
+  const sec = Math.round(ms / 1000)
+  if (sec < 60) return `${sec}s`
+  const min = sec / 60
+
+  return Number.isInteger(min) ? `${min}m` : `${min.toFixed(1)}m`
+}
+
 export type RefreshControlsProps = {
   fetcher: () => void | Promise<void>
   doneSignal?: unknown
@@ -39,14 +48,14 @@ export type RefreshControlsProps = {
 export const RefreshControls: FC<RefreshControlsProps> = ({
   fetcher,
   doneSignal,
-  // 🔒 Defaults pulled from the hook's exported constants
+  // 🔒 Keep defaults in sync with the hook
   auto = AUTO_REFRESH_DEFAULTS.auto,
   intervalMs = AUTO_REFRESH_DEFAULTS.intervalMs,
   minIntervalMs = AUTO_REFRESH_DEFAULTS.minIntervalMs,
   pauseOnHidden = AUTO_REFRESH_DEFAULTS.pauseOnHidden,
   initialFetch = AUTO_REFRESH_DEFAULTS.initialFetch,
 
-  intervals = [5_000, 10_000, 30_000, 60_000],
+  intervals = [60_000, 120_000, 300_000],
   hideAutoToggle = false,
   hideIntervalSelect = false,
   hideManualButton = false,
@@ -104,11 +113,13 @@ export const RefreshControls: FC<RefreshControlsProps> = ({
           value={currentInterval}
           onChange={(e) => setIntervalMs(Number(e.target.value))}
           disabled={disabled || !isAutoRefresh}
-          sx={{ minWidth: 110 }}
+          sx={{ minWidth: 120 }}
+          // Ensures the closed select shows "Every 1m" etc.
+          renderValue={(value) => `Every ${formatInterval(Number(value))}`}
         >
           {intervals.map((ms) => (
             <MenuItem key={ms} value={ms}>
-              Every {Math.round(ms / 1000)}s
+              Every {formatInterval(ms)}
             </MenuItem>
           ))}
         </Select>

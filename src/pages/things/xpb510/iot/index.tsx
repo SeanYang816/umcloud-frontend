@@ -60,18 +60,15 @@ export const Iot = () => {
               XPB_EVENT_ACTIONS.XPB_510_EXTERNAL_DATA_GET_DATA_SOURCE,
             )
           }
-          doneSignal={sourceData} // mark refresh complete when redux updates
-          auto // start auto-refresh on mount
-          intervalMs={30_000} // default interval for this page
-          minIntervalMs={5_000}
+          doneSignal={sourceData} // marks refresh complete when redux data changes
+          auto // start auto-refresh
           pauseOnHidden
-          initialFetch // do one fetch on mount
-          // You can customize/hide parts if needed:
+          initialFetch
+          // Customize UI bits if you like:
           // hideAutoToggle
           // hideIntervalSelect
           // hideManualButton
           hideLastUpdated
-          intervals={[5_000, 10_000, 30_000, 60_000]}
           size='small'
         />
       </Stack>
