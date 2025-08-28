@@ -363,6 +363,7 @@ export default function Things() {
         lastContactDate: false,
         cpuUsage: false,
         memoryUsage: false,
+        isAuthorized: false,
       },
     },
   })
