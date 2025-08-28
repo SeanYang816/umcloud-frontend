@@ -142,8 +142,6 @@ export const PortForwardEditDialog: React.FC<DialogProps> = ({
 
   const loading = !data
 
-  console.log(formik.values)
-
   return (
     <Dialog fullWidth open={open} onClose={onClose}>
       <DialogContent>

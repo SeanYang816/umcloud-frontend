@@ -14,7 +14,6 @@ export const Iot = () => {
   const sourceData = useSelector(
     (state: RootStateProps) => state.xpb510.iot.externalData.source,
   )
-  console.log(sourceData)
 
   useEffect(() => {
     sendWsMessage(XPB_EVENT_ACTIONS.XPB_510_EXTERNAL_DATA_GET_DATA_SOURCE)

@@ -49,9 +49,6 @@ export const StaticRoutes = () => {
     {},
   )
 
-  console.log(result)
-  console.log(formikInitList)
-
   const validationObj: ValidationObjProps = {}
   list.forEach((item) => {
     validationObj[`${item.key}_target`] = Yup.string().required('required')

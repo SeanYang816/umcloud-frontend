@@ -79,7 +79,7 @@ export const xpbActionSetters = {
   // Climate Control
   [XPB_EVENT_ACTIONS.XPB_510_EXTERNAL_DATA_SET_SOURCE_ALIAS]:
     updateExternalDataSourceAlias,
-  [XPB_EVENT_ACTIONS.XPB_510_CLIMATE_CONTROL_SET_FAN_STATUS]: setFanStatus,
+  // [XPB_EVENT_ACTIONS.XPB_510_CLIMATE_CONTROL_SET_FAN_STATUS]: setFanStatus,
 
   // LAN
   [XPB_EVENT_ACTIONS.XPB_510_LAN_SET_LAN_PAGE]: updateLan,

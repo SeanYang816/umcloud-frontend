@@ -52,7 +52,10 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
           const action = isUpdater
             ? allActionUpdaters[json.event]
             : allActionsGetters[json.event]
-          const status = json?.result?.status
+          console.log(isUpdater)
+          console.log(json)
+          console.log(action)
+          const status = json?.result?.status || json?.status
 
           switch (event) {
             case ServerEvent.Ping:
@@ -64,7 +67,6 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
             default:
               if (action) {
                 const { result: data, requestId: requestId, ...rest } = json
-                console.log(json)
                 const dataAndRequestId = { ...data, requestId, ...rest }
                 if (typeof action === 'function') {
                   dispatch(action?.(dataAndRequestId))
@@ -75,7 +77,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
               } else {
                 const event = json?.requestId
                 if (event) {
-                  const { result: data } = json
+                  const { result: data, ...rest } = json
                   dispatch(actions[event]?.(data))
                 }
               }

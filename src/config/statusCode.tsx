@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify'
 
 export const toastHandler = (status: string) => {
-  switch (status) {
+  switch (status.toString()) {
     case '0':
       toast.success('success')
       break
@@ -10,3 +10,5 @@ export const toastHandler = (status: string) => {
       break
   }
 }
+
+// WTF error where from
