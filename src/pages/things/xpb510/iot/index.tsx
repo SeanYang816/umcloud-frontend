@@ -62,8 +62,11 @@ export const Iot = () => {
           }
           doneSignal={sourceData} // marks refresh complete when redux data changes
           auto // start auto-refresh
+          intervalMs={5_000} // default interval for this graph
+          minIntervalMs={5_000}
           pauseOnHidden
           initialFetch
+          intervals={[60_000, 120_000, 300_000]}
           // Customize UI bits if you like:
           // hideAutoToggle
           // hideIntervalSelect

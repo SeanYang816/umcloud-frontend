@@ -3,8 +3,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 export const AUTO_REFRESH_DEFAULTS = {
   auto: true,
-  intervalMs: 60_000, // 1 minute
-  minIntervalMs: 60_000, // 1 minute
+  intervalMs: 5 * 1_000,
+  minIntervalMs: 5 * 1_000,
   pauseOnHidden: true,
   initialFetch: true,
 } as const
